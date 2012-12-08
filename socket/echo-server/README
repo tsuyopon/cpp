@@ -1,0 +1,9 @@
+[USAGE]
+1. Execute Server Program
+   $ ./a.out
+   Checking port 5000
+
+2. connect to 5000 port using telnet from another screen.
+   $ telnet localhost 5000
+   echo    <- input
+   echo    <- output
