@@ -1,0 +1,11 @@
+### pipe with name
+1. execute Recv Program
+ $ ./pipe_with_name_recv
+2. execugte Send Program
+ $ ./pipe_with_name_send
+3. send message from Send Program
+ $ ./pipe_with_name_send
+ aaaaa
+4. you can confirm the message recieved
+ $ ./pipe_with_name_recv
+ Message: aaaaa
