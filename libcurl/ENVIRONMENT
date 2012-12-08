@@ -1,0 +1,29 @@
+Script started on Sat 08 Dec 2012 10:24:39 AM JST
+]0;tsuyoshi@localhost:~/work/c++/libcurl[?1034h[tsuyoshi@localhost libcurl]$ more /proc/cpuinfo [Kversion 
+Linux version 3.3.4-5.fc17.x86_64 (mockbuild@x86-14.phx2.fedoraproject.org) (gcc
+ version 4.7.0 20120504 (Red Hat 4.7.0-4) (GCC) ) #1 SMP Mon May 7 17:29:34 UTC 
+2012
+]0;tsuyoshi@localhost:~/work/c++/libcurl[tsuyoshi@localhost libcurl]$ more /proc/version [Kcpuinfo 
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 58
+model name	: Intel(R) Core(TM) i5-3427U CPU @ 1.80GHz
+stepping	: 9
+cpu MHz		: 2188.964
+cache size	: 6144 KB
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov 
+pat pse36 clflush mmx fxsr sse sse2 syscall nx rdtscp lm constant_tsc up rep_goo
+d nopl pni monitor ssse3 lahf_lm
+bogomips	: 4377.92
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 36 bits physical, 48 bits virtual
+power management:
+
+
+Script done on Sat 08 Dec 2012 10:24:56 AM JST
