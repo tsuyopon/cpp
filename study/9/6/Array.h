@@ -11,7 +11,7 @@ template <typename TYPE> class Array
 		Array(int size);
 		Array(const Array& other);
 		void operator=(const Array& other);
-		virtual ~Array();
+		virtual ~Array();                    // See http://www33.ocn.ne.jp/~loreley/FSB/cpp02.html
 
 	public:
 		TYPE Get(int i) const;
