@@ -3,6 +3,7 @@
  *
  * (Reference)
  *     http://d.hatena.ne.jp/hakutoitoi/20090319/1237397160
+ *     http://wiki.livedoor.jp/koba24505/d/libxml2%A5%C1%A5%E5%A1%BC%A5%C8%A5%EA%A5%A2%A5%EB
  *
  */
 #include <stdio.h>
@@ -33,11 +34,12 @@ int main(void) {
     xmlXPathContextPtr ctx = xmlXPathNewContext(doc);
     if (!ctx) return Fail;
     
+	// Application XPath Evaluation
     xmlXPathObjectPtr xpobj = xmlXPathEvalExpression((xmlChar *)XPATH_ITEM, ctx);
     if (!xpobj) return Fail;
 
     xmlNodeSetPtr nodes = xpobj->nodesetval;
-    int size = (nodes) ? nodes->nodeNr : 0;
+    int size = (nodes) ? nodes->nodeNr : 0;     // node->nodeNr identifies count elements.
     for (int i = 0; i < size; ++i) {
         if (!xmlXPathNodeSetIsEmpty(nodes)) {
             xmlNodePtr node = xmlXPathNodeSetItem(nodes, i);
