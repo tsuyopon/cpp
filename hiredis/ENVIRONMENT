@@ -1,0 +1,1 @@
+sudo yum install hiredis redis hiredis hiredis-devel
