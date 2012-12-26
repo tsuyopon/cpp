@@ -1,0 +1,5 @@
+# Application appender
+appender APPLICATION_NAME pattern file sample1.log %d [%c] %p - %m%n
+
+# OUTPUT LEVEL (DEBUG, INFO, WARN, ERROR etc)
+priority APPLICATION_NAME DEBUG
