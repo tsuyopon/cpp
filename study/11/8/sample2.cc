@@ -1,6 +1,5 @@
 /*
- * 参照を返す関数を使えば、関数の戻り値への代入を行うことができる。
- *
+ * sample1.ccのAt関数を参照ではなく、ポインタを使って書き換えたものです。
  */
 #include<iostream>
 #include<cstdlib>
@@ -16,7 +15,7 @@ class IntArray {
 
 	public:
 		void CheckIndex(int i);
-		int& At(int i);
+		int* At(int i);
 
 	private:
 		int* m_array;
@@ -44,12 +43,12 @@ void IntArray::CheckIndex(int i){
 	}
 }
 
-// 参照を返す関数です。
-int& IntArray::At(int i){
+// sample1.ccの参照を返す関数を同じことをポインタを使って書き換えています。
+int* IntArray::At(int i){
 	cout << "At method start." << endl;
 	CheckIndex(i);
 	cout << m_array[i] << endl;
-	return m_array[i];
+	return &m_array[i];
 }
 
 int main(){
@@ -57,10 +56,10 @@ int main(){
 	cout << "MAIN START" << endl;
 	int i;
 	IntArray v(5);
-	int& ret = v.At(i);
+	int* ret = v.At(i);
 	cout << "INPUT INTEGER > " << flush;
-	cin >> ret;
-	cout << "MAIN inputvalue=" << ret << endl;
+	cin >> *ret;
+	cout << "MAIN inputvalue=" << *ret << endl;
 	return true;
 }
 
