@@ -47,13 +47,14 @@ main(int argc, char **argv)
 		// See. http://intuniv.cs.shinshu-u.ac.jp/Lecture/NetProg/chapter5/fdset.html
         FD_ZERO(&readset);               // CLEAR ZERO.
         FD_SET(STDIN_FILENO, &readset);
+		printf("1:%d\n", readset);
 
         time.tv_sec = 1;   // Seconds.
         time.tv_usec = 0;  // Micro seconds.
 
 		// select() returns file discriptor number.
         retval = select(STDIN_FILENO + 1, &readset, NULL, NULL, &time);
-//		printf("%d\n", retval);
+		printf("2:%d\n", retval);
         if (retval > 0)
             break;
         if (retval == 0) puts("timed out; retry");

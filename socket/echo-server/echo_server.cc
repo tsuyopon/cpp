@@ -78,8 +78,9 @@ int main(int argc, char *argv[]){
     }
 
 	// Address Family, Port Number, IP Address Configuration
+	bzero( (char *)&sin, sizeof(sin));
     sin.sin_family = AF_INET;
-    sin.sin_port = htons(port);
+    sin.sin_port = htons(port);                // htons() for difference about bigendian and littleendian
     sin.sin_addr.s_addr = htonl(INADDR_ANY);
 
 	// 2. BIND
