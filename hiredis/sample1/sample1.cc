@@ -50,7 +50,7 @@ int main(void) {
         }
         freeReplyObject(reply_host);
 
-        //  If forgot redisFree(), redis server's file-descripter will be exhausted.
+        // If forgot redisFree(), redis server's file-descripter will be exhausted.
         redisFree(c);
 
         return 1;
