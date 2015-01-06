@@ -29,11 +29,11 @@ int main(int argc, char **argv)
       handles[i] = curl_easy_init();
 
   /* set the options (I left out a few, you'll get the point anyway) */
-  curl_easy_setopt(handles[0], CURLOPT_URL, "http://www.yahoo.co.jp/status.html");
-  curl_easy_setopt(handles[1], CURLOPT_URL, "http://www.yahoo.co.jp/status.html");
-  curl_easy_setopt(handles[2], CURLOPT_URL, "http://www.yahoo.co.jp/status.html");
-  curl_easy_setopt(handles[3], CURLOPT_URL, "http://www.yahoo.co.jp/status.html");
-  curl_easy_setopt(handles[4], CURLOPT_URL, "http://www.yahoo.co.jp/status.html");
+  curl_easy_setopt(handles[0], CURLOPT_URL, "http://www.yahoo.co.jp/");
+  curl_easy_setopt(handles[1], CURLOPT_URL, "http://www.yahoo.co.jp/");
+  curl_easy_setopt(handles[2], CURLOPT_URL, "http://www.yahoo.co.jp/");
+  curl_easy_setopt(handles[3], CURLOPT_URL, "http://www.yahoo.co.jp/");
+  curl_easy_setopt(handles[4], CURLOPT_URL, "http://www.yahoo.co.jp/");
 //  curl_easy_setopt(handles[1], CURLOPT_URL, "http://curl.haxx.se");
 
   /* init a multi stack */
