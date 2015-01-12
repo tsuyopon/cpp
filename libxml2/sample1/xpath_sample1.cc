@@ -15,7 +15,8 @@ enum Status {
     Fail    = -1,
 };
 
-const char* REQUEST_API    = "http://messages.yahoo.co.jp/bbs?action=4&board=552019556&sid=552019556&tid=kcc08bc0obafb3u";
+//const char* REQUEST_API    = "http://messages.yahoo.co.jp/bbs?action=4&board=552019556&sid=552019556&tid=kcc08bc0obafb3u";
+const char* REQUEST_API    = "http://rss.dailynews.yahoo.co.jp/fc/rss.xml";
 const char* XPATH_ITEM     = "/rss//item/*/text()";
 const char* XPATH_TITLE    = "/rss//item/title/text()";
 const char* XPATH_PUB_DATE = "/rss//item/pubDate/text()";
