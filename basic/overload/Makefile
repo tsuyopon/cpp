@@ -1,2 +1,0 @@
-hellooverload:
-	g++ hellooverload.c
