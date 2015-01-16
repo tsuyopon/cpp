@@ -1,5 +1,5 @@
 /*
- *
+ * テンプレートの基本的なサンプル
  */
 #include<iostream>
 using namespace std;
