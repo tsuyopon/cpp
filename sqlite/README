@@ -1,11 +1,13 @@
 ### PREPARE
-create sqlite3 database to use from program
-$ sqlite test.db
-sqlite> CREATE TABLE test(id integer, name text);
-sqlite> .import import.sql test
-sqlite> select * from test;
-1|taro
-2|jiro
-3|saburo
-4|siro
-5|goro
+create sqlite3 database 
+$ make database
+
+### COMPIE
+$ make connect_select
+$ ./connect_select
+id = 3
+name = saburo
+id = 4
+name = siro
+id = 5
+name = goro

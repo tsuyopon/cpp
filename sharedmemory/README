@@ -1,0 +1,17 @@
+1. start reciever
+	$ ./shmreciever 
+	SharedMemoryID = 98306
+	Initial
+	Initial
+
+2. start writer
+	$ ./shmwriter 98306 test
+
+3. check reciever responce
+	test
+	test
+
+4. if you would like to end reciever. type this commnad.
+	$ ./shmwriter 98306 end
+
+REFERENCE: http://blog.majide.com/2009/03/c-shared-memory-program/

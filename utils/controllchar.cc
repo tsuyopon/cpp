@@ -11,5 +11,6 @@ int main(){
 	printf("%c^n", contchar[1]);
 	printf("%c^n", contchar2);
 	printf("%c^n", SOH);
+	printf("\x04\n");        // ^D
 	return 0;
 }
