@@ -16,6 +16,6 @@ int main(){
 	// この宣言が必要となる場面は非常に稀なことが多いようです。
 	const int * const cpci = &limit;
 
-	printf("cpci_addr=%d, cpci_value=%d, limit_value=%d\n", &cpci, *cpci, limit);
+	printf("cpci_addr=%p, cpci_value=%d, limit_value=%d\n", &cpci, *cpci, limit);
 
 }
