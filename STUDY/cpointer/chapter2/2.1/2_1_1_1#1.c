@@ -3,10 +3,10 @@
 
 int main(){
 
-	// 1���ܤΥ��������ԤäƤ��ޤ���
+	// 1度目のメモリ割当を行っています。
 	int *pi = (int*)(sizeof(int));
 	*pi = 5;
 
-	// 2���ܤΥ��������pi���ɥ쥹�˹ԤäƤ��ޤ�����������free�򤷤Ƥ��ʤ��ΤǤ��Τ褦�ʾ��ˤ�Segmentation Fault�Ȥʤ�ޤ���
+	// 2度目のメモリ割当をpiアドレスに行っていますが、事前にfreeをしていないのでこのような場合にはSegmentation Faultとなります。
 	pi = (int*)malloc(sizeof(int));
 }

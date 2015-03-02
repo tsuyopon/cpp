@@ -1,5 +1,5 @@
 //
-// malloc�ǳ�����Ƥ��ΰ褬��­����Τǡ�calloc�ǺƳ�����Ԥ��ץ������
+// mallocで割り当てた領域が不足するので、callocで再割当を行うプログラム
 //
 #include<stdio.h>
 #include<stdlib.h>
@@ -8,45 +8,45 @@ char* getLine(void){
 	const size_t sizeIncrement = 10;
 	char* buffer = malloc(sizeIncrement);
 
-	// currentPosition����Ƭ��buffer��Ʊ�����ɥ쥹�ͤ�ؤ��Ƥ��ޤ���
+	// currentPositionの先頭はbufferと同じアドレス値を指しています。
 	char* currentPosition = buffer;
 	size_t maximumLength = sizeIncrement;
 	size_t length = 0;
 	int character;
 
-	// malloc()����������������Ǥ��ʤ����NULL
+	// malloc()で正しくメモリ割当できなければNULL
 	if(currentPosition == NULL){ return NULL; }
 
-	// \n�����Ϥ����ޤǤ��ä�ʸ�����ɤ߹��ߤޤ���
+	// \nが入力されるまでずっと文字を読み込みます。
 	while(1){
-		// ɸ�����Ϥ���1ʸ���ɤ߹��ߤޤ���
+		// 標準入力から1文字読み込みます。
 		character = fgetc(stdin);
 
-		// ���Ԥ����Ϥ��줿��whileʸ��break���ޤ���
+		// 改行が入力されたらwhile文をbreakします。
 		if(character == '\n'){ break; }
 
-		// ʸ������maximumLength��Ķ������realloc���ΰ�����ä��ޤ���
+		// 文字数がmaximumLengthを超えたらreallocで領域を増加します。
 		if(++length >= maximumLength){
 
-			// realloc�ǺƳ�����Ԥ��ޤ���������ƤƤ���ʸ������Ķ�������ˤ�maximumLength��10�ɲä��Ƥ��ޤ���
+			// reallocで再割当を行います。割り当てていた文字数を超えた場合にはmaximumLengthを10追加しています。
 			char *newBuffer = realloc(buffer, maximumLength += sizeIncrement);
 			if(newBuffer == NULL){
 				free(buffer);
 				return NULL;
 			}
 
-			// currentPosition�Υ��ɥ쥹�ͤ򻻽Ф��ޤ���
+			// currentPositionのアドレス値を算出します。
 			currentPosition = newBuffer + (currentPosition - buffer);
 
-			// ʸ������Ƭ�Υ��ɥ쥹��newBuffer�Ǥ���
+			// 文字列先頭のアドレスはnewBufferです。
 			buffer = newBuffer;
 		}
 
-		// currentPosition���ͤ�ʸ������ɲä��Ƥ��ޤ���
+		// currentPositionの値に文字列を追加しています。
 		*currentPosition++ = character;
 	}
 
-	// while����λ�����Τǡ��Ǹ��ʸ����˲��Ԥ��ɲä��ޤ���
+	// whileが終了したので、最後の文字列に改行を追加します。
 	*currentPosition = '\n';
 	return buffer;
 }

@@ -3,16 +3,16 @@
 
 int main(){
 
-	// 1¤Ä¤á
+	// 1ã¤ã‚
 	char header1[] = "Media";
 	printf("header1=%s\n", header1);
 
-	// 2¤Ä¤á
+	// 2ã¤ã‚
 	char header2[6];
 	strcpy(header2, "Media");
 	printf("header2=%s\n", header2);
 
-	// 3¤Ä¤á
+	// 3ã¤ã‚
 	char header3[6];
 	header3[0] = 'M';
 	header3[1] = 'e';

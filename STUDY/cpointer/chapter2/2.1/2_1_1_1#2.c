@@ -9,12 +9,12 @@ int main(){
 	while(*name != 0){
 		printf("%c", *name);
 
-		// ʸ�����NUL��üʸ����ؤ������֤ǥ롼�פ���λ���ޤ���
-		// �Ĥޤꡢ������Ƥ�������κǽ�Υ��ɥ쥹��ʶ�����Ƥ��ޤ��ޤ�����
+		// 文字列のNUL終端文字を指した状態でループが終了します。
+		// つまり、割り当てしたメモリの最初のアドレスは紛失してしまいました。
 		name++;
 	}
 
-	// name����Ƭ�ݥ��󥿤�ؤ��Ƥ��ʤ��Τ�free��¹Ԥ��Ƥ�invalid pointer���顼�Ȥʤ�ޤ���
+	// nameが先頭ポインタを指していないのでfreeを実行してもinvalid pointerエラーとなります。
 	free(name);
 
 }

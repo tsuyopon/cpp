@@ -1,5 +1,5 @@
 /*
- * ��¤�Τ�����ȥ���������ˡ�ˤĤ���
+ * 構造体の宣言とアクセス方法について
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -11,7 +11,7 @@ typedef struct _person {
 	unsigned int age;
 } Person;
 
-// �ʲ��Τ褦��typedef�Ǥʤ����ˤ��������"struct _person person[n];"�Ȥ��ʤ���Фʤ�ʤ�
+// 以下のようにtypedefでない場合には宣言時に"struct _person person[n];"としなければならない
 /*
 struct _person {
 	char* firstName;
@@ -23,15 +23,15 @@ struct _person {
 
 int main(){
 
-	// ��¤�Υ������ΰ�򤢤餫�������
+	// 構造体サイズ領域をあらかじめ確保
 	Person person[1];
-	person[0].firstName = "first";        // ���������ˤϥɥåȤ�Ȥ�
+	person[0].firstName = "first";        // アクセスにはドットを使う
 	printf("%s\n", person[0].firstName);
 
-	// ��¤�Υ������ΰ��ưŪ�˼�������
+	// 構造体サイズ領域を動的に取得する
 	Person *dyPerson;
 	dyPerson = (Person*)malloc(sizeof(Person));
-	dyPerson->firstName = "second";      // ���������ˤϥ������黻�Ҥ�Ȥ�
+	dyPerson->firstName = "second";      // アクセスにはアロー演算子を使う
 	printf("%s\n", dyPerson->firstName);
 
 }

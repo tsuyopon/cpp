@@ -4,7 +4,7 @@
 int main(){
 	int *pi = (int*)malloc(sizeof(int));
 
-	// �׵ᤵ�줿����������Ƥ��ʤ����ˤ�NULL�ݥ��󥿤Ǥ��뤫�ɤ�����Ƚ�̤��뽬����Ĥ��ޤ��礦��
+	// 要求されたメモリを割り当てられない場合にはNULLポインタであるかどうかを判別する習慣をつけましょう。
 	if(pi != NULL){
 		printf("Pointer is valid\n");
 	} else {

@@ -10,7 +10,7 @@ int main(){
 	printf("Enter your name: ");
 	scanf("%s", name);
 
-	// names¤ÎÀèÆ¬names[0]¤Ëmalloc¤ÇÆşÎÏ¤µ¤ì¤¿Ê¸»ú¿ô+1¸ÄÊ¸¤Î³ÎÊİ¤·¤¿¥¢¥É¥ì¥¹¤òÂåÆş¤·¤Ş¤¹¡£
+	// namesã®å…ˆé ­names[0]ã«mallocã§å…¥åŠ›ã•ã‚ŒãŸæ–‡å­—æ•°+1å€‹æ–‡ã®ç¢ºä¿ã—ãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ä»£å…¥ã—ã¾ã™ã€‚
 	names[count] = (char*)malloc(strlen(name)+1);
 	strcpy(names[count], name);
 	printf("%s\n", names[count]);

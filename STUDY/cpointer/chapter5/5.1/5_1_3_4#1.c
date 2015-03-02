@@ -3,14 +3,14 @@
 #include<string.h>
 
 void displayHeader(){
-	static char*staticHeader = "Chapter";                    // Âç°èÊÑ¿ô
-	char* localHeader = "Chapter";                           // ¶É½êÊÑ¿ô
-	static char staticArrayHeader[] = "Chapter";             // Âç°èÊÑ¿ô
-	char localArrayHeader[] = "Chapter";                     // ¶É½êÊÑ¿ô
-	char *heapHeader = (char*)malloc(strlen("Chapter"+1));   // ¶É½êÊÑ¿ô
+	static char*staticHeader = "Chapter";                    // å¤§åŸŸå¤‰æ•°
+	char* localHeader = "Chapter";                           // å±€æ‰€å¤‰æ•°
+	static char staticArrayHeader[] = "Chapter";             // å¤§åŸŸå¤‰æ•°
+	char localArrayHeader[] = "Chapter";                     // å±€æ‰€å¤‰æ•°
+	char *heapHeader = (char*)malloc(strlen("Chapter"+1));   // å±€æ‰€å¤‰æ•°
 	strcpy(heapHeader, "Chapter");
 }
 int main(){
-	char *globalHeader = "Chapter";                          // Âç°èÊÑ¿ô
-	char globalArrayHeader[] = "Chapter";                    // Âç°èÊÑ¿ô
+	char *globalHeader = "Chapter";                          // å¤§åŸŸå¤‰æ•°
+	char globalArrayHeader[] = "Chapter";                    // å¤§åŸŸå¤‰æ•°
 }

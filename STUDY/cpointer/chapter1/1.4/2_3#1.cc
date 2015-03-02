@@ -2,18 +2,18 @@
 
 int main(){
 
-	// �ʲ��򥳥��ȥ��󤷤ƥ���ѥ��뤹��Ȳ������顼��ɽ������ޤ���
-	// �����cpi�����const int�η��������ΤǤ���С�
+	// 以下をコメントインしてコンパイルすると下記エラーが表示されます。
+	// これはcpi宣言にconst intの型を入れるのであれば、
 	//    error: invalid conversion from 'const int*' to 'int*' [-fpermissive]
 //	const int limit0 = 500;
 //	int *const cpi0 = &limit0;
 
 	const int limit = 100;
 
-	/* ����ؤ�����ݥ��󥿤���� */
-	// �ʲ�������ˤ�äơ֥ݥ����ͤ��ѹ��פȡ֥ݥ��󥿤��ؤ������Ƥ���ǡ������ѹ��פϽ���ޤ���
-	// �Ĥޤꡢ�����ϥݥ�����������Ʊ���˽�������ʤ���Х���ѥ�����˥��顼�Ȥʤ�ޤ��Τ����դ�ɬ�פǤ���
-	// ���������ɬ�פȤʤ���̤����˵��ʤ��Ȥ�¿���褦�Ǥ���
+	/* 定数への定数ポインタの宣言 */
+	// 以下の宣言によって「ポインタ値の変更」と「ポインタが指し示しているデータの変更」は出来ません。
+	// つまり、下記はポインタ宣言すると同時に初期化しなければコンパイル時にエラーとなりますので注意が必要です。
+	// この宣言が必要となる場面は非常に稀なことが多いようです。
 	const int * const cpci = &limit;
 
 	printf("cpci_addr=%p, cpci_value=%d, limit_value=%d\n", &cpci, *cpci, limit);

@@ -7,7 +7,7 @@ int main(){
 	for(i=0; i<5; i++){
 		arr[i] = (int*)malloc(sizeof(int));
 		*arr[i] = i;
-		// °Ê²¼¤Î½ñ¤­Êý¤Ç¤âOK
+		// ä»¥ä¸‹ã®æ›¸ãæ–¹ã§ã‚‚OK
 		//**(arr+i) = i;
 
 		printf("%d\t", *arr[i]);

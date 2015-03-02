@@ -1,6 +1,6 @@
 /*
- * ʸ�����Ϣ��(5_2_3#1.c�Ȱۤʤ�buffer����ʤ���ˡ)
- *   ������ˡ���ȥХ�������ޤ���
+ * 文字列の連結(5_2_3#1.cと異なりbufferを作らない方法)
+ *   この方法だとバグがあります。
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -8,7 +8,7 @@
 
 int main(){
 
-	// �ʲ��Σ��Ĥ�ʸ�����Ϣ�뤷�ޤ���
+	// 以下の２つの文字列を連結します。
 	char* error = "ERROR: ";
 	char* errorMessage = "Not enough money";
 

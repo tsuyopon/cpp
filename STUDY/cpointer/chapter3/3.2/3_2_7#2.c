@@ -2,11 +2,11 @@
 #include<stdlib.h>
 
 /* WARNING */
-// ���̃v���O�����͐��������삵�܂���B
+// このプログラムは正しく動作しません。
 
 
-// �|�C���^�̃|�C���^�ł͂Ȃ�*arr���p�����[�^�w��ɕύX���܂����B
-// arr��allocateArray()���ŃR�s�[����Ă��邾���Ȃ̂ŁAmain���ɐ��䂪�߂����ۂ�arr[n]���w�������|�C���^�����ł��Ă��܂��܂��B
+// ポインタのポインタではなく*arrをパラメータ指定に変更しました。
+// arrはallocateArray()内でコピーされているだけなので、main側に制御が戻った際にarr[n]を指し示すポインタが消滅してしまいます。
 void allocateArray(int *arr, int size, int value){
 
 	arr = (int*)malloc(size*sizeof(int));

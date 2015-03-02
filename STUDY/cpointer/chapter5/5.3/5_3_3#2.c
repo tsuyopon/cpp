@@ -1,5 +1,5 @@
 /*
- * ´Ø¿ô¤ËÅÏ¤·¤¿Ê¸»úÎó¤ò½é´ü²½¤¹¤ë¥×¥í¥°¥é¥à(part2)
+ * é–¢æ•°ã«æ¸¡ã—ãŸæ–‡å­—åˆ—ã‚’åˆæœŸåŒ–ã™ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ (part2)
  *   
  */
 #include<stdio.h>
@@ -9,9 +9,9 @@
 char* format(char *buffer, size_t size, const char* name, size_t quantity, size_t weight){
 
 	char *formatString = "Item: %s, Quantity: %u, Weight: %u";
-	size_t formatStringLength = strlen(formatString)-6;  // -6¤Ï%s, %s, %u¤Î6Ê¸»úÊ¬¤òÉ½¤·¤Ş¤¹¡£
+	size_t formatStringLength = strlen(formatString)-6;  // -6ã¯%s, %s, %uã®6æ–‡å­—åˆ†ã‚’è¡¨ã—ã¾ã™ã€‚
 	size_t nameLength = strlen(name);
-	size_t length = formatStringLength + nameLength + 10 + 10 + 1;  // 10 + 10: ¿ôÃÍ¤È½Å¤µ¤ò¥Õ¥©¡¼¥Ş¥Ã¥È¤¹¤ëºİ¤ÎÍ½ÁÛ¤µ¤ì¤ëºÇÂçÄ¹¡¢+1: NULL
+	size_t length = formatStringLength + nameLength + 10 + 10 + 1;  // 10 + 10: æ•°å€¤ã¨é‡ã•ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã™ã‚‹éš›ã®äºˆæƒ³ã•ã‚Œã‚‹æœ€å¤§é•·ã€+1: NULL
 
 	if( buffer == NULL ){
 		buffer = (char*)malloc(length);
@@ -24,7 +24,7 @@ char* format(char *buffer, size_t size, const char* name, size_t quantity, size_
 
 int main(){
 
-	// 5_3_3#1.c¤Ç¤Ï char buffer[100];¤ÈÄêµÁ¤·¤Æ¤¤¤¿¤¬¤³¤³¤Ç¤Ï¥İ¥¤¥ó¥¿Àë¸À¤·¤«¤·¤Æ¤¤¤Ê¤¤¤³¤È¤ËÃí°Õ
+	// 5_3_3#1.cã§ã¯ char buffer[100];ã¨å®šç¾©ã—ã¦ã„ãŸãŒã“ã“ã§ã¯ãƒã‚¤ãƒ³ã‚¿å®£è¨€ã—ã‹ã—ã¦ã„ãªã„ã“ã¨ã«æ³¨æ„
 	char *buffer;
 	printf("%s\n", format(buffer, sizeof(buffer), "Axle", 25, 45));
 	free(buffer);

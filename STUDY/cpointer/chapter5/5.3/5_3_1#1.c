@@ -1,5 +1,5 @@
 /*
- * strlen()�ʰ״ؿ����äƤߤ�
+ * strlen()簡易関数を作ってみる
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -22,8 +22,8 @@ int main(){
 	printf("%d\n", stringLength(simplePtr));
 	printf("%d\n", stringLength(&simplePtr[0]));
 
-	// ���ξ����ȡ�char * �Ǥ���simpleArray�˥��ɥ쥹�黻�Ҥ���Ϳ���Ƥ���Τǡ�&simpleArray��char�ؤΥݥ��󥿤ؤΥݥ��󥿤Ȥ��ơ��Ĥޤ�char **
-	// �Ȥ��Ʋ�ᤵ���Τǡ��ߴ�����̵���ݥ��󥿤��Ф���ٹ𤬽��Ϥ���ޤ���
+	// この場合だと、char * であるsimpleArrayにアドレス演算子を付与しているので、&simpleArrayはcharへのポインタへのポインタとして、つまりchar **
+	// として解釈されるので、互換性の無いポインタに対する警告が出力されます。
 	printf("%d\n", stringLength(&simplePtr));
 
 }

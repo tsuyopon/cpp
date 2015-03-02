@@ -1,16 +1,16 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// ���ѼԤ��ݥ��󥿤Υ��ɥ쥹����Ф��ƥ��㥹�Ȥ�����ô��ڸ����뤿��Υޥ���
+// 利用者がポインタのアドレスを取り出してキャストする負担を軽減するためのマクロ
 #define safeFree(p) safeFree2((void**)&(p))
 
-// �ȼ���free�ؿ������������ˡ
+// 独自のfree関数を作成する方法
 void safeFree2(void **pp){
 
-	// *pp�ϥ��ɥ쥹��ɽ���Ƥ��ޤ���
+	// *ppはアドレスを表しています。
 	if(pp != NULL && *pp != NULL){
 		free(*pp);
-		*pp = NULL;   // free�򤷤���NULL�򤷤Ƥ����Τ��褤�Ǥ��礦��
+		*pp = NULL;   // freeをしたらNULLをしておくのがよいでしょう。
 	}
 }
 

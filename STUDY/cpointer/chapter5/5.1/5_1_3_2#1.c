@@ -1,5 +1,5 @@
 //
-// ʸ����ν����
+// 文字列の初期化
 //
 #include<stdio.h>
 #include<stdlib.h>

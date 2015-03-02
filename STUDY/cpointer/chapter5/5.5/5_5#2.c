@@ -1,19 +1,19 @@
 /*
- * Ê¸»úÎóÇÛÎó¤Îsort¤ò´Ø¿ô¥İ¥¤¥ó¥¿¤òÍøÍÑ¤·¤Æ¹Ô¤¦
+ * æ–‡å­—åˆ—é…åˆ—ã®sortã‚’é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã‚’åˆ©ç”¨ã—ã¦è¡Œã†
  */
 #include<stdio.h>
 
-// ´Ø¿ô¥İ¥¤¥ó¥¿¤Î·¿¤òÀë¸À¤¹¤ë
+// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å‹ã‚’å®£è¨€ã™ã‚‹
 typedef int (*fptrOperation)(const char*, const char*);
 
-// ¥Ğ¥Ö¥ë¥½¡¼¥È¥¢¥ë¥´¥ê¥º¥à¤Ë¤è¤ësort´Ø¿ô
+// ãƒãƒ–ãƒ«ã‚½ãƒ¼ãƒˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã«ã‚ˆã‚‹sorté–¢æ•°
 void sort(char *array[], int size, fptrOperation operation){
 	int i;
 	int swap = 1;
 	while(swap){
 		swap = 0;
 		for(i = 0; i < size-1; i++){
-			// ´Ø¿ô¥İ¥¤¥ó¥¿¤Ë¤è¤Ã¤Æcompare´Ø¿ô¤¬¸Æ¤Ó½Ğ¤µ¤ì¤Æ¤¤¤ë
+			// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã«ã‚ˆã£ã¦compareé–¢æ•°ãŒå‘¼ã³å‡ºã•ã‚Œã¦ã„ã‚‹
 			if(operation(array[i], array[i+1]) > 0){
 				swap = 1;
 				char *tmp = array[i];
@@ -24,7 +24,7 @@ void sort(char *array[], int size, fptrOperation operation){
 	}
 }
 
-// É½¼¨ÍÑ´Ø¿ô
+// è¡¨ç¤ºç”¨é–¢æ•°
 void displayNames(char* names[], int size){
 	int i;
 	for(i = 0; i < size; i++){

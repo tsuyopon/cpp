@@ -1,5 +1,5 @@
 //
-// ´Ø¿ô¥İ¥¤¥ó¥¿¤ò°ú¿ô¤Ë»ı¤Ä´Ø¿ô¤Ë¤Ä¤¤¤Æ
+// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã‚’å¼•æ•°ã«æŒã¤é–¢æ•°ã«ã¤ã„ã¦
 //
 #include<stdio.h>
 
@@ -11,18 +11,18 @@ int sub(int num1, int num2){
 	return num1 - num2;
 }
 
-// ´Ø¿ô¥İ¥¤¥ó¥¿Àë¸À¤ò¹Ô¤¤¤Ş¤¹¡£
+// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿å®£è¨€ã‚’è¡Œã„ã¾ã™ã€‚
 typedef int (*fptrOperation)(int, int);
 
-// compute´Ø¿ô¤Ï´Ø¿ô¥İ¥¤¥ó¥¿¤ò°ú¿ô¤È¤·¤Æ»ı¤Ã¤Æ¤¤¤Ş¤¹¡£
-// typedef¤ò»È¤Ã¤Æ¤¤¤ëÍøÅÀ¤Ï¤³¤Î¥á¥½¥Ã¥É¤ÎÀë¸À¤ò´ÊÎ¬²½¤·¤Æ¤¯¤ì¤Æ¤¤¤Ş¤¹¡£
-// typedef¤ò»È¤ï¤Ê¤±¤ì¤Ğ int compute(int (*fptrOperation)(int, int) operation, int num1, int num2) ¤È¤Ê¤Ã¤Æ¤¤¤Ş¤·¤¿¡£
+// computeé–¢æ•°ã¯é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã‚’å¼•æ•°ã¨ã—ã¦æŒã£ã¦ã„ã¾ã™ã€‚
+// typedefã‚’ä½¿ã£ã¦ã„ã‚‹åˆ©ç‚¹ã¯ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®å®£è¨€ã‚’ç°¡ç•¥åŒ–ã—ã¦ãã‚Œã¦ã„ã¾ã™ã€‚
+// typedefã‚’ä½¿ã‚ãªã‘ã‚Œã° int compute(int (*fptrOperation)(int, int) operation, int num1, int num2) ã¨ãªã£ã¦ã„ã¾ã—ãŸã€‚
 int compute(fptrOperation operation, int num1, int num2){
 	return operation(num1, num2);
 }
 
 int main(){
-	// ´Ø¿ô¥İ¥¤¥ó¥¿¤òÍøÍÑ¤¹¤ë¤³¤È¤Ë¤è¤Ã¤Æcompute¤È¤¤¤¦´Ø¿ôÆâ¤Çadd¤äsub¤È¤¤¤Ã¤¿´Ø¿ô¤Î½Ğ¤·Ê¬¤±¤ò¹Ô¤Ã¤Æ¤¤¤Ş¤¹¡£
+	// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã‚’åˆ©ç”¨ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦computeã¨ã„ã†é–¢æ•°å†…ã§addã‚„subã¨ã„ã£ãŸé–¢æ•°ã®å‡ºã—åˆ†ã‘ã‚’è¡Œã£ã¦ã„ã¾ã™ã€‚
 	printf("%d\n", compute(add, 5, 6));
 	printf("%d\n", compute(sub, 5, 6));
 }

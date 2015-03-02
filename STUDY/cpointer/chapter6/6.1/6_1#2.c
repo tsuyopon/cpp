@@ -12,33 +12,33 @@ typedef struct _person {
 int main(){
 
 	/*
-	 * ¥¢¥í¡¼±é»»»Ò¤Ç¤Î¥¢¥¯¥»¥¹
+	 * ã‚¢ãƒ­ãƒ¼æ¼”ç®—å­ã§ã®ã‚¢ã‚¯ã‚»ã‚¹
 	 */
 
-	// ¥¤¥ó¥¹¥¿¥ó¥¹Àë¸À¤È¹½Â¤ÂÎÎÎ°è³ÎÊİ
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å®£è¨€ã¨æ§‹é€ ä½“é ˜åŸŸç¢ºä¿
 	Person *ptrPerson;
 	ptrPerson = (Person*)malloc(sizeof(Person));
 
-	// age°Ê³°¤ÎÊÑ¿ô¤Ë¤Ä¤¤¤Æ¤Ï¥¢¥É¥ì¥¹Àë¸À¤·¤«¤·¤Æ¤¤¤Ê¤¤¤Î¤Ç¡¢¥¢¥É¥ì¥¹Àë¸À¤·¤¿ÊÑ¿ô¤Ë¤Ï¼ÂÂÎ¥á¥â¥ê¤Î³äÅö¤¬É¬Í×¤È¤Ê¤ê¤Ş¤¹¡£
+	// ageä»¥å¤–ã®å¤‰æ•°ã«ã¤ã„ã¦ã¯ã‚¢ãƒ‰ãƒ¬ã‚¹å®£è¨€ã—ã‹ã—ã¦ã„ãªã„ã®ã§ã€ã‚¢ãƒ‰ãƒ¬ã‚¹å®£è¨€ã—ãŸå¤‰æ•°ã«ã¯å®Ÿä½“ãƒ¡ãƒ¢ãƒªã®å‰²å½“ãŒå¿…è¦ã¨ãªã‚Šã¾ã™ã€‚
 	ptrPerson->firstName = (char*)malloc(strlen("Emily")+1);
 
-	// ÃÍ¤ÎÀßÄê
+	// å€¤ã®è¨­å®š
 	strcpy(ptrPerson->firstName, "Emily");
 	ptrPerson->age = 23;
 
-	// ½ĞÎÏ
+	// å‡ºåŠ›
 	printf("arrow: firstName=%s, age=%d\n", ptrPerson->firstName, ptrPerson->age);
 
 	/*
-	 * ¥É¥Ã¥È±é»»»Ò¤Ç¤Î¥¢¥¯¥»¥¹
+	 * ãƒ‰ãƒƒãƒˆæ¼”ç®—å­ã§ã®ã‚¢ã‚¯ã‚»ã‚¹
 	 */
 
-	// ¥¤¥ó¥¹¥¿¥ó¥¹Àë¸À¤È¹½Â¤ÂÎÎÎ°è³ÎÊİ
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å®£è¨€ã¨æ§‹é€ ä½“é ˜åŸŸç¢ºä¿
 	Person *ptrPerson2;
 	ptrPerson2 = (Person*)malloc(sizeof(Person));
 	(*ptrPerson2).firstName = (char*)malloc(strlen("Emily")+1);
 
-	// ÃÍ¤ÎÀßÄê¤È½ĞÎÏ
+	// å€¤ã®è¨­å®šã¨å‡ºåŠ›
 	strcpy((*ptrPerson2).firstName, "Emily");
 	(*ptrPerson2).age = 23;
 	printf("dot:   firstName=%s, age=%d\n", ptrPerson2->firstName, ptrPerson2->age);

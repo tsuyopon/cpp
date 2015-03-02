@@ -1,10 +1,10 @@
 /*
- * ưŪ�˳�����Ƥ������ؿ������֤����
+ * 動的に割り当てたメモリを関数から返す場合
  */
 #include<stdio.h>
 #include<stdlib.h>
 
-// ���ꤵ�줿ʸ����ʬ�Υ��ڡ���������������֤��ؿ�
+// 指定された文字数分のスペースを埋めて配列を返す関数
 char *blanks(int number){
 	char* spaces = (char*)malloc(number + 1);
 	int i;

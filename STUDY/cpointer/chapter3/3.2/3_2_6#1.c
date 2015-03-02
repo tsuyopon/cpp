@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// ������int����ݥ��󥿤��Ϥ��褦�ˤ��Ƥ��ޤ���
+// 引数にint配列ポインタを渡すようにしています。
 int* allocateArray(int *arr, int size, int value){
 
-	// malloc�ϳ����Ǥ��ʤ����ˤ�NULL���ֵѤ���Τǡ�NULL������å�����ΤϤ褤�����Ǥ���
+	// mallocは割当できない場合にはNULLを返却するので、NULLをチェックするのはよい習慣です。
 	if(arr != NULL){
 		int i;
 		for(i = 0; i < size; i++){

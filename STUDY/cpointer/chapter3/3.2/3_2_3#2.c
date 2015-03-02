@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 void passingAddressOfConstants(const int* num1, int* num2){
-	// *num1 = 111    // const¤Î°Ù¤Ë¤³¤ì¤òÆş¤ì¤ë¤Èsyntax¥¨¥é¡¼¤È¤Ê¤ë
+	// *num1 = 111    // constã®ç‚ºã«ã“ã‚Œã‚’å…¥ã‚Œã‚‹ã¨syntaxã‚¨ãƒ©ãƒ¼ã¨ãªã‚‹
 	*num2 = 222;
 }
 

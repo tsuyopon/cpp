@@ -1,5 +1,5 @@
 //
-// �ؿ��ݥ���Ʊ�Τ���������������Ӥ��뤳�Ȥ��Ǥ��ޤ���
+// 関数ポインタ同士は等号や不等号で比較することができます。
 // 
 #include<stdio.h>
 
@@ -13,7 +13,7 @@ int main(){
 
 	fptrOperation fptr1 = add;
 
-	// �ʲ�����Ǥ��������Ӥ򤪤��ʤäƤ��ޤ���
+	// 以下の例では等号で比較をおこなっています。
 	if(fptr1 == add){
 		printf("fptr1 is add method\n");
 	} else {

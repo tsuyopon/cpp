@@ -1,5 +1,5 @@
 //
-// malloc�ǳ�����Ƥ��ΰ��trim���ơ�calloc���ΰ��̾����ޤ���
+// mallocで割り当てた領域をtrimして、callocで領域を縮小します。
 //
 #include<stdio.h>
 #include<stdlib.h>
@@ -9,22 +9,22 @@ char *trim(char* phrase){
 	char *old = phrase;
 	char *new = phrase;
 
-	// ���ڡ���������֤�old����Ƭ�ݥ����������ä��������Τǡ�old�ݥ��󥿤�1�����ä�����
+	// スペースがある間はoldの先頭ポジションを増加させたいので、oldポインタを1つ増加させる
 	while(*old == ' '){
 		old++;
 	}
 
-	// old���ͤ�¸�ߤ��Ƥ���С�whileʸ��¹Ԥ��롣
-	// old�Ǥϥݥ��󥿤Υݥ�����󤫤饹�ڡ���������"cat"����Ƭ�ˤ�����褦�ˤʤäƤ��롣
-	// malloc���ΰ������Ѥ����ޤ�c, a, t�ν��֤�new�ݥ��󥿤���Ƭ������֤�old���ͤ򥳥ԡ����Ƥ��äƤ��ޤ���
+	// oldの値が存在していれば、while文を実行する。
+	// oldではポインタのポジションからスペースを除去して"cat"の先頭にあたるようになっている。
+	// mallocの領域を再利用したままc, a, tの順番でnewポインタの先頭から順番にoldの値をコピーしていっています。
 	while(*old){
-		// old�˥��ɥ쥹��1�ɲä����ͤ�new�˥��ɥ쥹1�ɲä����ͤ��������Ƥ���
-		// �Ĥޤꡢold�κǽ��2�ĤΥ��ڡ����ϥݥ�������ư�򤷤Ƥ���Τǡ�old��3���ܤ�"c"��new��1���ܡ�old��4���ܤ�"a"��new��2���ܡ�old��5���ܤ�"t"��new�Σ����ܤȤʤ�ޤ���
+		// oldにアドレスを1追加した値を、newにアドレス1追加した値に代入している
+		// つまり、oldの最初の2つのスペースはポジション移動をしているので、oldの3番目の"c"はnewの1番目、oldの4番目の"a"はnewの2番目、oldの5番目の"t"はnewの３番目となります。
 		*(new++) = *(old++);
 	}
 
-	// �������Ϳ���ʤ���"catat"�ߤ������ͤ�ɽ������Ƥ��ޤ���
-	*new = 0;  // '\0'�Ǥ�OK
+	// これを付与しないと"catat"みたいな値で表示されてしまう。
+	*new = 0;  // '\0'でもOK
 
 	return (char*)realloc(phrase, strlen(phrase)+1);
 }

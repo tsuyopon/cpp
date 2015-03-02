@@ -1,5 +1,5 @@
 /*
- * ʸ�����Ϣ��
+ * 文字列の連結
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -7,15 +7,15 @@
 
 int main(){
 
-	// �ʲ��Σ��Ĥ�ʸ�����Ϣ�뤷�ޤ���
+	// 以下の２つの文字列を連結します。
 	char* error = "ERROR: ";
 	char* errorMessage = "Not enough money";
 
-	// strcat���裱�����Ϸ�礷���ݤ�ʸ��������ݤ��ʤ���Фʤ�ޤ���
+	// strcatの第１引数は結合した際の文字数を確保しなければなりません。
 	char* buffer = (char*)malloc(strlen(error)+strlen(errorMessage)+1);
 
-	// �ǽ��1���ܤ�strcpy������ˡ�³����concat��¹Ԥ��뤳�Ȥˤ�ä�ʸ�����Ϣ�뤷�ޤ���
-	// WARNING: buffer���餺��error��errorMessage��ľ���ɲä��褦�Ȥ���Ȱտޤ��ʤ�ư��Ȥʤ�ޤ���
+	// 最初に1つ目をstrcpyした後に、続いてconcatを実行することによって文字列を連結します。
+	// WARNING: bufferを作らずにerrorにerrorMessageを直接追加しようとすると意図しない動作となります。
 	strcpy(buffer, error);
 	strcat(buffer, errorMessage);
 

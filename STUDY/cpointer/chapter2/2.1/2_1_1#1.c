@@ -3,7 +3,7 @@
 
 int main(){
 
-	// chunk�ѿ��˥ҡ��פ������������Ƥ�ץ������Ǥ���free���Ƥ����ʤ��ΤǤ��äȼ¹Ԥ���ȥ���꡼���ǰ۾ｪλ���ޤ���
+	// chunk変数にヒープからメモリを割り当てるプログラムです。freeしていいないのでずっと実行するとメモリリークで異常終了します。
 	char *chunk;
 	while(1){
 		chunk = (char*)malloc(100000000);

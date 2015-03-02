@@ -3,10 +3,10 @@
 
 int main(){
 
-	// ÀÅÅªÊÑ¿ô
+	// é™çš„å¤‰æ•°
 //	static int *pi = (int*)malloc(sizeof(int));
 
-	// Âç°èÊÑ¿ô
+	// å¤§åŸŸå¤‰æ•°
 	static int *pi;
 	pi = (int*)malloc(sizeof(int));
 	free(pi);

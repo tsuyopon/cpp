@@ -1,9 +1,9 @@
 //
-// �������z����֐��ɓn���v���O����
+// 多次元配列を関数に渡すプログラム
 //
 #include<stdio.h>
 
-// "void display2DArray(int (*arr)[5], int rows) �Ȥ��������Ǥ�OK
+// "void display2DArray(int (*arr)[5], int rows) 、ネ、、、ヲキチシー、ヌ、祕K
 void display2DArray(int arr[][5], int rows){
 	int i, j;
 	for(i = 0; i < rows; i++){
