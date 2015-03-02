@@ -2,13 +2,13 @@
 using namespace std;
 
 /*
- *  ���饹��������֥������������ˡ
- *  ���С��ؿ������ˡ
- *  private������ˡ
+ *  クラス定義・オブジェクト定義方法
+ *  メンバー関数定義方法
+ *  private取得方法
  */
 
 class MyClass{
-	// ��������������ǡ����Τ��Ȥ���С��ȸƤӤޤ���
+	// ここに定義されるデータのことをメンバーと呼びます。
 	private:
 		char *test;
 	public:
@@ -16,7 +16,7 @@ class MyClass{
 		void print(){
 			cout << str << endl;
 		}
-		void setPrivate(char *set){       // test��private��ľ�����Ǥ��ʤ��Τ�public�ؿ��������ޤ�
+		void setPrivate(char *set){       // testはprivateで直接操作できないのでpublic関数から操作します
 			test = set;
 		}
 		void getPrivate(){            

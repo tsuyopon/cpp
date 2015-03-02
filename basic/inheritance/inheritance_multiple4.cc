@@ -2,9 +2,9 @@
 using namespace std;
 
 /*
- *  Â¿½Å·Ñ¾µ¤Ë¤Ä¤¤¤Æ
- *    (ÊÂÎóÅª·Ñ¾µ¤ÎÌäÂêÅÀ¤ò²ò·è¤¹¤ë²¾ÁÛ´ğËÜ¥¯¥é¥¹¤Ë¤Ä¤¤¤Æ)
- *    inheritance_multiple3.cc¤Ç¤Ï¡¢GrandParent¤¬Ê£¿ô²ó¸Æ¤Ğ¤ì¤Ş¤¹¤¬¡¢²¾ÁÛ´ğËÜ¥¯¥é¥¹¤ò¸Æ¤Ö¤È¤½¤Î¤è¤¦¤Ê¤³¤È¤ò²óÈò¤Ç¤­¤Ş¤¹¡£
+ *  å¤šé‡ç¶™æ‰¿ã«ã¤ã„ã¦
+ *    (ä¸¦åˆ—çš„ç¶™æ‰¿ã®å•é¡Œç‚¹ã‚’è§£æ±ºã™ã‚‹ä»®æƒ³åŸºæœ¬ã‚¯ãƒ©ã‚¹ã«ã¤ã„ã¦)
+ *    inheritance_multiple3.ccã§ã¯ã€GrandParentãŒè¤‡æ•°å›å‘¼ã°ã‚Œã¾ã™ãŒã€ä»®æƒ³åŸºæœ¬ã‚¯ãƒ©ã‚¹ã‚’å‘¼ã¶ã¨ãã®ã‚ˆã†ãªã“ã¨ã‚’å›é¿ã§ãã¾ã™ã€‚
  */
 
 class GrandParent {
@@ -14,14 +14,14 @@ class GrandParent {
 		}
 };
 
-class Parent : virtual public GrandParent {      // ²¾ÁÛ´ğËÜ¥¯¥é¥¹virtual¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ş¤¹¡£public»ØÄê¤Ç¤¹¡£
+class Parent : virtual public GrandParent {      // ä»®æƒ³åŸºæœ¬ã‚¯ãƒ©ã‚¹virtualãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã™ã€‚publicæŒ‡å®šã§ã™ã€‚
 	public:
 		Parent(){
 			cout << "Parent" << endl;
 		}
 };
 
-class Parent2 : virtual private GrandParent {     // ²¾ÁÛ´ğËÜ¥¯¥é¥¹virtual¤¬»ØÄê¤µ¤ì¤Æ¤¤¤Ş¤¹¡£private»ØÄê¤Ç¤¹¡£
+class Parent2 : virtual private GrandParent {     // ä»®æƒ³åŸºæœ¬ã‚¯ãƒ©ã‚¹virtualãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã™ã€‚privateæŒ‡å®šã§ã™ã€‚
 	public:
 		Parent2(){
 			cout << "Parent2" << endl;
@@ -29,12 +29,12 @@ class Parent2 : virtual private GrandParent {     // ²¾ÁÛ´ğËÜ¥¯¥é¥¹virtual¤¬»ØÄê
 };
 
 /*
- *  ²¼µ­¤Î¾ì¹ç¤Ë¤Ï¡¢
- *      Parent¥¯¥é¥¹¤Ï¡¢public¤ÇGrandParent¤ò·Ñ¾µ¤·¤Æ¤¤¤Ş¤¹¡£
- *      Parent2¥¯¥é¥¹¤Ï¡¢private¤ÇGrandParent¤ò·Ñ¾µ¤·¤Æ¤¤¤Ş¤¹¡£
- *      Child¤«¤éGrandParent¥¯¥é¥¹¤Ë¥¢¥¯¥»¥¹¤¹¤ë¾ì¹ç¤Ë¤ÏºÇ¤â¥ª¡¼¥×¥ó¤ÊÀ©¸æ(¤Ä¤Ş¤ê¡¢¤³¤Î¾ì¹ç¤Ïpublic)¤ò¤È¤ê¤Ş¤¹¡£
+ *  ä¸‹è¨˜ã®å ´åˆã«ã¯ã€
+ *      Parentã‚¯ãƒ©ã‚¹ã¯ã€publicã§GrandParentã‚’ç¶™æ‰¿ã—ã¦ã„ã¾ã™ã€‚
+ *      Parent2ã‚¯ãƒ©ã‚¹ã¯ã€privateã§GrandParentã‚’ç¶™æ‰¿ã—ã¦ã„ã¾ã™ã€‚
+ *      Childã‹ã‚‰GrandParentã‚¯ãƒ©ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹å ´åˆã«ã¯æœ€ã‚‚ã‚ªãƒ¼ãƒ—ãƒ³ãªåˆ¶å¾¡(ã¤ã¾ã‚Šã€ã“ã®å ´åˆã¯public)ã‚’ã¨ã‚Šã¾ã™ã€‚
  */
-class Child : public Parent, public Parent2 {    // 2¤Ä¤ò·Ñ¾µ¤·¤Æ¤¤¤ë¤³¤È¤ËÃåÌÜ
+class Child : public Parent, public Parent2 {    // 2ã¤ã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹ã“ã¨ã«ç€ç›®
 	public:
 		Child(){
 			cout << "Child" << endl;

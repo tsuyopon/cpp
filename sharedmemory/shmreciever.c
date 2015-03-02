@@ -11,7 +11,7 @@ int main(void)
 	int id;
 	char *adr;
 
-	/* IPC_PRIVATE¤ò»ØÄê¤¹¤ë¤È¡¢¿·µ¬¤Ëshm¤¬À¸À®¤µ¤ì¤ë¤³¤È¤Ë¤Ê¤ë */
+	/* IPC_PRIVATEã‚’æŒ‡å®šã™ã‚‹ã¨ã€æ–°è¦ã«shmãŒç”Ÿæˆã•ã‚Œã‚‹ã“ã¨ã«ãªã‚‹ */
 	if( (id = shmget(IPC_PRIVATE, 512, IPC_CREAT|0666)) == -1){
 		perror("shmget");
 		exit(-1);
@@ -19,15 +19,15 @@ int main(void)
 
 	printf("SharedMemoryID = %d\n", id);
 
-	// char·Á¤Ç¼èÆÀ
+	// charå½¢ã§å–å¾—
 	if( (adr = (char*)shmat(id, NULL, 0)) == (void*)-1){
 		perror("shmat");
 	} else {
 		strcpy(adr, "Initial");
-		// 1ÉÃ¤´¤È¤Ë½ĞÎÏ
+		// 1ç§’ã”ã¨ã«å‡ºåŠ›
 		while(1){
 			printf("%s\n", adr);
-			// "end"¤Ç½ªÎ»¤È¤¹¤ë
+			// "end"ã§çµ‚äº†ã¨ã™ã‚‹
 			if(strcmp(adr, "end") == 0){
 				break;
 			}
@@ -38,7 +38,7 @@ int main(void)
 		}
 	}
 
-	// shm¤ò½ª¤ï¤é¤»¤ë
+	// shmã‚’çµ‚ã‚ã‚‰ã›ã‚‹
 	if(shmctl(id, IPC_RMID, 0) == -1){
 		perror("shmctl");
 		exit(-1);

@@ -2,8 +2,8 @@
 using namespace std;
 
 /*
- * еке╓е╕езепе╚дЄ┼╧д╣┤╪┐Їд╬║ю└о╩¤╦б
- * еке╓е╕езепе╚дЄ╩╓д╣┤╪┐Їд╬║ю└о╩¤╦б
+ * уВкуГЦуВ╕уВзуВпуГИуВТц╕буБЩщЦвцХ░уБоф╜ЬцИРцЦ╣ц│Х
+ * уВкуГЦуВ╕уВзуВпуГИуВТш┐ФуБЩщЦвцХ░уБоф╜ЬцИРцЦ╣ц│Х
  */
 
 class MyClass {
@@ -16,24 +16,24 @@ MyClass::~MyClass(){
 	cout << str << endl;
 }
 
-MyClass getMyClassObject(char *str){                     // MyClassеке╓е╕езепе╚дЄ╩╓╡╤д╣дыесе╜е├е╔
+MyClass getMyClassObject(char *str){                     // MyClassуВкуГЦуВ╕уВзуВпуГИуВТш┐ФхН┤уБЩуВЛуГбуВ╜уГГуГЙ
 	MyClass obj;
 	obj.str = str;
 	return obj;
 }
 
-void func(MyClass *obj){                                 // MyClassеке╓е╕езепе╚дЄ░·┐Їд╚д╖д╞╝ш╞└д╣дыесе╜е├е╔
+void func(MyClass *obj){                                 // MyClassуВкуГЦуВ╕уВзуВпуГИуВТх╝ХцХ░уБиуБЧуБжхПЦх╛ЧуБЩуВЛуГбуВ╜уГГуГЙ
 	obj->str = "My Name Is Second";
 }
 
 int main()
 {
 
-	// епеще╣есе╜е├е╔длдщеке╓е╕езепе╚дЄ╝ш╞└д╣ды
+	// уВпуГйуВ╣уГбуВ╜уГГуГЙуБЛуВЙуВкуГЦуВ╕уВзуВпуГИуВТхПЦх╛ЧуБЩуВЛ
 	MyClass obj2 = getMyClassObject("My Name Is Third");
 	cout << obj2.str << endl;
 
-	// епеще╣есе╜е├е╔д╦еке╓е╕езепе╚дЄ░·дн┼╧д╣
+	// уВпуГйуВ╣уГбуВ╜уГГуГЙуБлуВкуГЦуВ╕уВзуВпуГИуВТх╝ХуБНц╕буБЩ
 	obj.str = "My Name Is First";
 	func(&obj);
 

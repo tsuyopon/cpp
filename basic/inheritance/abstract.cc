@@ -2,26 +2,26 @@
 using namespace std;
 
 /*
- *  ��ݥ��饹�ˤĤ���
+ *  抽象クラスについて
  */
 
-// ��ݥ��饹�ϡ����Τ�̵���Τǥ��֥������Ȥ��뤳�Ȥ��Ǥ��ޤ���
+// 抽象クラスは、実体が無いのでオブジェクトを作ることができません。
 class Parent {
 	pubilc:
-		// ��=0�פ��������Ƥ���Τ������̵�����Ȥ�ɽ���Ƥ��ơ����줬C++�Ǥ���ݥ᥽�åɤ�����Ǥ���
+		// 「=0」と代入しているのは定義が無いことを表していて、これがC++での抽象メソッドの定義です。
 		virtual void print() = 0;               
 };
 
 class Child1 : public Parent {
 	public:
-		void print(){                              // Parent���饹��Ѿ�������ˤ�print()�᥽�åɤ�ɬ�����Τ��������ɬ�פ�����ޤ���
+		void print(){                              // Parentクラスを継承する場合にはprint()メソッドは必ず実体を定義する必要があります。
 			cout << "Child1::print()" << endl;
 		}
 } obj1;
 
 class Child2 : public Parent {
 	public:
-		void print(){                              // Parent���饹��Ѿ�������ˤ�print()�᥽�åɤ�ɬ�����Τ��������ɬ�פ�����ޤ���
+		void print(){                              // Parentクラスを継承する場合にはprint()メソッドは必ず実体を定義する必要があります。
 			cout << "Child2::print()" << endl;
 		}
 } obj2;

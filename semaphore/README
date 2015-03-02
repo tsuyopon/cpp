@@ -1,16 +1,16 @@
-exclusive.cc, nonexclusive.cc$B$N%W%m%0%i%`FbMF(B
-	fork$B$G#5$D$N;R%W%m%;%9$r:n@.$7$F!";R%W%m%;%9$O$=$l$>$l$"$kF1$8CM$r6&M-%a%b%j$K=q$-9~$_$7$^$9!#(B
-	$BA4$F$,F1$8%a%b%j$G$"$k$+$r%A%'%C%/$7$F$$$^$9!#(B
+exclusive.cc, nonexclusive.ccのプログラム内容
+	forkで５つの子プロセスを作成して、子プロセスはそれぞれある同じ値を共有メモリに書き込みします。
+	全てが同じメモリであるかをチェックしています。
 
 nonexclusive.cc
-    $BGSB>@)8f$r$7$F$$$J$$>l9g$G$9!#(B
-    $B2?2s$+<B9T$7$F$_$k$H=PNO7k2L$OKh2s0lCW$;$:$K%(%i!<FbMF$,=PNO$5$l$F$$$k$3$H$r3NG'$G$-$^$9(B
+    排他制御をしていない場合です。
+    何回か実行してみると出力結果は毎回一致せずにエラー内容が出力されていることを確認できます
 
 exclusive.cc
-    $B%;%^%U%)$r;H$C$F!"6&M-%a%b%j$rGSB>@)8f$7$F$$$^$9!#%;%^%U%)$O$NA`:n$O0J2<$N$h$&$J<j=g$G(B $B9T$o$l$^$9!#(B
-    1. semget()$B$G%;%^%U%)$r:n@.!#(B
-    2. semctl()$B$G%;%^%U%)$r=i4|2=(B
-    3. semop()$B$G6&M-%a%b%j$rGSB>@)8f(B
-    4. semctl()$B$G%;%^%U%)$r:o=|(B 
+    セマフォを使って、共有メモリを排他制御しています。セマフォはの操作は以下のような手順で 行われます。
+    1. semget()でセマフォを作成。
+    2. semctl()でセマフォを初期化
+    3. semop()で共有メモリを排他制御
+    4. semctl()でセマフォを削除 
 
 REFERENCE: http://linuxgcc.sytes.net/sys014.php

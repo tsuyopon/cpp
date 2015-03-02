@@ -3,7 +3,7 @@
 
 namespace Azarashi {
 	namespace Goma {
-		// е╪е├е└е╒ебедеыд╟└ы╕└д╖д╞дддыд╬д╟д│д│д╦ class Tamachan { } д╧длд▒д╩ддд│д╚д╦├э░╒
+		// уГШуГГуГАуГХуВбуВдуГлуБзхогшиАуБЧуБжуБДуВЛуБоуБзуБУуБУуБл class Tamachan { } уБпуБЛуБСуБкуБДуБУуБиуБлц│ицДП
 		Tamachan::Tamachan(){
 			std::cout << "I am Azarashi::Goma::Tamachan::Tamachan()" << std::endl;
 		}
@@ -16,7 +16,7 @@ namespace Azarashi {
 	}
 
 	namespace Zou{
-		// е╪е├е└е╒ебедеыд╟└ы╕└д╖д╞дддыд╬д╟бвд│д│д╦ class Normal{ } д╧длд▒д╩ддд│д╚д╦├э░╒
+		// уГШуГГуГАуГХуВбуВдуГлуБзхогшиАуБЧуБжуБДуВЛуБоуБзуАБуБУуБУуБл class Normal{ } уБпуБЛуБСуБкуБДуБУуБиуБлц│ицДП
 		Normal::Normal(){
 			std::cout << "I am Azarashi::Zou::Normal::Normal()" << std::endl;
 		}

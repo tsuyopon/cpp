@@ -17,13 +17,13 @@ int main(int argc, char *argv[])
 
 	id = atoi(argv[1]);
 
-	// shmat¤Ë¤è¤ê¼«¥×¥í¥»¥¹¤Î¥Ç¡¼¥¿¥»¥°¥á¥ó¥È¤Ë¥Ş¥Ã¥×(¥¢¥¿¥Ã¥Á)¤¹¤ë (Shared Memory Segment Attach)
+	// shmatã«ã‚ˆã‚Šè‡ªãƒ—ãƒ­ã‚»ã‚¹ã®ãƒ‡ãƒ¼ã‚¿ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã«ãƒãƒƒãƒ—(ã‚¢ã‚¿ãƒƒãƒ)ã™ã‚‹ (Shared Memory Segment Attach)
 	if( (adr = (char*)shmat(id,0,0)) == (void*)-1){
 		perror("shmat error");
 	} else {
 		strcpy(adr, argv[2]);
 		fprintf(stderr, "written\n");
-		// ¶¦Í­¥á¥â¥ê¤ò¥¢¥ó¥Ş¥Ã¥×(¤Ç¥¿¥Ã¥Á)¤¹¤ë¡£ (Shared Memory Segment Detach)
+		// å…±æœ‰ãƒ¡ãƒ¢ãƒªã‚’ã‚¢ãƒ³ãƒãƒƒãƒ—(ã§ã‚¿ãƒƒãƒ)ã™ã‚‹ã€‚ (Shared Memory Segment Detach)
 		if(shmdt(adr) == -1){
 			perror("shmdt error");
 		}

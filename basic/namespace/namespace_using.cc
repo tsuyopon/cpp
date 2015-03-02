@@ -2,10 +2,10 @@
 using namespace std;
 
 /*
- * using¤Ë¤Ä¤¤¤Æ(Ì¾Á°¶õ´Ö¤Î²Ä»ë²½¤ò¹Ô¤¦)
+ * usingã«ã¤ã„ã¦(åå‰ç©ºé–“ã®å¯è¦–åŒ–ã‚’è¡Œã†)
  */
 
-// using¤è¤ê¤âÁ°¤ËnamespaceÀë¸À¤¬É¬Í×
+// usingã‚ˆã‚Šã‚‚å‰ã«namespaceå®£è¨€ãŒå¿…è¦
 namespace Azarashi {
 	namespace Goma {
 		void print(){
@@ -15,7 +15,7 @@ namespace Azarashi {
 }
 
 int main(){
-	using namespace Azarashi::Goma;   // Ì¾Á°¶õ´Ö¤ÎÄÉ²Ã¤ò¹Ô¤Ã¤Æ¤¤¤Ş¤¹
-	print();                          // Azarashi::Goma::print()¤È¤·¤Æ¸Æ¤Ó½Ğ¤·ÉÔÍ×¤Ç¤¢¤ë¤³¤È¤ËÃíÌÜ
+	using namespace Azarashi::Goma;   // åå‰ç©ºé–“ã®è¿½åŠ ã‚’è¡Œã£ã¦ã„ã¾ã™
+	print();                          // Azarashi::Goma::print()ã¨ã—ã¦å‘¼ã³å‡ºã—ä¸è¦ã§ã‚ã‚‹ã“ã¨ã«æ³¨ç›®
 	return 0;
 }

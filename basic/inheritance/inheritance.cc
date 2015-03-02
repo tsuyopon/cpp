@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
- *  �Ѿ��λ��ȤߤˤĤ���
+ *  継承の仕組みについて
  */
 
 class Azarashi {
@@ -27,10 +27,10 @@ class Goma : public Azarashi {
 
 int main()
 {
-	obj.gorogoro();          // Azarashi���饹��gorogor()���ƤӽФ���ޤ�
-	obj.hungry();            // Goma���饹��hugry()���ƤӽФ���ޤ�
-	obj.Azarashi::cry();     // cry()��Azarashi��Goma�����Υ��饹�ˤ���Τǡ��ƥ��饹�Ǥϥ������פ����Ѥ��ƸƤӽФ��ޤ���
-	obj.cry();               // Goma���饹��cry()���ƤӽФ���ޤ�
+	obj.gorogoro();          // Azarashiクラスのgorogor()が呼び出されます
+	obj.hungry();            // Gomaクラスのhugry()が呼び出されます
+	obj.Azarashi::cry();     // cry()はAzarashiとGoma双方のクラスにあるので、親クラスではスコープを利用して呼び出します。
+	obj.cry();               // Gomaクラスのcry()が呼び出されます
 
 	return 0;
 }

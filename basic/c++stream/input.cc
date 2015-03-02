@@ -4,16 +4,16 @@ using namespace std;
 int main()
 {
 
-	/* ÆşÎÏ */
-	cout << "Input Your Name: " << flush;          /* ¤³¤³¤Ç¡ÖAzarashi Taro¡×¤ÈÆşÎÏ¤¹¤ë¤ÈÀµ¤·¤¯Ç§¼±¤»¤ºÃ±¸ì¤È¤·¤ÆÆÉ¤ß¹ş¤ß¤Ş¤¹ */
-	char yourname[100];                            // ·¿Àë¸À¤¬Ê¸Æ¬°Ê³°¤Ç¤â¤Ç¤­¤ë¤³¤È¤ËÃåÌÜ
+	/* å…¥åŠ› */
+	cout << "Input Your Name: " << flush;          /* ã“ã“ã§ã€ŒAzarashi Taroã€ã¨å…¥åŠ›ã™ã‚‹ã¨æ­£ã—ãèªè­˜ã›ãšå˜èªã¨ã—ã¦èª­ã¿è¾¼ã¿ã¾ã™ */
+	char yourname[100];                            // å‹å®£è¨€ãŒæ–‡é ­ä»¥å¤–ã§ã‚‚ã§ãã‚‹ã“ã¨ã«ç€ç›®
 	cin >> yourname;
 
 	cout << "Input Your Age: " << flush;
 	int age;
 	cin >> age;
 
-	/* ·ë²Ì¤Î½ĞÎÏ */
+	/* çµæœã®å‡ºåŠ› */
 	cout << "Results: " << endl;
 	cout << "\tName: "  << yourname << endl;
 	cout << "\tAge:  "  << age      << endl;

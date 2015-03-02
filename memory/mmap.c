@@ -1,6 +1,6 @@
 /*
- * mmap$B$r;H$C$?%a%b%j3d$jEv$F$r9T$&(B
- *  mmap$B$O%f!<%6!<6u4V$+$i%+!<%M%k6u4V$K%3%T!<$9$k=hM}$,B8:_$7$J$$$N$G(Bfopen$BEy$HHf3S$7$F$bD69bB.$i$7$$(B
+ * mmapを使ったメモリ割り当てを行う
+ *  mmapはユーザー空間からカーネル空間にコピーする処理が存在しないのでfopen等と比較しても超高速らしい
  *
  * REFERENCE: http://linuxjm.sourceforge.jp/html/LDP_man-pages/man2/mmap.2.html
  */
@@ -40,13 +40,13 @@ int main(int argc, char *argv[])
     pa_offset = offset & ~(sysconf(_SC_PAGE_SIZE) - 1);  // sysconf(_SC_PAGE_SIZE) == getpagesize()
         /* offset for mmap() must be page aligned */
 
-    // $B%*%U%;%C%H$N0LCV$,%U%!%$%k%5%$%:$rD62a$7$F$$$?$i%(%i!<(B
+    // オフセットの位置がファイルサイズを超過していたらエラー
     if (offset >= sb.st_size) {         // st_size means file size.
         fprintf(stderr, "offset is past end of file\n");
         exit(EXIT_FAILURE);
     }
 
-    // length$B0z?t$,;XDj$5$l$?>l9g$H;XDj$5$l$J$+$C$?>l9g$G<hF@$9$k(Blength$B$r7hDj$9$k(B
+    // length引数が指定された場合と指定されなかった場合で取得するlengthを決定する
     if (argc == 4) {
         length = atoi(argv[3]);
         if (offset + length > sb.st_size)

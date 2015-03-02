@@ -2,19 +2,19 @@
 using namespace std;
 
 /*
- * ���ԡ����󥹥ȥ饯���λ�����ˡ�ˤĤ���
+ * コピーコンストラクタの使用方法について
  */
 
 class MyClass {
 	public:
 		char *str;
 
-		// �̾�Υ��󥹥ȥ饯������
+		// 通常のコンストラクタ指定
 		MyClass(){
 			str = "first";
 		}
 
-		// ���ԡ����󥹥ȥ饯�������(���֥������ȤΥ��ԡ����Ȥ�줿�ݤ˼¹Ԥ�������)
+		// コピーコンストラクタが定義(オブジェクトのコピーがとられた際に実行される処理)
 		MyClass(const MyClass &myobj){
 			str = "second";
 		}
@@ -22,7 +22,7 @@ class MyClass {
 
 int main()
 {
-	MyClass obj = myobj;         // ���֥������ȤΥ��ԡ�(���ԡ����󥹥ȥ饯�����ƤӽФ���ޤ�)
+	MyClass obj = myobj;         // オブジェクトのコピー(コピーコンストラクタが呼び出されます)
 	cout << myobj.str << endl;
 	cout << obj.str << endl;
 	return 0;

@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
- *  ¥Õ¥ì¥ó¥É¥¯¥é¥¹¤Î»ÈÍÑÊıË¡¤Ë¤Ä¤¤¤Æ
+ *  ãƒ•ãƒ¬ãƒ³ãƒ‰ã‚¯ãƒ©ã‚¹ã®ä½¿ç”¨æ–¹æ³•ã«ã¤ã„ã¦
  */
 
 class Parent {
@@ -16,15 +16,15 @@ class Parent {
 			month = m;
 		}
 
-	friend class Child;               // ¥Õ¥ì¥ó¥É¥¯¥é¥¹¤ÎÀë¸À
+	friend class Child;               // ãƒ•ãƒ¬ãƒ³ãƒ‰ã‚¯ãƒ©ã‚¹ã®å®£è¨€
 
 };
 
 class Child {
 	public:
 		void display(Parent obj){
-			cout << "years:" << obj.years << endl;   // ¥Õ¥ì¥ó¥É´Ø¿ô¤òÍøÍÑ¤·¤ÆParent¥¯¥é¥¹¤Îprivate¤Ë¥¢¥¯¥»¥¹
-			cout << "month:" << obj.month << endl;   // ¥Õ¥ì¥ó¥É´Ø¿ô¤òÍøÍÑ¤·¤ÆParent¥¯¥é¥¹¤Îprivate¤Ë¥¢¥¯¥»¥¹
+			cout << "years:" << obj.years << endl;   // ãƒ•ãƒ¬ãƒ³ãƒ‰é–¢æ•°ã‚’åˆ©ç”¨ã—ã¦Parentã‚¯ãƒ©ã‚¹ã®privateã«ã‚¢ã‚¯ã‚»ã‚¹
+			cout << "month:" << obj.month << endl;   // ãƒ•ãƒ¬ãƒ³ãƒ‰é–¢æ•°ã‚’åˆ©ç”¨ã—ã¦Parentã‚¯ãƒ©ã‚¹ã®privateã«ã‚¢ã‚¯ã‚»ã‚¹
 		}
 };
 

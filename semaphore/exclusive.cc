@@ -20,16 +20,16 @@ pid_t myfork(unsigned char* p, unsigned char d, int semid)
 		struct sembuf sembuffer;
 		for(;;)
 		{
-			sembuffer.sem_num = 0;           // $B2?HVL\$N%;%^%U%)$KBP$7$F%"%/%;%98"$rMW5a$9$k$+;XDj$7$^$9!#(B
+			sembuffer.sem_num = 0;           // 何番目のセマフォに対してアクセス権を要求するか指定します。
 			sembuffer.sem_op = -1;           //  
-			sembuffer.sem_flg = SEM_UNDO;    // OS$B$O%W%m%;%9$,9T$C$?(Bsemval$B$X$NA\::$r3P$($F$$$F!"%W%m%;%9$,=*N;$7$?:]$K(Bsemval$B$NCM$r85$KLa$9(B
+			sembuffer.sem_flg = SEM_UNDO;    // OSはプロセスが行ったsemvalへの捜査を覚えていて、プロセスが終了した際にsemvalの値を元に戻す
 			semop(semid, &sembuffer, 1);
 
 			for( i=0 ; i<SHMSIZE; ++i )
 				p[i] = d;
 
 			sembuffer.sem_num = 0;
-			sembuffer.sem_op = 1;           // $B=hM}$,=*$o$C$?$i(B1$B$r@_Dj$9$k(B($B@h$[$I$O(B-1$B$G$"$k$3$H$KCm0U(B)
+			sembuffer.sem_op = 1;           // 処理が終わったら1を設定する(先ほどは-1であることに注意)
 			sembuffer.sem_flg = SEM_UNDO;
 			semop(semid, &sembuffer, 1);
 		}

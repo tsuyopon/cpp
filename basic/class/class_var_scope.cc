@@ -2,9 +2,9 @@
 using namespace std;
 
 /*
- * Ёф╪Ойя©Т╓н╔╧╔Ё║╪╔в(1)║а(4)╓нм╜╦Зхо╟о
- * ╢ь©Т╓н╔╧╔Ё║╪╔в(A)║а(B)╓нм╜╦Зхо╟о
- * ║ж::║в╔╟╔М║╪╔п╔К╔╧╔Ё║╪╔в╡Р╥Х╠И╩╩╩р
+ * Е░└Г╗╝Е╓┴Ф∙╟Ц│╝Ц┌╧Ц┌ЁЦ┐╪Ц┐≈(1)Ц─°(4)Ц│╝Ф°┴Е┼╧Г╞└Е⌡╡
+ * И√╒Ф∙╟Ц│╝Ц┌╧Ц┌ЁЦ┐╪Ц┐≈(A)Ц─°(B)Ц│╝Ф°┴Е┼╧Г╞└Е⌡╡
+ * Ц─▄::Ц─█Ц┌╟Ц┐╜Ц┐╪Ц┐░Ц┐╚Ц┌╧Ц┌ЁЦ┐╪Ц┐≈Х╖ёФ╠╨Ф╪■Г╝≈Е╜░
  *
  */
 
@@ -25,14 +25,14 @@ class MyClass {
 };
 
 void MyClass::print(char *str){            // (3)
-	cout << str << endl;                   // (3)╓нstr╓Р╫пно╓╣╓╩╓К
-	cout << MyClass::str << endl;          // (2)╓нstr╓Р╫пно╓╣╓╩╓К
-	cout << ::str << endl;                 // (1)╓нstr╓Р╫пно╓╣╓╩╓К(╔╟╔М║╪╔п╔К╔╧╔Ё║╪╔в╡Р╥Х╠И╩╩╩р║ж::║в)
+	cout << str << endl;                   // (3)Ц│╝strЦ┌▓Е┤╨Е┼⌡Ц│∙Ц│⌡Ц┌▀
+	cout << MyClass::str << endl;          // (2)Ц│╝strЦ┌▓Е┤╨Е┼⌡Ц│∙Ц│⌡Ц┌▀
+	cout << ::str << endl;                 // (1)Ц│╝strЦ┌▓Е┤╨Е┼⌡Ц│∙Ц│⌡Ц┌▀(Ц┌╟Ц┐╜Ц┐╪Ц┐░Ц┐╚Ц┌╧Ц┌ЁЦ┐╪Ц┐≈Х╖ёФ╠╨Ф╪■Г╝≈Е╜░Ц─▄::Ц─█)
 }
 
 void MyClass::function(){                  // (B)
-	cout << "MyClass::function()" << endl; // (B)╪╚©х╓Р╫пно
-	::function();                          // (A)╓Р╫пно
+	cout << "MyClass::function()" << endl; // (B)Х┤╙Х╨╚Ц┌▓Е┤╨Е┼⌡
+	::function();                          // (A)Ц┌▓Е┤╨Е┼⌡
 }
 
 /*
@@ -48,8 +48,8 @@ int main()
 	obj.print("WHALE");
 
 	cout << "##### main str output" << endl;
-	cout << "local str:"  << str << endl;  // (4)╓нstr╓Р╫пно╓╣╓╩╓К
-	cout << "global str:" << ::str<< endl; // (1)╓нstr╓Р╫пно╓╣╓╩╓К
+	cout << "local str:"  << str << endl;  // (4)Ц│╝strЦ┌▓Е┤╨Е┼⌡Ц│∙Ц│⌡Ц┌▀
+	cout << "global str:" << ::str<< endl; // (1)Ц│╝strЦ┌▓Е┤╨Е┼⌡Ц│∙Ц│⌡Ц┌▀
 
 	cout << "##### function output" << endl;
 	obj.function();

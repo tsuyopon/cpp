@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
- * ¥Õ¥ì¥ó¥É´Ø¿ô¤Î»ÈÍÑË¡¤Ë¤Ä¤¤¤Æ(Ê£¿ô¥¯¥é¥¹¤Ç¤Î¼è¤ê°·¤¤)
+ * ãƒ•ãƒ¬ãƒ³ãƒ‰é–¢æ•°ã®ä½¿ç”¨æ³•ã«ã¤ã„ã¦(è¤‡æ•°ã‚¯ãƒ©ã‚¹ã§ã®å–ã‚Šæ‰±ã„)
  */
 
 class Age;
@@ -10,9 +10,9 @@ class Age;
 class Name {
 		char *name;
 	public:
-		friend void print(Name &, Age &);    // (1): (2)¤ÈÁ´¤¯Æ±¤¸¹½Ê¸¤Ç¡¢friend´Ø¿ôÀë¸À¤Ç¤¢¤ë¤³¤È¤ËÃí°Õ
+		friend void print(Name &, Age &);    // (1): (2)ã¨å…¨ãåŒã˜æ§‹æ–‡ã§ã€friendé–¢æ•°å®£è¨€ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„
 
-		// ¥³¥ó¥¹¥È¥é¥¯¥¿
+		// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Name(char *name){
 			Name::name = name;
 		}
@@ -22,21 +22,21 @@ class Name {
 class Age {
 		int age;
 	public:
-		friend void print(Name &, Age &);    // (2): (1)¤ÈÁ´¤¯Æ±¤¸¹½Ê¸¤Ç¡¢friend´Ø¿ôÀë¸À¤Ç¤¢¤ë¤³¤È¤ËÃí°Õ
+		friend void print(Name &, Age &);    // (2): (1)ã¨å…¨ãåŒã˜æ§‹æ–‡ã§ã€friendé–¢æ•°å®£è¨€ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„
 
-		// ¥³¥ó¥¹¥È¥é¥¯¥¿
+		// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Age(int age){
 			Age::age = age;
 		}
 
 } a_obj(3);
 
-// ¥á¥ó¥Ğ¡¼´Ø¿ô¤Î¼ÂÂÎ
+// ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°ã®å®Ÿä½“
 void print(Name &n, Age &a){
 	cout << "Name:" << n.name << "\tAge:" << a.age << endl;
 }
 
 int main(){
-	print(n_obj, a_obj);                    // ¥Õ¥ì¥ó¥É´Ø¿ô¤ò¸Æ¤Ó½Ğ¤·¤Æ¤¤¤Ş¤¹
+	print(n_obj, a_obj);                    // ãƒ•ãƒ¬ãƒ³ãƒ‰é–¢æ•°ã‚’å‘¼ã³å‡ºã—ã¦ã„ã¾ã™
 	return 0;
 }

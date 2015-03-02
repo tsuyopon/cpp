@@ -1,32 +1,32 @@
 /*
- * $B%U%!%$%k$r0z?t$K;XDj$9$k$H$=$N>pJs$r=PNO$9$k%W%m%0%i%`(B
+ * ファイルを引数に指定するとその情報を出力するプログラム
  * REFERENCE: http://linuxjm.sourceforge.jp/html/LDP_man-pages/man2/stat.2.html
  */
 
 // struct stat {
-//     dev_t     st_dev;     /* $B%U%!%$%k$,$"$k%G%P%$%9$N(B ID */
-//     ino_t     st_ino;     /* inode $BHV9f(B */
-//     mode_t    st_mode;    /* $B%"%/%;%9J]8n(B */
-//     nlink_t   st_nlink;   /* $B%O!<%I%j%s%/$N?t(B */
-//     uid_t     st_uid;     /* $B=jM-<T$N%f!<%6(B ID */
-//     gid_t     st_gid;     /* $B=jM-<T$N%0%k!<%W(B ID */
-//     dev_t     st_rdev;    /* $B%G%P%$%9(B ID ($BFC<l%U%!%$%k$N>l9g(B) */
-//     off_t     st_size;    /* $BA4BN$N%5%$%:(B ($B%P%$%HC10L(B) */
-//     blksize_t st_blksize; /* $B%U%!%$%k%7%9%F%`(B I/O $B$G$N(B
-//                              $B%V%m%C%/%5%$%:(B */
-//     blkcnt_t  st_blocks;  /* $B3d$jEv$F$i$l$?(B 512B $B$N%V%m%C%/?t(B */
+//     dev_t     st_dev;     /* ファイルがあるデバイスの ID */
+//     ino_t     st_ino;     /* inode 番号 */
+//     mode_t    st_mode;    /* アクセス保護 */
+//     nlink_t   st_nlink;   /* ハードリンクの数 */
+//     uid_t     st_uid;     /* 所有者のユーザ ID */
+//     gid_t     st_gid;     /* 所有者のグループ ID */
+//     dev_t     st_rdev;    /* デバイス ID (特殊ファイルの場合) */
+//     off_t     st_size;    /* 全体のサイズ (バイト単位) */
+//     blksize_t st_blksize; /* ファイルシステム I/O での
+//                              ブロックサイズ */
+//     blkcnt_t  st_blocks;  /* 割り当てられた 512B のブロック数 */
 // };
 // 
-//     /* Linux 2.6 $B0J9_$G$O!"%+!<%M%k$O0J2<$N%?%$%`%9%?%s%W(B
-//        $B%U%#!<%k%I$G%J%NIC$N@:EY$r%5%]!<%H$7$F$$$k!#(B
-//        Linux 2.6 $B$h$jA0$N%P!<%8%g%s$G$N>\:Y$O(B
-//        $B2<5-$N!VCm0U!W$r;2>H!#(B */
+//     /* Linux 2.6 以降では、カーネルは以下のタイムスタンプ
+//        フィールドでナノ秒の精度をサポートしている。
+//        Linux 2.6 より前のバージョンでの詳細は
+//        下記の「注意」を参照。 */
 // 
-//     struct timespec st_atim;  /* $B:G=*%"%/%;%9;~9o(B */
-//     struct timespec st_mtim;  /* $B:G=*=$@5;~9o(B */
-//     struct timespec st_ctim;  /* $B:G=*>uBVJQ99;~9o(B */
+//     struct timespec st_atim;  /* 最終アクセス時刻 */
+//     struct timespec st_mtim;  /* 最終修正時刻 */
+//     struct timespec st_ctim;  /* 最終状態変更時刻 */
 // 
-// #define st_atime st_atim.tv_sec      /* $B8eJ}8_49@-(B */
+// #define st_atime st_atim.tv_sec      /* 後方互換性 */
 // #define st_mtime st_mtim.tv_sec
 // #define st_ctime st_ctim.tv_sec
 // };

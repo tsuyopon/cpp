@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 /*!
- * @brief     $B%Z!<%8%5%$%:$r<hF@$9$k(B
+ * @brief     ページサイズを取得する
  * @return    0:success/-1:failure
  */
 static int
@@ -32,9 +32,9 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    // getpagesize$B$O%7%9%F%`$N%a%b%j4IM}$K$*$1$k%Z!<%8%5%$%:$r<hF@$7$^$9!#(B 
-    // C$B%i%$%V%i%j4X?t$N(Bsysconf(_SC_PAGESIZE)$B$rMxMQ$7$F$b!"F1MM$N>pJs$r<hF@$G$-$^$9!#(B 
-    // OS$BKh$K$3$NCM$O$3$H$J$j$^$9(B
+    // getpagesizeはシステムのメモリ管理におけるページサイズを取得します。 
+    // Cライブラリ関数のsysconf(_SC_PAGESIZE)を利用しても、同様の情報を取得できます。 
+    // OS毎にこの値はことなります
     rc = get_memory_pagesize();
     if(rc < 0) exit(EXIT_FAILURE);
 

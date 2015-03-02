@@ -2,12 +2,12 @@
 using namespace std;
 
 /*
- *  �ؿ��Υ����С������ɤˤĤ���(�ݥ�⡼�ե�����)
+ *  関数のオーバーロードについて(ポリモーフィズム)
  */
 
 class MyClass {
 	public:
-		// ���󥹥ȥ饯���Υ����С�������
+		// コンストラクタのオーバーロード
 		MyClass(){
 			cout << "no args" << endl;
 		}
@@ -15,7 +15,7 @@ class MyClass {
 			cout << str << endl;
 		}
 		
-		// ���̴ؿ��Υ����С�������
+		// 一般関数のオーバーロード
 		void Azarashi(){
 			cout << "Azarashi: kyu-" << endl;
 		}
@@ -23,7 +23,7 @@ class MyClass {
 			cout << "Azarashi: " << str << endl;
 		}
 
-		// (����) �ǥ��ȥ饯���ˤĤ��Ƥϥ����С������ɤ����Ѥ��뤳�ȤϽ���ޤ���
+		// (注意) デストラクタについてはオーバーロードを利用することは出来ません。
 } obj;
 
 int main()

@@ -2,8 +2,8 @@
 using namespace std;
 
 /*
- *  Â¿½Å·Ñ¾µ¤Ë¤Ä¤¤¤Æ
- *    (A -> B-1,B-2 -> C¤È¤Ê¤ëÊÂÎóÅª·Ñ¾µ¤Î¾ì¹ç)
+ *  å¤šé‡ç¶™æ‰¿ã«ã¤ã„ã¦
+ *    (A -> B-1,B-2 -> Cã¨ãªã‚‹ä¸¦åˆ—çš„ç¶™æ‰¿ã®å ´åˆ)
  */
 
 class GrandParent {
@@ -27,7 +27,7 @@ class Parent2 : public GrandParent {
 		}
 };
 
-class Child : public Parent, public Parent2 {    // 2¤Ä¤ò·Ñ¾µ¤·¤Æ¤¤¤ë¤³¤È¤ËÃåÌÜ
+class Child : public Parent, public Parent2 {    // 2ã¤ã‚’ç¶™æ‰¿ã—ã¦ã„ã‚‹ã“ã¨ã«ç€ç›®
 	public:
 		Child(){
 			cout << "Child" << endl;

@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
- *  オ〖バ〖ロ〖ドされた簇眶ポインタ蝗脱数恕について
+ *  銈兗銉愩兗銉兗銉夈仌銈屻仧闁㈡暟銉濄偆銉炽偪浣跨敤鏂规硶銇仱銇勩仸
  */
 
 void MyMethod(){
@@ -14,7 +14,7 @@ void MyMethod(char *str){
 
 int main()
 {
-	void (*po1)(), (*po2)(char *);   // オ〖バ〖ロ〖ドされた簇眶ポインタの离咐数恕
+	void (*po1)(), (*po2)(char *);   // 銈兗銉愩兗銉兗銉夈仌銈屻仧闁㈡暟銉濄偆銉炽偪銇瑷�鏂规硶
 
 	po1 = MyMethod;
 	po2 = MyMethod;

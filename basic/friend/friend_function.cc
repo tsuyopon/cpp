@@ -2,16 +2,16 @@
 using namespace std;
 
 /*
- * �ե��ɴؿ��λ���ˡ�ˤĤ���
+ * フレンド関数の使用法について
  */
 
 class MyClass {
 		char *str;
 
-		/* �ե��ɴؿ���������Ƥ��ޤ�
-		 *   ���ե��ɴؿ��ϥ��С��ؿ��ǤϤʤ�
-		 *   ��this�ݥ��󥿡���¸�ߤ��ʤ�
-		 *   ���Ѿ��⤵��ޤ���
+		/* フレンド関数を定義しています
+		 *   ・フレンド関数はメンバー関数ではない
+		 *   ・thisポインターも存在しない
+		 *   ・継承もされません
 		 */
 		friend char *getStr(MyClass &);
 	public:
@@ -21,11 +21,11 @@ class MyClass {
 } obj("hello");
 
 char *getStr(MyClass &obj){
-	return obj.str;                   // MyClass�������(private)���С��˥����������Ƥ��ޤ���
+	return obj.str;                   // MyClassの非公開(private)メンバーにアクセスしています。
 }
 
 int main()
 {
-	cout << getStr(obj) << endl;      // obj.getStr()�Ȥ����ƤӽФ����ϤǤ��ʤ��Τ����դ�ɬ�פǤ�!
+	cout << getStr(obj) << endl;      // obj.getStr()という呼び出し方はできないので注意が必要です!
 	return 0;
 }

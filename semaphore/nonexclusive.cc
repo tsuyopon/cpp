@@ -31,8 +31,8 @@ int main(int argc, char** argv)
 	int j;
 	int status;
 
-	segment = shmget(IPC_PRIVATE, SHMSIZE, S_IRUSR|S_IWUSR);   // $B%;%0%a%s%H(BID$B$r<hF@$7$^$9(B
-	p = (unsigned char*)shmat (segment, NULL, 0);              // $B6&M-%a%b%j$X%"%?%C%A(B
+	segment = shmget(IPC_PRIVATE, SHMSIZE, S_IRUSR|S_IWUSR);   // セグメントIDを取得します
+	p = (unsigned char*)shmat (segment, NULL, 0);              // 共有メモリへアタッチ
 
 	c1 = myfork(p,0x00);
 	c2 = myfork(p,0xAA);
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 				break;
 			}
 		}
-		fflush(stdout);  // $B%f!<%6!<6u4V$K%P%C%U%!%j%s%0$5$l$F$$$kA4$F$N%G!<%?$r;XDj$5$l$?=PNO$K=q$-=P$7$^$9!#(B
+		fflush(stdout);  // ユーザー空間にバッファリングされている全てのデータを指定された出力に書き出します。
 	}
 
 	kill(c1, SIGTERM);
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
 	wait(&status);
 	wait(&status);
 	
-	shmctl (segment, IPC_RMID, NULL);   // $B6&M-%a%b%j!&%;%0%a%s%H$rGK4~$7$^$9!#(B
+	shmctl (segment, IPC_RMID, NULL);   // 共有メモリ・セグメントを破棄します。
 	return 0;
 }
 

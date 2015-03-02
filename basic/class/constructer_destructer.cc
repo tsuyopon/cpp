@@ -2,30 +2,30 @@
 using namespace std;
 
 /*
- *  ��::�ץ������ױ黻�Ҥ����Ѥ������饹�᥽�å���Ͽ
- *  ���󥹥ȥ饯����Ͽ��ˡ
- *  �ǥ��ȥ饯����Ͽ��ˡ
+ *  「::」スコープ演算子を利用したクラスメソッド登録
+ *  コンストラクタ登録方法
+ *  デストラクタ登録方法
  */
 
 class MyClass {
 	private:
 		int point;
 	public:
-		MyClass();                         // ���󥹥ȥ饯�� ���С�
-		~MyClass();                        // �ǥ��ȥ饯��   ���С�
+		MyClass();                         // コンストラクタ メンバー
+		~MyClass();                        // デストラクタ   メンバー
 		void setPoint(int i);
 		int  getPoint(int i);
 };
 
-MyClass::MyClass(){                        // ���󥹥ȥ饯��
+MyClass::MyClass(){                        // コンストラクタ
 	cout << "START PROGRAM" << endl;
 }
 
-MyClass::~MyClass(){                       // �ǥ��ȥ饯��(�������Ϥ����ȤϤǤ��ޤ���)
+MyClass::~MyClass(){                       // デストラクタ(引数を渡すことはできません)
 	cout << "END PROGRAM" << endl;
 }
 
-void MyClass::setPoint(int i){             // ��::�ץ������ײ��黻��
+void MyClass::setPoint(int i){             // 「::」スコープ解決演算子
 	point = i;
 }
 

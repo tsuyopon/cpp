@@ -1,9 +1,9 @@
 /*
  * REF: http://wiki.bit-hive.com/north/pg/vfork
  *
- * fork$B$H(Bvfork$B$N0c$$$rM}2r$9$k$?$a$N%5%s%W%k%W%m%0%i%`(B
- * vfork$B$O(Bfork$B$H0[$J$j!";R%W%m%;%9<B9T$N4V$O?F%W%m%;%9$O2TF/$7$J$$!#(B
- * fork$B$H(Bvfork$B$r@Z$jBX$($FK\%W%m%0%i%`$rF0:n$5$;$F$_$F$=$N0c$$$rM}2r$9$k$3$H(B
+ * forkとvforkの違いを理解するためのサンプルプログラム
+ * vforkはforkと異なり、子プロセス実行の間は親プロセスは稼働しない。
+ * forkとvforkを切り替えて本プログラムを動作させてみてその違いを理解すること
  */
 #include <stdio.h>
 #include <stdlib.h>
