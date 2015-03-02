@@ -1,5 +1,5 @@
 /*
- * ���Υץ������Ǥϡ�VIrtualinherit2b.cpp�Υ���ѥ��륨�顼����ɤ�����ΤǤ���
+ * このプログラムでは、VIrtualinherit2b.cppのコンパイルエラーを改良したものです。
  */
 #include<iostream>
 using namespace std;
@@ -39,8 +39,8 @@ int main(){
 	A2 a2;
 	a2.Show();
 
-	// ���ξ��ˤ�C���饹�Υ��󥹥ȥ饯��C()�ǽ�������줿�塢
-	// A1, A2�Υ��󥹥ȥ饯����¹Ԥ�������Ǥϴ���ABase�ν�����Ͻ�λ���Ƥ��ޤ���
+	// この場合にはCクラスのコンストラクタC()で初期化された後、
+	// A1, A2のコンストラクタを実行する時点では既にABaseの初期化は終了しています。
 	C c;
 	c.Show();
 

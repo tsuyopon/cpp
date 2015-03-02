@@ -12,7 +12,7 @@ int main(){
 	Show(NULL);    // (1)
 
 	string str;
-	Show(&str);    // (2) str��NULL�Ǥ���Τ�Show()�᥽�å����str->empty()���¹Ԥ���ʤ��Τǰ����Ǥ��롣
+	Show(&str);    // (2) strはNULLであるのでShow()メソッド内でstr->empty()が実行されないので安全である。
 
 	str = "Hoge";
 	Show(&str);    // (3) 

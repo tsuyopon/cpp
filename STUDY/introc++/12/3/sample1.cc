@@ -1,5 +1,5 @@
 /*
- * NOT(��������)�˴ؤ��륵��ץ�
+ * NOT(論理否定)に関するサンプル
  *
  */
 #include <iostream>

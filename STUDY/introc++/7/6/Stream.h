@@ -8,7 +8,7 @@ class Stream {
 		double m_n;
 
 	protected:
-		virtual void SetBase() = 0;  // ��貾�۴ؿ��Ǥ�������Τߤǡ��ºݤ��������Ƥ��ʤ����Ȥ����դ��Ƥ���������
+		virtual void SetBase() = 0;  // 純粋仮想関数です。宣言のみで、実際に定義されていないことに注意してください。
 };
 
 #endif

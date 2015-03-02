@@ -1,5 +1,5 @@
 /*
- * ���Υץ������Ǥϡ�C���饹��ƤӽФ����ݤˣ���ABase::ABase()���󥹥ȥ饯�����ƤӽФ���뤳�Ȥˤʤ�Τǥ���ѥ��륨�顼�Ȥʤ�ޤ���
+ * このプログラムでは、Cクラスを呼び出した際に２度ABase::ABase()コンストラクタが呼び出されることになるのでコンパイルエラーとなります。
  */
 #include<iostream>
 using namespace std;

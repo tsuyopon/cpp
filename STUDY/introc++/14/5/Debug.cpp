@@ -1,8 +1,8 @@
 #include "Debug.h"
 
-#ifdef NDEBUG  // ��꡼��
+#ifdef NDEBUG  // リリース
 
-#else          // �ǥХå�
+#else          // デバッグ
 
 #include <iostream>
 #include <cstdlib>

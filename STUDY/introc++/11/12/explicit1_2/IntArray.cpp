@@ -6,37 +6,37 @@
 #include <cstdlib>
 using namespace std;
 
-//¥³¥Ô¡¼¥³¥ó¥¹¥È¥é¥¯¥¿¤ÎÄêµÁ
+//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å®šç¾©
 IntArray :: IntArray(const IntArray &other)
 {
-    m_array = new int[other.m_size];   //ÇÛÎó¤ÎÆ°Åª³ÎÊİ, other¥ª¥Ö¥¸¥§¥¯¥È¤ÎÃÍ¤ò»È¤¦ 
-    m_size = other.m_size;                  //other¥ª¥Ö¥¸¥§¥¯¥È¤ÎÃÍ¤ò¥³¥Ô¡¼s
+    m_array = new int[other.m_size];   //é…åˆ—ã®å‹•çš„ç¢ºä¿, otherã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å€¤ã‚’ä½¿ã† 
+    m_size = other.m_size;                  //otherã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å€¤ã‚’ã‚³ãƒ”ãƒ¼s
     
     copy(other.m_array, other.m_array + m_size, m_array);
     
-    cout << "¥³¥Ô¡¼¥³¥ó¥¹¥È¥é¥¯¥¿¤¬¸Æ¤Ğ¤ì¤Ş¤·¤¿¡£" << endl;
+    cout << "ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã¾ã—ãŸã€‚" << endl;
 }
 
-//¥³¥ó¥¹¥È¥é¥¯¥¿
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 IntArray :: IntArray(int size)
 {
     m_array = new int[size];
     m_size = size;
 
-    cout << "¥³¥ó¥¹¥È¥é¥¯¥¿¤¬¸Æ¤Ğ¤ì¤Ş¤·¤¿¡£"
-            << "Í×ÁÇ¿ô¤Ï " << m_size << "¤Ç¤¹¡£" << endl;
+    cout << "ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã¾ã—ãŸã€‚"
+            << "è¦ç´ æ•°ã¯ " << m_size << "ã§ã™ã€‚" << endl;
 }
 
-//¥Ç¥¹¥È¥é¥¯¥¿
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 IntArray :: ~IntArray()
 {
     delete [] m_array;
 
-    cout << "¥Ç¥¹¥È¥é¥¯¥¿¤¬¸Æ¤Ğ¤ì¤Ş¤·¤¿"
-            << "Í×ÁÇ¿ô¤Ï" << m_size << "¤Ç¤·¤¿" << endl;
+    cout << "ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã¾ã—ãŸ"
+            << "è¦ç´ æ•°ã¯" << m_size << "ã§ã—ãŸ" << endl;
 }
 
-//¥á¥ó¥Ğ¤Ø¤Î¥¢¥¯¥»¥¹´Ø¿ô
+//ãƒ¡ãƒ³ãƒã¸ã®ã‚¢ã‚¯ã‚»ã‚¹é–¢æ•°
 int IntArray :: Get (int i) const                // added const
 {
     CheckIndex(i);
@@ -49,17 +49,17 @@ void IntArray :: Set(int i, int value)
     m_array[i] = value;
 }
 
-//¥¤¥ó¥Ç¥Ã¥¯¥¹¤Î¥Á¥§¥Ã¥¯
+//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒã‚§ãƒƒã‚¯
 void IntArray :: CheckIndex(int i) const          // added const
 {
     if(i >= 0 && i < m_size)
     {
-        //¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÏÀµ¾ï¤Ç¤¹
+        //ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯æ­£å¸¸ã§ã™
     }
     else
     {
-        cout << "¥¤¥ó¥Ç¥Ã¥¯¥¹¤¬ÉÔÀµ¤Ç¤¹" << endl
-                << "ÃÍ : " << i << endl;
+        cout << "ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒä¸æ­£ã§ã™" << endl
+                << "å€¤ : " << i << endl;
         exit(EXIT_FAILURE);
     }
 }

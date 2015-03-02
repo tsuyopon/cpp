@@ -7,7 +7,7 @@ enum CompareResult{
 	CR_GREATER_THAN = 2,
 };
 
-// ¤³¤Î´Ø¿ô¤Ç¥ì¥¹¥İ¥ó¥¹¤¹¤ë·¿¤Ïenum¾å¤ÇÄêµÁ¤µ¤ì¤¿ÃÍ¤Ç¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£
+// ã“ã®é–¢æ•°ã§ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã™ã‚‹å‹ã¯enumä¸Šã§å®šç¾©ã•ã‚ŒãŸå€¤ã§ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
 CompareResult Compare(int a, int b){
 	if(a < b){
 		return CR_LESS_THAN;

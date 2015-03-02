@@ -5,8 +5,8 @@
 using namespace std;
 
 /*
- * typeid�ϼ¹Ի��˼ºݤ��Ϥ���Ƥ������֥������Ȥ�����η�����Ǥ���
- * �¹Ի���ưŪ�������뷿����Τ��Ȥ�RTTI(Run-Time Type Information: �¹Ի�������)�Ȥ����ޤ���
+ * typeidは実行時に実際に渡されてきたオブジェクトの本来の型情報です。
+ * 実行時に動的に得られる型情報のことをRTTI(Run-Time Type Information: 実行時型情報)といいます。
  */
 void ShowType(const ostream& ostr){
 	cout << typeid(ostr).name() << endl;

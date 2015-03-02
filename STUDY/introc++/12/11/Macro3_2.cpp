@@ -1,13 +1,13 @@
 /*
- * test.txt�Υե������open���ƣ��Ԥ����ɤ߼�äơ����̾�˽��Ϥ��ޤ���
- * Macro3.cpp�Υ��顼������ޥ�����ȤäƤ��ޤ���
+ * test.txtのファイルをopenして１行だけ読み取って、画面上に出力します。
+ * Macro3.cppのエラー処理をマクロを使っています。
  */
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 using namespace std;
 
-// ���顼������ޥ��������ȤäƤ��ä��ꤵ���ޤ���ʣ���Ԥ˸٤����ˤ�\��Ȥ��ޤ��� 
+// エラー処理をマクロ定義を使ってすっきりさせます。複数行に跨ぐ場合には\を使います。 
 #define ON_ERROR_GOTO(expr) \
 	error = (expr); \
 	if(error != NULL) { \
@@ -29,7 +29,7 @@ int main(){
 	ifstream file;
 	string line;
 
-	// �ե�������Ƭ�ն����������ޥ��������ȤäƤ��ä��ꤵ���Ƥ��ޤ���
+	// ファイル先頭付近で定義したマクロ定義を使ってすっきりさせています。
 	ON_ERROR_GOTO(Open(file, "test_Macro3.txt"))
 	ON_ERROR_GOTO(GetLine(file, line))
 

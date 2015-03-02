@@ -22,8 +22,8 @@ int main(){
 	static const double ARRAY2[] = { 0.5, 1.5, -1};
 	static const double ARRAY3[] = { -1 };
 
-	// �ݥ��󥿤������ˤ���const�ϡ��ݥ��󥿤��ؤ������ѿ�������Ǥ��뤳�Ȥ�ɽ��
-	// �ݥ��󥿤����ˤ���const�ϡ��ݥ��󥿤��Τ�Τ�����Ǥ��뤳�Ȥ�ɽ��
+	// ポインタよりも前にあるconstは、ポインタが指し示す変数が定数であることを表す
+	// ポインタよりも後にあるconstは、ポインタそのものが定数であることを表す
 	static const double* const ARRAY[] = { ARRAY1, ARRAY2, ARRAY3 };
 	static const int SIZE = sizeof ARRAY / sizeof *ARRAY;
 

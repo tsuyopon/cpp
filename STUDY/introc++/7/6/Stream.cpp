@@ -12,9 +12,9 @@ bool Stream::Set() {
 }
 
 /*
- * �������饹��SetBase()��ƤӽФ�����ˤϡ����쥯�饹�ˤ�SetBase()��¸�ߤ��ʤ��ȥ���ѥ��륨�顼�򵯤����ޤ���
- * ����Ǥϡ��������ؤǤ���
- * �����ǡ���貾�۴ؿ���virtual void SetBase() = 0�פ�إå��ե�������������Ȱʲ��μ��Τ����פǡ�����ѥ��������褦�ˤʤ�ޤ���
+ * 派生クラスのSetBase()を呼び出すためには、基底クラスにもSetBase()が存在しないとコンパイルエラーを起こします。
+ * これでは、非常に不便です。
+ * そこで、純粋仮想関数「virtual void SetBase() = 0」をヘッダファイルに定義すると以下の実体は不要で、コンパイルも出来るようになります。
  */
 /*
 void Stream::SetBase(){

@@ -5,8 +5,8 @@
 using namespace std;
 
 /*
- * main()�����ofstream���饹�Υ��֥������Ȥ��Ϥ���Ƥ��ޤ�����
- * �ܰ����ˤ�äơ�ostream&�פȥ��åץ��㥹�Ȥ���Ƥ��뤳�Ȥ����դ��Ƥ���������
+ * main()からはofstreamクラスのオブジェクトを渡されていますが、
+ * 本引数によって「ostream&」とアップキャストされていることに注意してください。
  */
 void CheckType(const ostream& ostr){
 	const type_info& tiOstr       = typeid(ostr);

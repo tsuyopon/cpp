@@ -1,6 +1,6 @@
 /*
- * ���Υץ������ϥ���ѥ��뤹�뤳�ȤϤǤ��ޤ������¹Ԥ���ȥ��顼�Ȥʤ�ޤ���
- * ���Τ褦�˰����Ǥʤ������󥭥㥹�Ȥ�¹Ԥ���ȼ��Ԥ��뤳�Ȥ�����ޤ���
+ * このプログラムはコンパイルすることはできますが、実行するとエラーとなります。
+ * このように安全でないダウンキャストを実行すると失敗することがあります。
  */
 #include<iostream>
 #include<sstream>
@@ -22,6 +22,6 @@ string Hoge(ostream& ostr){
 
 int main(){
 	ostringstream sstr;
-	cout << Hoge(sstr) << endl;  // ��������
-	cout << Hoge(cout) << endl;  // ���Ԥ���
+	cout << Hoge(sstr) << endl;  // 成功する
+	cout << Hoge(cout) << endl;  // 失敗する
 }

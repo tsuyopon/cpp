@@ -5,8 +5,8 @@
 using namespace std;
 
 /*
- * �ʲ��Υ��饹�ϲ��ۥǥ��ȥ饯���ճ��ˤϽ�貾�۴ؿ�����¸�ߤ��Ƥ��ʤ����饹�Ǥ���
- * ���Τ褦�ʥ��饹�򥤥󥿥ե��������饹�ȸƤӤޤ���
+ * 以下のクラスは仮想デストラクタ意外には純粋仮想関数しか存在していないクラスです。
+ * このようなクラスをインタフェースクラスと呼びます。
  */
 class IObject {
 	public:
@@ -19,7 +19,7 @@ ostream& operator<<(ostream& ostr, const IObject& obj){
 }
 
 /*
- * IInt��IDouble�Σ��ĤΥ��饹��IObject���󥿥ե��������饹��Ѿ����륯�饹�Ǥ���
+ * IIntとIDoubleの２つのクラスはIObjectインタフェースクラスを継承するクラスです。
  */
 class IInt : virtual public IObject {
 	public:
@@ -32,8 +32,8 @@ class IDouble : virtual public IObject {
 };
 
 /*
- * double�ͤ���¸���Ƥ��������Τ��餹Double
- * IInt��IDouble��Ʊ���˷Ѿ����Ƥ��ޤ���
+ * double値を保存しておくだけのくらすDouble
+ * IIntとIDoubleを同時に継承しています。
  */
 class Double : 
 	virtual public IInt,

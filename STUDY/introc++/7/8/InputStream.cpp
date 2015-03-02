@@ -3,9 +3,9 @@
 using namespace std;
 
 // constructor
-// �������饹�Υ��󥹥ȥ饯�����ƤФ��ȡ��������˴��쥯�饹�Υ��󥹥ȥ饯�����ƤФ�롣
-// ����ξ����ȴ��쥯�饹Stream�Υ��󥹥ȥ饯���ϰ�����ɬ��ɬ�פȤ���Τǡ�
-// �ʲ��Τ褦������Ū�˥��󥹥ȥ饯�����Ф����������ꤷ�ʤ���Фʤ�ޤ���
+// 派生クラスのコンストラクタが呼ばれると、その前に基底クラスのコンストラクタが呼ばれる。
+// 今回の場合だと基底クラスStreamのコンストラクタは引数を必ず必要とするので、
+// 以下のように明示的にコンストラクタに対する引数を指定しなければなりません。
 InputStream::InputStream(double n) : Stream(100){
 	cout << "InputStream Constructor. arg = " << n << endl;
 }

@@ -1,5 +1,5 @@
 /*
- * �����򥽡��ȡץ��르�ꥺ��ˤĤ��Ƥϲ�������
+ * 「選択ソート」アルゴリズムについては下記参照
  * http://www.geocities.jp/ky_webid/algorithm/003.html
  */
 #include<stdio.h>

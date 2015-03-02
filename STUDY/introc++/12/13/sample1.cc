@@ -1,10 +1,10 @@
 /*
- * assert�ޥ����˴ؤ����ư���ǧ���ޤ���
- * ���Υץ������ϡ�6.5���sample1.cc�򸵤ˤ��ƺ������Ƥ��ޤ���
+ * assertマクロに関する挙動を確認します。
+ * このプログラムは、6.5節のsample1.ccを元にして作成しています。
  */
 
-//assert�ޥ�����cassert�إå����ɤ߹�������NDEBUG��������뤳�Ȥˤ�äơ�assert�ޥ������ΤιԤ�¸�ߤ��ʤ����Τ褦��
-//���äƤ���ޤ����ʲ��ιԤ򥳥��ȥ��󤷤ƥ���ѥ��뤷�ƻ�Ƥߤޤ��礦��
+//assertマクロはcassertヘッダを読み込む前にNDEBUGを定義することによって、assertマクロ自体の行が存在しないかのように
+//扱ってくれます。以下の行をコメントインしてコンパイルして試してみましょう。
 // #define NDEBUG
 
 #include <algorithm>
@@ -44,7 +44,7 @@ void IntArray::Set(int i, int value){
 // Index Number Checking.
 void IntArray::CheckIndex(int i){
 	assert(0 <= i && i < INTARRAY_SIZE);
-	// assert�ޥ��������Ѥ������ޤǤϡ��ʲ��Υ����å��򵭺ܤ��Ƥ�����
+	// assertマクロを利用する前までは、以下のロジックを記載していた。
 	/*
 	if( 0 <= i && i < INTARRAY_SIZE){
 		// OK

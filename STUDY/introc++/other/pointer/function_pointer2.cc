@@ -7,13 +7,13 @@ int mul(int a, int b){ return a * b; }
 
 int main(void){
 
-	// �ؿ��ݥ��󥿤�����(�ؿ��ݥ��󥿥ơ��֥�ȸƤ�)
-	// 1. (*arithFuncTable[])��*���ʡˤǰϤޤ�Ƥ���Τ�����ͤ�int�ʤΤǡ�int*�ˤʤ�ʤ��褦�ˤ��뤿��
-	// 2. arithFunctable[]�ˤ�������ɽ���Ƥ��ޤ���
-	// 3. arithFuncTable[]�ˤ�����*���ͤǤ��뤳�Ȥ��̣���Ƥ��ޤ����Ĥޤ�arithFuncTable[1]�ʤɤ��ؿ�̾�Ǥ���Ȥ������Ȥ��̣���Ƥ���褦�Ǥ���
-	// 4. �¤�*��arithFuncTable�δ֤ˤ�const�����줿�����������⤷��ޤ���(���֤�����л�ƤߤƤ�������)
+	// 関数ポインタの配列(関数ポインタテーブルと呼ぶ)
+	// 1. (*arithFuncTable[])と*が（）で囲まれているのは戻り値がintなので、int*にならないようにするため
+	// 2. arithFunctable[]により配列を表しています。
+	// 3. arithFuncTable[]にかかる*は値であることを意味しています。つまりarithFuncTable[1]などが関数名であるということを意味しているようです。
+	// 4. 実は*とarithFuncTableの間にはconstを入れた方がいいかもしれません。(時間があれば試してみてください)
 	//
-	// ����������Ȥ��Ƥ� switch ~ case�ʤɤν�������ñ��ˤ��Ƥ���뤳�Ȥ��Ǥ���褦�ˤʤ�ޤ���
+	// これの利点としては switch ~ caseなどの処理をより単純にしてくれることができるようになります。
 	int (* arithFuncTable[])(int, int) = {add, sub, mul};
 	int i;
 

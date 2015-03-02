@@ -1,9 +1,9 @@
 #include <iostream>
 #include <sstream>
 /*
- * ���Υץ������ǤϽ��Ϸ�̤�Ȥꤢ����int�ˤ��Ƥ��ޤ���
- * ������ȡ����Ϸ�̤Ȥʤ뷿���ѹ��������Ȼפä��������͡����ѹ������ФƤ����ǽ��������ޤ���
- * ���Τ褦�ʾ��������ơ�typedef��Ȥäƽ�ľ�����ץ�����बTypedef1_2.cpp�ˤ���ޤ��Τǡ�ξ�ԤΥե������diff����ʤɤ��Ƴ�ǧ���ƤߤƤ���������
+ * このプログラムでは出力結果をとりあえずintにしています。
+ * これだと、出力結果となる型を変更したいと思った時点で様々な変更点が出てくる可能性があります。
+ * このような場合に備えて、typedefを使って書き直したプログラムがTypedef1_2.cppにありますので、両者のファイルをdiffするなどして確認してみてください。
  */
 #include <iostream>
 #include <sstream>

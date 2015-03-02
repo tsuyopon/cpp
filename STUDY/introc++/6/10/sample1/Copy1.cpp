@@ -1,5 +1,5 @@
 /*
- * 8/sample2¤Î¥×¥í¥°¥é¥à¤Ë¤ÆShow¤Î°ú¿ô¤ò"IntArray array"¤«¤é"const IntArray& array"¤ËÊÑ¹¹¤·¤¿
+ * 8/sample2ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã«ã¦Showã®å¼•æ•°ã‚’"IntArray array"ã‹ã‚‰"const IntArray& array"ã«å¤‰æ›´ã—ãŸ
  *
  */
 

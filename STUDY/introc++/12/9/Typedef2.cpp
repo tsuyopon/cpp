@@ -2,16 +2,16 @@
 using namespace std;
 
 int main(){
-	typedef int* IntPtr;   //int·¿¤Ø¤Î¥İ¥¤¥ó¥¿·¿¤ÎÆ±µÁ¸ìIntPtr¤òÄêµÁ¤¹¤ë¡£
+	typedef int* IntPtr;   //intå‹ã¸ã®ãƒã‚¤ãƒ³ã‚¿å‹ã®åŒç¾©èªIntPtrã‚’å®šç¾©ã™ã‚‹ã€‚
 
 	int n = 0;
 
-	// "const char*"¤È"char const*"¤Î°ÕÌ£¤¬¤«¤ï¤é¤Ê¤¤¤è¤¦¤Ë¡¢
-	// "const IntPtr"¤È"IntPtr const"¤Î°ÕÌ£¤â¤«¤ï¤ê¤Ş¤»¤ó¡£
+	// "const char*"ã¨"char const*"ã®æ„å‘³ãŒã‹ã‚ã‚‰ãªã„ã‚ˆã†ã«ã€
+	// "const IntPtr"ã¨"IntPtr const"ã®æ„å‘³ã‚‚ã‹ã‚ã‚Šã¾ã›ã‚“ã€‚
 	const IntPtr p = &n;     // const int* p = &n
 	IntPtr const q = &n;     // int* const q = &n
 
-	// °Ê²¼¤Î£²¹Ô¤ò¥³¥á¥ó¥È¥¤¥ó¤¹¤ë¤È¥³¥ó¥Ñ¥¤¥ë¥¨¥é¡¼¤È¤Ê¤ê¤Ş¤¹¡£
+	// ä»¥ä¸‹ã®ï¼’è¡Œã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¤ãƒ³ã™ã‚‹ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã¨ãªã‚Šã¾ã™ã€‚
 //	p = &n;
 //	q = &n;
 

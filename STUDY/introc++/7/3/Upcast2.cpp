@@ -3,12 +3,12 @@
 #include <iostream>
 using namespace std;
 
-void Show(const Stream& stream){     // InputStream¤Î´ğÄì¥¯¥é¥¹¤Ç¤¢¤ë¤³¤È¤ËÃí°Õ(upcast)
+void Show(const Stream& stream){     // InputStreamã®åŸºåº•ã‚¯ãƒ©ã‚¹ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„(upcast)
 	cout << stream.Get() << endl;
 }
 
 /* 
- * ¾åµ­¤Î¤è¤¦¤Ë¥¢¥Ã¥×¥­¥ã¥¹¥È¤µ¤ì¤¿Show()´Ø¿ô¤ò½àÈ÷¤¹¤ë¤À¤±¤Ç¡¢°Ê²¼¤Î¤è¤¦¤Ë£²¼ïÎà¤Î¥á¥½¥Ã¥É¤ò½àÈ÷¤¹¤ëÉ¬Í×¤¬¤Ê¤¯¤Ê¤ê¤Ş¤¹¡£
+ * ä¸Šè¨˜ã®ã‚ˆã†ã«ã‚¢ãƒƒãƒ—ã‚­ãƒ£ã‚¹ãƒˆã•ã‚ŒãŸShow()é–¢æ•°ã‚’æº–å‚™ã™ã‚‹ã ã‘ã§ã€ä»¥ä¸‹ã®ã‚ˆã†ã«ï¼’ç¨®é¡ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æº–å‚™ã™ã‚‹å¿…è¦ãŒãªããªã‚Šã¾ã™ã€‚
  */
 /*
 void Show(const InputStream& stream){

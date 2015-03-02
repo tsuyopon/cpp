@@ -5,29 +5,29 @@
 class IntArray
 {
 public:
-    //¥³¥Ô¡¼¥³¥ó¥¹¥È¥é¥¯¥¿
+    //ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     IntArray(const IntArray &other);
         
 public:
-    //¥³¥ó¥¹¥È¥é¥¯¥¿¡¦¥Ç¥¹¥È¥é¥¯¥¿
-    explicit IntArray(int size);        // °ÅÌÛ¤Î¥­¥ã¥¹¥È¤¬Æ°ºî¤·¤Ê¤¤¤è¤¦¤Ëexplicit¤òÉÕÍ¿¤·¤Æ¤¤¤ë¡£
+    //ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+    explicit IntArray(int size);        // æš—é»™ã®ã‚­ãƒ£ã‚¹ãƒˆãŒå‹•ä½œã—ãªã„ã‚ˆã†ã«explicitã‚’ä»˜ä¸ã—ã¦ã„ã‚‹ã€‚
     ~IntArray();
 
 public:
-    //ÇÛÎó¤Î¥µ¥¤¥º¤òÊÖ¤¹
-    int Size() const;                   // Added const(¤³¤ì¤Ë¤è¤ê¥á¥ó¥ĞÊÑ¿ô¤òÊÑ¹¹¤·¤Ê¤¤¥á¥ó¥Ğ´Ø¿ô¤Ç¤¢¤ë¤³¤È¤òÀë¸À¤·¤Æ¤¤¤ë¤³¤È¤Ë¤Ê¤ê¤Ş¤¹)
+    //é…åˆ—ã®ã‚µã‚¤ã‚ºã‚’è¿”ã™
+    int Size() const;                   // Added const(ã“ã‚Œã«ã‚ˆã‚Šãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’å¤‰æ›´ã—ãªã„ãƒ¡ãƒ³ãƒé–¢æ•°ã§ã‚ã‚‹ã“ã¨ã‚’å®£è¨€ã—ã¦ã„ã‚‹ã“ã¨ã«ãªã‚Šã¾ã™)
 
 public:
-    //¥á¥ó¥Ğ¤Ø¤Î¥¢¥¯¥»¥¹´Ø¿ô
+    //ãƒ¡ãƒ³ãƒã¸ã®ã‚¢ã‚¯ã‚»ã‚¹é–¢æ•°
     int Get(int i) const;               // Added const
     void Set(int i, int value);
 
 private:
-    //¥¤¥ó¥Ç¥Ã¥¯¥¹¤Î¥Á¥§¥Ã¥¯
+    //ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ãƒã‚§ãƒƒã‚¯
     void CheckIndex(int i) const;       // Added const
 
 private:
-    int *m_array;    //Æ°ÅªÇÛÎó
-    int m_size;      //ÇÛÎó¤ÎÍ×ÁÇ¿ô
+    int *m_array;    //å‹•çš„é…åˆ—
+    int m_size;      //é…åˆ—ã®è¦ç´ æ•°
 };
 #endif  //#ifndef INTARRAY_H_20070101

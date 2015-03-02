@@ -1,5 +1,5 @@
 /*
- * OR(ÏÀÍıÏÂ: logical disjunction)¤Ë´Ø¤¹¤ë¥µ¥ó¥×¥ë
+ * OR(è«–ç†å’Œ: logical disjunction)ã«é–¢ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«
  */
 #include <iostream>
 #include <bitset>

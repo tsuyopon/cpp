@@ -5,10 +5,10 @@ class Fraction {
 	public:
 		Fraction(double numer = 0, double denom = 1);
 	public:
-		double GetNumer() const;   // Ê¬»Ò¤Î¼èÆÀ
-		double GetDenom() const;   // Ê¬Êì¤Î¼èÆÀ
+		double GetNumer() const;   // åˆ†å­ã®å–å¾—
+		double GetDenom() const;   // åˆ†æ¯ã®å–å¾—
 
-	// ¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ
+	// ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©
 	public:
 		operator double() const;
 		Fraction operator*(const Fraction& rop);

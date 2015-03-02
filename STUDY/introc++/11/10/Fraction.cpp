@@ -6,26 +6,26 @@ using namespace std;
 Fraction::Fraction(double numer, double denom) : m_numer(numer), m_denom(denom){
 }
 
-// Ê¬»Ò¤Î¼èÆÀ
+// åˆ†å­ã®å–å¾—
 double Fraction::GetNumer() const {
 	return m_numer;
 }
 
-// Ê¬Êì¤Î¼èÆÀ
+// åˆ†æ¯ã®å–å¾—
 double Fraction::GetDenom() const {
 	return m_denom;
 }
 
 //////////////////////////////////////////////////
-// ¥­¥ã¥¹¥È±é»»»Ò¤Î¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ
+// ã‚­ãƒ£ã‚¹ãƒˆæ¼”ç®—å­ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©
 //////////////////////////////////////////////////
-// °Ê²¼¤Ïdouble()·¿¤Î¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ¤Ç¤¹¡£
+// ä»¥ä¸‹ã¯double()å‹ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©ã§ã™ã€‚
 Fraction::operator double() const { 
 	cout << "##### double() overload called" << endl;
 	return m_numer / m_denom;
 }
 
-// Ã±¹à±é»»»Ò"*"¤ËÂĞ¤¹¤ë¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ
+// å˜é …æ¼”ç®—å­"*"ã«å¯¾ã™ã‚‹ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©
 Fraction Fraction::operator*(const Fraction& rop) {
 	cout << "##### * overload called" << endl;
 	m_numer *= rop.m_numer;
@@ -33,32 +33,32 @@ Fraction Fraction::operator*(const Fraction& rop) {
 	return Fraction(m_numer, m_denom);
 }
 
-// Ã±¹à±é»»»Ò"-"¤ËÂĞ¤¹¤ë¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ
+// å˜é …æ¼”ç®—å­"-"ã«å¯¾ã™ã‚‹ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©
 Fraction Fraction::operator-() const {
 	cout << "##### - overload called" << endl;
 	return Fraction(-m_numer, m_denom);
 }
 
-// £²¹à±é»»»Ò"*="¤Î¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ
+// ï¼’é …æ¼”ç®—å­"*="ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©
 Fraction& Fraction::operator*=(const Fraction& rop){
 	cout << "##### *= overload called" << endl;
 	m_numer *= rop.m_numer;
 	m_denom *= rop.m_denom;
 
-	// ¤³¤³¤ÇÊÖ¤¹¤Ù¤­ÃÍ¤Ï¡¢¡Ö¤³¤Î¥á¥ó¥Ğ´Ø¿ô¤ò¸Æ¤Ö¤¿¤á¤Ë»ÈÍÑ¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤ËÂĞ¤¹¤ë»²¾È¤Ç¤¹¡£¤³¤ì¤Ï¡Ö*this¡×¤ÇÉ½¸½¤Ç¤­¤Ş¤¹¡£[j
-	// this¤Ï¡¢¥á¥ó¥Ğ¡¼´Ø¿ô¤ò¸Æ¤Ö¤Î¤Ë»È¤Ã¤¿¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¢¥É¥ì¥¹¤ò»ı¤Ä¥İ¥¤¥ó¥¿¤Ç¤¹¡£ *this¤Ë¤è¤ê¥á¥ó¥Ğ´Ø¿ô¤ò¸Æ¤Ö¤Î¤Ë»È¤Ã¤¿¥ª¥Ö¥¸¥§¥¯¥È¤ò»Ø¤·¼¨¤·¤Ş¤¹¡£
+	// ã“ã“ã§è¿”ã™ã¹ãå€¤ã¯ã€ã€Œã“ã®ãƒ¡ãƒ³ãƒé–¢æ•°ã‚’å‘¼ã¶ãŸã‚ã«ä½¿ç”¨ã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã™ã‚‹å‚ç…§ã§ã™ã€‚ã“ã‚Œã¯ã€Œ*thisã€ã§è¡¨ç¾ã§ãã¾ã™ã€‚[j
+	// thisã¯ã€ãƒ¡ãƒ³ãƒãƒ¼é–¢æ•°ã‚’å‘¼ã¶ã®ã«ä½¿ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒã¤ãƒã‚¤ãƒ³ã‚¿ã§ã™ã€‚ *thisã«ã‚ˆã‚Šãƒ¡ãƒ³ãƒé–¢æ•°ã‚’å‘¼ã¶ã®ã«ä½¿ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡ã—ç¤ºã—ã¾ã™ã€‚
 	return *this;
 }
 
-// Á°ÃÖ¥¤¥ó¥¯¥ê¥á¥ó¥È"++"¤Î¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ(Îã: ++a)
+// å‰ç½®ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ"++"ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©(ä¾‹: ++a)
 Fraction& Fraction::operator++(){
 	cout << "##### before increment ++ overload called" << endl;
 	m_numer += m_denom;
 	return *this;
 }
 
-// ¸åÃÖ¥¤¥ó¥¯¥ê¥á¥ó¥È"++"¤Î¥ª¡¼¥Ğ¡¼¥í¡¼¥ÉÄêµÁ(Îã: a++)
-Fraction& Fraction::operator++(int){            // ¸åÃÖ¥¤¥ó¥¯¥ê¥á¥ó¥È¤Ç¤Ïint·¿¤Î¥À¥ß¡¼°ú¿ô¤¬É¬Í×¤Ç¤¹¡£
+// å¾Œç½®ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ"++"ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰å®šç¾©(ä¾‹: a++)
+Fraction& Fraction::operator++(int){            // å¾Œç½®ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã§ã¯intå‹ã®ãƒ€ãƒŸãƒ¼å¼•æ•°ãŒå¿…è¦ã§ã™ã€‚
 	cout << "##### after increment ++ overload called" << endl;
 	Fraction& ret = *this;
 	m_numer += m_denom;

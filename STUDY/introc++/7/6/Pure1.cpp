@@ -1,7 +1,7 @@
 /*
- * ��貾�۴ؿ��Υ���ץ�Ǥ���
- * ����ϡ��������饹��ƤӽФ�����˴��쥯�饹��SetBase()�Ȥ���̵�̤ʴؿ���̵������������Ƥ��ޤ�����
- * ���������إå��ե�����ˡ�virtual void SetBase() = 0�פȵ��Ҥ�������Ǽ��Τ��������ɬ�פ�����ޤ���
+ * 純粋仮想関数のサンプルです。
+ * これは、派生クラスを呼び出すために基底クラスでSetBase()という無駄な関数を無理矢理定義していました。
+ * しかし、ヘッダファイルに「virtual void SetBase() = 0」と記述するだけで実体を作成する必要がありません。
  */
 #include "InputStream.h"
 #include <iostream>

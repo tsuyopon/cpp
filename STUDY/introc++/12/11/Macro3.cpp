@@ -1,18 +1,18 @@
 /*
- * test.txt¤Î¥Õ¥¡¥¤¥ë¤òopen¤·¤Æ£±¹Ô¤À¤±ÆÉ¤ß¼è¤Ã¤Æ¡¢²èÌÌ¾å¤Ë½ĞÎÏ¤·¤Ş¤¹¡£
+ * test.txtã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’openã—ã¦ï¼‘è¡Œã ã‘èª­ã¿å–ã£ã¦ã€ç”»é¢ä¸Šã«å‡ºåŠ›ã—ã¾ã™ã€‚
  */
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 using namespace std;
 
-// ¥Õ¥¡¥¤¥ë¤ò³«¤­¤Ş¤¹¡£
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã¾ã™ã€‚
 const char* Open(ifstream& file, const char* filename){
 	file.open(filename);
 	return file.is_open() ? NULL : "Could not open file!";
 }
 
-// ¥Õ¥¡¥¤¥ë¤«¤é°ì¹Ô¼èÆÀ¤·¤Ş¤¹¡£
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ä¸€è¡Œå–å¾—ã—ã¾ã™ã€‚
 const char* GetLine(ifstream& file, string& line){
 	getline(file, line);
 	return file.fail() ? "Could not read from file!" : NULL;

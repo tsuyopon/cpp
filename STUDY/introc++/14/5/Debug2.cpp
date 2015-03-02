@@ -1,9 +1,9 @@
-// Debug.cpp╓х╓н╟Ц╓╓╓о__DATE__, __TIME__╓Р╫пно╓╥╓ф╓╓╓Кею╓ю╓╠╓г╓╧║ё
+// Debug.cppЦ│╗Ц│╝И│∙Ц│└Ц│╞__DATE__, __TIME__Ц┌▓Е┤╨Е┼⌡Ц│≈Ц│╕Ц│└Ц┌▀Г┌╧Ц│═Ц│▒Ц│╖Ц│≥Ц─┌
 #include "Debug2.h"
 
-#ifdef NDEBUG  // ╔Й╔Й║╪╔╧
+#ifdef NDEBUG  // Ц┐╙Ц┐╙Ц┐╪Ц┌╧
 
-#else          // ╔г╔п╔ц╔╟
+#else          // Ц┐┤Ц┐░Ц┐┐Ц┌╟
 
 #include <iostream>
 #include <cstdlib>

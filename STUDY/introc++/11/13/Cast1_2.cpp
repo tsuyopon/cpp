@@ -8,7 +8,7 @@ int main(){
 	b = a;
 	printf("%08X (%d)\n", b, b);
 
-	// ÀÅÅª¤ÊÉáÄÌ¤Î·¿ÊÑ´¹¤ò¹Ô¤¦¾ì¹ç¡¢static_cast¤òÍÑ¤¤¤ë
+	// é™çš„ãªæ™®é€šã®å‹å¤‰æ›ã‚’è¡Œã†å ´åˆã€static_castã‚’ç”¨ã„ã‚‹
 	b = static_cast<unsigned char>(a);
 	printf("%08X (%d)\n", b, b);
 }

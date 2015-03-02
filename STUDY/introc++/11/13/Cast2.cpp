@@ -5,11 +5,11 @@ int main(){
 
 	int n = 0x12345678;
 
-	// int* ���� const char*�ؤ�cast��ԤäƤ��ޤ���
-	// 1Byte��8bit�δĶ��Ǥ���С�
-	//    ��ȥ륨��ǥ�����Ǥϡ�"78 56 34 12"
-	//    �ӥå�����ǥ�����Ǥϡ�"12 34 56 78"
-	// �Ƚ��Ϥ���ޤ������Τ褦�˴Ķ���¸Ū�ʽ�����տ�Ū�˹Ԥ�����reinterpret_cast�����Ѥ��ޤ���
+	// int* から const char*へのcastを行っています。
+	// 1Byteが8bitの環境であれば、
+	//    リトルエンディアンでは、"78 56 34 12"
+	//    ビッグエンディアンでは、"12 34 56 78"
+	// と出力されます。このように環境依存的な処理を意図的に行う場合にreinterpret_castを利用します。
 	const char* p = reinterpret_cast<const char*>(&n);
 
 	for(size_t i = 0; i < sizeof n; ++i){

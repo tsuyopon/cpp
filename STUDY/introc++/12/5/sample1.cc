@@ -1,6 +1,6 @@
 /*
- * �ӥåȥե饰�λ��Ȥߤ˴ؤ��륵��ץ�Ǥ���
- * �����Ǥϥӥåȥե饰Ʊ�Τι����������ȿž��Ԥ��ޤ���
+ * ビットフラグの仕組みに関するサンプルです。
+ * ここではビットフラグ同士の合成、削除、反転を行います。
  *
  */
 #include <iostream>
@@ -28,25 +28,25 @@ int main(){
 	int flags3 = SHOW_X|SHOW_Z;
 	int flags4 = SHOW_X|SHOW_Y|SHOW_Z;
 
-	// �̾�ΥӥåȲù��򤷤ʤ����ν���
+	// 通常のビット加工をしない場合の出力
 	cout << "NORMAL" << endl;
 	Show(flags1);
 	Show(flags2);
 	Show(flags3);
 	Show(flags4);
 
-	// �ɲá������Ǥ�SHOW_X�ե饰�򤿤Ƥޤ����ʤ�������bit�����äƤ�����ˤϲ��⤷�ޤ���
-	// "flags1 = flags1 | SHOW_X" ��"flags1 != SHOW_X"���ͤ˵��Ҥ��뤳�Ȥ�Ǥ��ޤ���
+	// 追加。ここではSHOW_Xフラグをたてます。なお、既にbitがたっている場合には何もしません。
+	// "flags1 = flags1 | SHOW_X" は"flags1 != SHOW_X"の様に記述することもできます。
 	cout << "ADDED FLAG" << endl;
 	Show(flags1|SHOW_X);
 	Show(flags2|SHOW_X);
 	Show(flags3|SHOW_X);
 	Show(flags4|SHOW_X);
 
-	// �ɲá�SHOW_X, SHOW_Y, SHOW_Z�ե饰�򤹤٤Ƥ��Ƥ�
+	// 追加。SHOW_X, SHOW_Y, SHOW_Zフラグをすべてたてる
 	Show(flags1|SHOW_X|SHOW_Y|SHOW_Z);
 
-	// �����SHOW_X�ե饰������к�����ޤ����ʤ���bit�ե饰�����äƤ��ʤ���в��⤷�ޤ���
+	// 削除。SHOW_Xフラグがあれば削除します。なお、bitフラグがたっていなければ何もしません。
 	int dflags1, dflags2, dflags3;
 	cout << "DELETE FLAG" << endl;
 	dflags1 = flags1;
@@ -59,13 +59,13 @@ int main(){
 	Show(dflags2);
 	Show(dflags3);
 
-	// �����SHOW_X, SHOW_Y, SHOW_Z�ե饰�򤹤٤ƺ������
+	// 削除。SHOW_X, SHOW_Y, SHOW_Zフラグをすべて削除する
 	int dflags4;
 	dflags4 = flags4;
 	dflags4 &= ~(SHOW_X|SHOW_Y|SHOW_Z); 
 	Show(dflags4);
 
-	// ȿž��SHOW_X�ե饰��ȿž�����ޤ���
+	// 反転。SHOW_Xフラグを反転させます。
 	int rflags1, rflags2, rflags3;
 	cout << "REVERSE FLAG" << endl;
 	rflags1 = flags1;
@@ -78,7 +78,7 @@ int main(){
 	Show(rflags2);
 	Show(rflags3);
 
-	// ȿž��SHOW_X, SHOW_Y, SHOW_Z�ե饰�򤹤٤�ȿž����
+	// 反転。SHOW_X, SHOW_Y, SHOW_Zフラグをすべて反転する
 	int rflags4;
 	rflags4 = 0;
 	rflags4 ^= SHOW_X|SHOW_Y|SHOW_Z;

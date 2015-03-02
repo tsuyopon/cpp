@@ -1,5 +1,5 @@
 /*
- * ���Ȥ��֤��ؿ���Ȥ��С��ؿ�������ͤؤ�������Ԥ����Ȥ��Ǥ��롣
+ * 参照を返す関数を使えば、関数の戻り値への代入を行うことができる。
  *
  */
 #include<iostream>
@@ -44,7 +44,7 @@ void IntArray::CheckIndex(int i){
 	}
 }
 
-// ���Ȥ��֤��ؿ��Ǥ���
+// 参照を返す関数です。
 int& IntArray::At(int i){
 	cout << "At method start." << endl;
 	CheckIndex(i);

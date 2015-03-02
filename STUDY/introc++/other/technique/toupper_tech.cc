@@ -6,7 +6,7 @@ int main(void){
 	char s[] = "helloooooo";
 
 	while( s[i] != '\0' ){
-		s[i] = s[i] - 32;   // ��s[i] = touppper(s[i]);�פ�Ʊ����32�������Ȥ�ASCII����ʸ���ˤʤ뤳�Ȥ����Ѥ��Ƥ��ޤ���
+		s[i] = s[i] - 32;   // 「s[i] = touppper(s[i]);」と同じ。32引くことでASCIIは大文字になることを利用しています。
 		i++;
 	}
 

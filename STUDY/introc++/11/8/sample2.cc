@@ -1,5 +1,5 @@
 /*
- * sample1.cc��At�ؿ��򻲾ȤǤϤʤ����ݥ��󥿤�Ȥäƽ񤭴�������ΤǤ���
+ * sample1.ccのAt関数を参照ではなく、ポインタを使って書き換えたものです。
  */
 #include<iostream>
 #include<cstdlib>
@@ -43,7 +43,7 @@ void IntArray::CheckIndex(int i){
 	}
 }
 
-// sample1.cc�λ��Ȥ��֤��ؿ���Ʊ�����Ȥ�ݥ��󥿤�Ȥäƽ񤭴����Ƥ��ޤ���
+// sample1.ccの参照を返す関数を同じことをポインタを使って書き換えています。
 int* IntArray::At(int i){
 	cout << "At method start." << endl;
 	CheckIndex(i);

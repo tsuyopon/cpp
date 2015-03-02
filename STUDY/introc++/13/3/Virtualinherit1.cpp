@@ -1,6 +1,6 @@
 /*
- * Virtualinherit1b.cpp¤Ïm_x¥á¥ó¥Ğ¡¼ÊÑ¿ô¤ò¶¦Í­¤·¤Æ¤¤¤Ş¤·¤¿¤¬¡¢
- * º£²ó¤Î¾ì¹ç¤À¤ÈÆÈÎ©¤·¤Æ¤¤¤ë¤³¤È¤ò³ÎÇ§¤·¤Æ¤¯¤À¤µ¤¤¡£
+ * Virtualinherit1b.cppã¯m_xãƒ¡ãƒ³ãƒãƒ¼å¤‰æ•°ã‚’å…±æœ‰ã—ã¦ã„ã¾ã—ãŸãŒã€
+ * ä»Šå›ã®å ´åˆã ã¨ç‹¬ç«‹ã—ã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚
  */
 #include<iostream>
 using namespace std;
@@ -15,7 +15,7 @@ class ABase {
 		int m_x;
 };
 
-// virtual¤òÄÉ²Ã¤·¤¿
+// virtualã‚’è¿½åŠ ã—ãŸ
 class A1 : virtual public ABase{};
 class A2 : virtual public ABase{};
 

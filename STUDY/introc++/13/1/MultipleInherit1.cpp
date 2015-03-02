@@ -1,11 +1,11 @@
 /*
- * Â¿½Å·Ñ¾µ¤Ë¤Ä¤¤¤Æ
+ * å¤šé‡ç¶™æ‰¿ã«ã¤ã„ã¦
  */
 #include<iostream>
 using namespace std;
 
 /*
- * C¥¯¥é¥¹¤«¤é·Ñ¾µ¤µ¤ì¤ë´ğÄì¥¯¥é¥¹ABase, BBase
+ * Cã‚¯ãƒ©ã‚¹ã‹ã‚‰ç¶™æ‰¿ã•ã‚Œã‚‹åŸºåº•ã‚¯ãƒ©ã‚¹ABase, BBase
  */
 class ABase {
 	public:
@@ -20,7 +20,7 @@ class BBase {
 };
 
 /*
- * ABase, BBase¤òÂ¿½Å·Ñ¾µ¤¹¤ëC¥¯¥é¥¹
+ * ABase, BBaseã‚’å¤šé‡ç¶™æ‰¿ã™ã‚‹Cã‚¯ãƒ©ã‚¹
  */
 class C : public ABase, public BBase {
 	public:

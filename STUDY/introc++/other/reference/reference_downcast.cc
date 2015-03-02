@@ -1,6 +1,6 @@
 /*
- * »²¾È¤Î¥À¥¦¥ó¥­¥ã¥¹¥È
- *    »²¹Í: http://d.hatena.ne.jp/pknight/20090803/1249318452
+ * å‚ç…§ã®ãƒ€ã‚¦ãƒ³ã‚­ãƒ£ã‚¹ãƒˆ
+ *    å‚è€ƒ: http://d.hatena.ne.jp/pknight/20090803/1249318452
  *    http://www.geocities.jp/ky_webid/cpp/library/027.html
  *
  */

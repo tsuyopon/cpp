@@ -3,5 +3,5 @@
 using namespace std;
 
 void InputStream::SetBase(){
-	cin >> m_n;                 // m_n д╧Streamепеще╣д╬есеєе╨╩╤┐Ї
+	cin >> m_n;                 // m_n уБпStreamуВпуГйуВ╣уБоуГбуГ│уГРхдЙцХ░
 }

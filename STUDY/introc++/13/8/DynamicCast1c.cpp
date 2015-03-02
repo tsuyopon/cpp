@@ -3,9 +3,9 @@
 #include<string>
 using namespace std;
 
-/* DynamicCast1.cpp¤Ç¤Ï»²¾È¤òdynamic_cast¤·¤Æ¤¤¤Ş¤·¤¿¡£
- * ¤·¤«¤·¡¢º£²ó¤Î¾ì¹ç¤Ë¤Ï¥İ¥¤¥ó¥¿¤òdynamic_cast¤·¤Æ¤¤¤Ş¤¹¡£
- * ¤³¤Î¾ì¹ç¤Ë¤Ï¥À¥¦¥ó¥­¥ã¥¹¥È¤Ë¼ºÇÔ¤·¤¿¾ì¹çbad_castÎã³°¤Ç¤Ï¤Ê¤¯Âå¤ï¤ê¤ËNULL¥İ¥¤¥ó¥¿¤¬¤«¤¨¤Ã¤Æ¤­¤Ş¤¹¡£
+/* DynamicCast1.cppã§ã¯å‚ç…§ã‚’dynamic_castã—ã¦ã„ã¾ã—ãŸã€‚
+ * ã—ã‹ã—ã€ä»Šå›ã®å ´åˆã«ã¯ãƒã‚¤ãƒ³ã‚¿ã‚’dynamic_castã—ã¦ã„ã¾ã™ã€‚
+ * ã“ã®å ´åˆã«ã¯ãƒ€ã‚¦ãƒ³ã‚­ãƒ£ã‚¹ãƒˆã«å¤±æ•—ã—ãŸå ´åˆbad_castä¾‹å¤–ã§ã¯ãªãä»£ã‚ã‚Šã«NULLãƒã‚¤ãƒ³ã‚¿ãŒã‹ãˆã£ã¦ãã¾ã™ã€‚
  *
  */
 string Hoge(ostream& ostr){
@@ -21,6 +21,6 @@ string Hoge(ostream& ostr){
 
 int main(){
 	ostringstream sstr;
-	cout << Hoge(sstr) << endl;  // À®¸ù¤¹¤ë
-	cout << Hoge(cout) << endl;  // ¼ºÇÔ¤¹¤ë
+	cout << Hoge(sstr) << endl;  // æˆåŠŸã™ã‚‹
+	cout << Hoge(cout) << endl;  // å¤±æ•—ã™ã‚‹
 }

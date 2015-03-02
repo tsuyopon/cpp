@@ -1,13 +1,13 @@
 /*
- * Typedef1.cpp¤Î²şÎÉÈÇ¤Ç¤¹¡£
- * ½ĞÎÏ·ë²Ì¤Î·¿¤Ë¤ÏTypedef¤µ¤ì¤¿·¿¤òÍøÍÑ¤·¤Æ¤¤¤Ş¤¹¡£ 
+ * Typedef1.cppã®æ”¹è‰¯ç‰ˆã§ã™ã€‚
+ * å‡ºåŠ›çµæœã®å‹ã«ã¯Typedefã•ã‚ŒãŸå‹ã‚’åˆ©ç”¨ã—ã¦ã„ã¾ã™ã€‚ 
  */
 #include <iostream>
 #include <sstream>
 #include <string>
 using namespace std;
 
-// typedef¤òÄÉ²Ã. int ¤äfloat¤Ë¤·¤Æ " 3 / 2 "Åù¤Î½ĞÎÏ·ë²Ì¤òÈæ³Ó¤·¤Æ¤ß¤Æ¤¯¤À¤µ¤¤¡£
+// typedefã‚’è¿½åŠ . int ã‚„floatã«ã—ã¦ " 3 / 2 "ç­‰ã®å‡ºåŠ›çµæœã‚’æ¯”è¼ƒã—ã¦ã¿ã¦ãã ã•ã„ã€‚
 typedef int ValueType;
 //typedef float ValueType;
 
@@ -21,8 +21,8 @@ class Calculator {
 		void ShowResult() const;
 
 	private:
-		ValueType m_a, m_b;    // ValueType·¿¤ËÊÑ¹¹
-		ValueType m_result;    // ValueType·¿¤ËÊÑ¹¹
+		ValueType m_a, m_b;    // ValueTypeå‹ã«å¤‰æ›´
+		ValueType m_result;    // ValueTypeå‹ã«å¤‰æ›´
 		char m_op;
 };
 

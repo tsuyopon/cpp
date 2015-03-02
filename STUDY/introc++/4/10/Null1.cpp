@@ -2,15 +2,15 @@
 using namespace std;
 
 /*
- * "const char* p;" ¤È¤¹¤ë¤È»²¾ÈÀè¤¬Äê¿ô¤È¤Ê¤ë¡£p¼«ÂÎ¤ÏÄê¿ô¤Ï¤Ê¤é¤Ê¤¤¡£
- * "char* const p = &a;" ¤È¤¹¤ë¤È¥İ¥¤¥ó¥¿p¤¬Äê¿ô¤Ë¤Ê¤ë
- * ¾åµ­Î¾Êı¤òÄê¿ô¤Ë¤·¤¿¤¤¾ì¹ç¤Ë¤Ï "const char* const p"¤È¤¹¤ì¤Ğ¤è¤¤
+ * "const char* p;" ã¨ã™ã‚‹ã¨å‚ç…§å…ˆãŒå®šæ•°ã¨ãªã‚‹ã€‚pè‡ªä½“ã¯å®šæ•°ã¯ãªã‚‰ãªã„ã€‚
+ * "char* const p = &a;" ã¨ã™ã‚‹ã¨ãƒã‚¤ãƒ³ã‚¿pãŒå®šæ•°ã«ãªã‚‹
+ * ä¸Šè¨˜ä¸¡æ–¹ã‚’å®šæ•°ã«ã—ãŸã„å ´åˆã«ã¯ "const char* const p"ã¨ã™ã‚Œã°ã‚ˆã„
  */
 const char* const MONTH_NAME[] = {
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
-// ´Ø¿ô¥İ¥¤¥ó¥¿¤òÄê¿ô¤È¤¹¤ë
+// é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã‚’å®šæ•°ã¨ã™ã‚‹
 const char* GetOldMonthName(int month){
 	if( (1 <= month) && (month <= 12) ){
 		return MONTH_NAME[month-1];

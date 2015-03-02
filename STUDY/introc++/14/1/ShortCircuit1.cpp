@@ -11,7 +11,7 @@ bool Input(double& value){
 int main(){
 	double a, b;
 
-	// (1) Input(a)¤Îºİ¤Ë0¤òÆşÎÏÃÍ¤È¤·¤ÆÍ¿¤¨¤ë¤ÈInput(b)¤¬¼Â¹Ô¤µ¤ì¤ë¤³¤È¤¬¤Ê¤¯¤Ê¤ê¤Ş¤¹¡£¤³¤ì¤òShortCircuit¤È¸Æ¤Ó¤Ş¤¹
+	// (1) Input(a)ã®éš›ã«0ã‚’å…¥åŠ›å€¤ã¨ã—ã¦ä¸ãˆã‚‹ã¨Input(b)ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã“ã¨ãŒãªããªã‚Šã¾ã™ã€‚ã“ã‚Œã‚’ShortCircuitã¨å‘¼ã³ã¾ã™
 	while(Input(a) && Input(b)){
 		cout << "a / b = " << (a / b) << endl;
 		cout << "b / a = " << (b / a) << endl;

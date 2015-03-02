@@ -5,7 +5,7 @@
 
 class InputStream : public Stream {
 	public:
-		InputStream(double n);     // ´ğÄì¥¯¥é¥¹¤Î¸Æ¤Ó½Ğ¤·¤Ï¼ÂÂÎ¤Ë¤ÏÉ¬Í×¤Ç¤¹¤¬¡¢ÄêµÁ¤Ë¤ÏÉÔÍ×¤Ç¤¹¡£
+		InputStream(double n);     // åŸºåº•ã‚¯ãƒ©ã‚¹ã®å‘¼ã³å‡ºã—ã¯å®Ÿä½“ã«ã¯å¿…è¦ã§ã™ãŒã€å®šç¾©ã«ã¯ä¸è¦ã§ã™ã€‚
 		~InputStream();
 };
 

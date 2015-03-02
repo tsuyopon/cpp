@@ -1,16 +1,16 @@
 /*
- * ¿�ŷѾ��ˤĤ���
- * Ʊ�����饹�򣲤İʾ�Ѿ���������ˡ�ˤĤ���
+ * 多重継承について
+ * 同じクラスを２つ以上継承させる方法について
  *
- * ���쥯�饹ABase���Ѱդ���
- * ABase��Ѿ�����A1���饹��ABase��Ѿ�����A2���饹��������ޤ���
- * C���饹�Ǥ�A1��A2���饹��Ѿ����뤳�Ȥˤ�ä�ABase�򣲤ķѾ����뤳�Ȥ��Ǥ��ޤ���
+ * 基底クラスABaseを用意して
+ * ABaseを継承するA1クラス、ABaseを継承するA2クラスを準備します。
+ * CクラスではA1とA2クラスを継承することによってABaseを２つ継承することができます。
  */
 #include<iostream>
 using namespace std;
 
 /*
- * ���쥯�饹ABase
+ * 基底クラスABase
  */
 class ABase {
 	public:
@@ -19,7 +19,7 @@ class ABase {
 };
 
 /*
- * ABase��Ѿ�����A1, A2���饹
+ * ABaseを継承するA1, A2クラス
  */
 class A1 : public ABase {
 	public:
@@ -36,7 +36,7 @@ class A2 : public ABase {
 };
 
 /*
- * A1, A2��Ѿ�����C���饹
+ * A1, A2を継承するCクラス
  */
 class C : public A1, public A2 {
 };
@@ -44,7 +44,7 @@ class C : public A1, public A2 {
 int main(){
 	C c;
 
-	// �ʲ��Σ��ԤǤ�ξ���Ȥ�ABase�˥��åץ��㥹�Ȥ��Ƥ��뤳�Ȥ�����
+	// 以下の２行では両方ともABaseにアップキャストしていることに着目
 	ABase& a1 = static_cast<A1&>(c);
 	ABase& a2 = static_cast<A2&>(c);
 

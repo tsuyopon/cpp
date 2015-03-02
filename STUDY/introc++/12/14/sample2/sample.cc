@@ -1,6 +1,6 @@
 /*
- * NDEBUG��define�Ȥ�����������assert��̵�뤷�Ƥ���ޤ�������ϥ�꡼���⡼�ɤȥǥХå��⡼�ɤ�ʬΥ�Ǥ��뤳�Ȥ��̣���ޤ���
- * �����Makefile�ˤ�äƤ����νФ�ʬ����ԤäƤ��ޤ���
+ * NDEBUGをdefineとして定義するとassertを無視してくれます。これはリリースモードとデバッグモードを分離できることを意味します。
+ * 今回はMakefileによってこれらの出し分けを行っています。
  */
 
 #include <algorithm>
@@ -40,7 +40,7 @@ void IntArray::Set(int i, int value){
 // Index Number Checking.
 void IntArray::CheckIndex(int i){
 	assert(0 <= i && i < INTARRAY_SIZE);
-	// assert�ޥ��������Ѥ������ޤǤϡ��ʲ��Υ����å��򵭺ܤ��Ƥ�����
+	// assertマクロを利用する前までは、以下のロジックを記載していた。
 	/*
 	if( 0 <= i && i < INTARRAY_SIZE){
 		// OK

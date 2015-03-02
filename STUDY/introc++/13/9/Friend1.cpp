@@ -3,7 +3,7 @@ using namespace std;
 
 class Value {
 
-	// ValueFactory¥¯¥é¥¹¤Ç¤ÏValue¥¯¥é¥¹¤Îprivate¤Ç¤â¼«Í³¤Ë¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤ë¤è¤¦¤Ë¤Ê¤ê¤Ş¤¹¡£
+	// ValueFactoryã‚¯ãƒ©ã‚¹ã§ã¯Valueã‚¯ãƒ©ã‚¹ã®privateã§ã‚‚è‡ªç”±ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
 	friend class ValueFactory;
 
 	public:
@@ -11,15 +11,15 @@ class Value {
 
 	private:
 		Value(int n) : m_n(n) {}
-		Value(const Value&);            // ¥³¥Ô¡¼¥³¥ó¥¹¥È¥é¥¯¥¿¤ò»¦¤·¤Ş¤¹
-		void operator=(const Value&);   // ÂåÆş±é»»»Ò¤ò»¦¤·¤Ş¤¹
+		Value(const Value&);            // ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’æ®ºã—ã¾ã™
+		void operator=(const Value&);   // ä»£å…¥æ¼”ç®—å­ã‚’æ®ºã—ã¾ã™
 		int m_n;
 };
 
 class ValueFactory{
 	public:
 		Value* New(int n) const {
-			return new Value(n);      // ValueFactory¥¯¥é¥¹¤ÏValue¥¯¥é¥¹¤ÇfriendÀë¸À¤µ¤ì¤Æ¤¤¤ë¤Î¤Çprivate¥á¥½¥Ã¥É¡¦ÊÑ¿ô¤Ë¥¢¥¯¥»¥¹¤Ç¤­¤ë
+			return new Value(n);      // ValueFactoryã‚¯ãƒ©ã‚¹ã¯Valueã‚¯ãƒ©ã‚¹ã§friendå®£è¨€ã•ã‚Œã¦ã„ã‚‹ã®ã§privateãƒ¡ã‚½ãƒƒãƒ‰ãƒ»å¤‰æ•°ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹
 		}
 };
 

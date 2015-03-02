@@ -1,6 +1,6 @@
 /*
- * �ץ������Υ���ѥ��뤬�Ǥ��ޤ������¹Ի��˥��顼���Ǥޤ�
- * ������н褷���ץ�����बsample2�ˤ���ޤ���
+ * プログラムのコンパイルができますが、実行時にエラーがでます
+ * これを対処したプログラムがsample2にあります。
  */
 #include "IntArray.h"
 #include <iostream>

@@ -5,7 +5,7 @@
 
 class InputStream : public Stream {
 //	public:
-//		double m_n;             // ÇÉÀ¸¥¯¥é¥¹¤Ç¤âm_n¤òÄêµÁ¤¹¤ë¤È·ë²Ì¤¬¤«¤ï¤Ã¤Æ¤¯¤ë
+//		double m_n;             // æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã§ã‚‚m_nã‚’å®šç¾©ã™ã‚‹ã¨çµæœãŒã‹ã‚ã£ã¦ãã‚‹
 	protected:
 		virtual void SetBase();
 };

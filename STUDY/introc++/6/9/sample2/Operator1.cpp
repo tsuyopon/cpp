@@ -1,6 +1,6 @@
 /*
- * sample1�β�����
- * �黻�ҤΥ����С������ɤˤ��¹Ի����顼���Фʤ��褦�˲�������Ƥ��ޤ���
+ * sample1の改良版
+ * 演算子のオーバーロードにより実行時エラーが出ないように改善されています。
  */
 #include "IntArray.h"
 #include <iostream>

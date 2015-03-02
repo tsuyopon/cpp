@@ -2,7 +2,7 @@
 using namespace std;
 
 /*
- * ���쥯�饹ABase
+ * 基底クラスABase
  */
 class ABase {
 	public:
@@ -11,7 +11,7 @@ class ABase {
 };
 
 /*
- * ABase��Ѿ�����A1, A2���饹
+ * ABaseを継承するA1, A2クラス
  */
 class A1 : virtual public ABase {
 	public:
@@ -28,12 +28,12 @@ class A2 : virtual public ABase {
 };
 
 /*
- * A1, A2��Ѿ�����C���饹
+ * A1, A2を継承するCクラス
  */
 class C : public A1, public A2 {
 
-	// C���饹��A1, A2��ʣ�����饹��¿�ŷѾ����Ƥ���褦�ʾ�硢
-	// AHoge()�򥪡��С��饤�ɤ��ʤ���A1¦��AHoge()��ƤӽФ�����A2¦��AHoge()��ƤӽФ����狼��ޤ���Τǥ���ѥ��륨�顼�Ȥʤ�ޤ���
+	// CクラスでA1, A2の複数クラスを多重継承しているような場合、
+	// AHoge()をオーバーライドしないとA1側のAHoge()を呼び出すか、A2側のAHoge()を呼び出すかわかりませんのでコンパイルエラーとなります。
 	public: void AHoge(){
 		cout << "C::Ahoge" << endl;
 		A1::AHoge();

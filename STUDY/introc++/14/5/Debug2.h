@@ -1,11 +1,11 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
-#ifdef NDEBUG      // ��꡼��
+#ifdef NDEBUG      // リリース
 
 #define ASSERT(b)
 
-#else              // �ǥХå�
+#else              // デバッグ
 
 #define ASSERT(b) Debug::Assert((b), __FILE__, __LINE__, __DATE__, __TIME__)
 namespace Debug {

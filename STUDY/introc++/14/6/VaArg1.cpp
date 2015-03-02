@@ -2,7 +2,7 @@
 #include<cstdarg>
 using namespace std;
 
-int Sum(int first, ...) {     // ...¤È¤¹¤ë¤³¤È¤Ë¤è¤Ã¤Æ²ÄÊÑÄ¹°ú¿ô¤òÄêµÁ¤Ç¤­¤ë
+int Sum(int first, ...) {     // ...ã¨ã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦å¯å¤‰é•·å¼•æ•°ã‚’å®šç¾©ã§ãã‚‹
 	int sum = 0;
 	va_list args;
 	va_start(args, first);

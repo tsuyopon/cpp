@@ -1,6 +1,6 @@
 /*
- * �ӥåȥե饰�λ��Ȥߤ˴ؤ��륵��ץ�Ǥ���
- * fopen ���ǻ��ꤵ���ӥåȥե饰�λ��Ȥߤߤ����ʤ�ΤǤ��礦��
+ * ビットフラグの仕組みに関するサンプルです。
+ * fopen 等で指定されるビットフラグの仕組みみたいなものでしょう。
  *
  */
 #include <iostream>
@@ -22,8 +22,8 @@ void Show(int flags){
 }
 
 int main(){
-	Show(0);                     // ������0(=000)
-	Show(SHOW_Y);                // ������10(=010)
-	Show(SHOW_X|SHOW_Z);         // ������101
-	Show(SHOW_X|SHOW_Y|SHOW_Z);  // ������111
+	Show(0);                     // 引数は0(=000)
+	Show(SHOW_Y);                // 引数は10(=010)
+	Show(SHOW_X|SHOW_Z);         // 引数は101
+	Show(SHOW_X|SHOW_Y|SHOW_Z);  // 引数は111
 }
