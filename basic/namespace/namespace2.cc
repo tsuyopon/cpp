@@ -33,5 +33,7 @@ int main(){
 	Azarashi::Goma::Tamachan obj;
 	Azarashi::Zou::Normal obj2;
 	std::cout << "hello" << std::endl;
+	obj.cry();
+	obj2.cry();
 	return 0;
 }
