@@ -1,11 +1,12 @@
 #include<iostream>
 using namespace std;
+
 class SingletonClass {
 	private:
 		SingletonClass(void) {}
-		static SingletonClass* singleton;
+		static SingletonClass* singleton;           // 変数がstaticで宣言されているのがポイント。なんど呼びだしても同じ位置をさしている
 	public:
-		static SingletonClass* getInstance(void) {
+		static SingletonClass* getInstance(void) {  // 
 			return singleton;
 		}
 		void start(void);
