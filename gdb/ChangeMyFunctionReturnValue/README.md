@@ -21,7 +21,7 @@ $ ./a.out PASS
 $ gdb ./a.out
 (gdb) b authenticate
 Breakpoint 1 at 0x100000e1c: file test.c, line 12.
-
+```
 
 ### FAILで起動し、PASSに変更する
 つまり本来であれば認証失敗なのですが、これを通過させるようにすることができます。
