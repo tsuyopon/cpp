@@ -1,5 +1,5 @@
 # 概要
-authenticate()関数の戻り値をgdbを使って変更する。  
+独自で定義したauthenticate()関数の戻り値をgdbを使って変更する。  
 テストプログラムはtest.cにあります。
 
 # 詳細
