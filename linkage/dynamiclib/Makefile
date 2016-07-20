@@ -2,9 +2,12 @@
 all: clean dynamiclib
 	gcc -Wall -g -c sample.c -o sample.o
 	gcc -g -o sample sample.o -L. -lhello
+	@echo "#########################################################"
+	@echo "###### use \"make execute\" target to execute sample library #####"
+	@echo "#########################################################"
 
 # LD_LIBRARY_PATHが指定されているのに注意する
-execute: all
+execute: 
 	LD_LIBRARY_PATH="." ./sample
 
 # 「「ldconfig -n .」でlibhello.so.0が生成されます
