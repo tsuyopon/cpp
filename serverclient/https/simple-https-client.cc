@@ -86,6 +86,7 @@ int main(int argc, char **argv)
   SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2);
   SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv3);
 
+  //printf("hoge2");
   ssl = SSL_new(ctx);
   if ( ssl == NULL ){
     ERR_print_errors_fp(stderr);
