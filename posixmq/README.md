@@ -18,3 +18,5 @@ mq_unlink        メッセージキューを削除する。
  - http://stackoverflow.com/questions/3056307/how-do-i-use-mqueue-in-a-c-program-on-a-linux-based-system
 - MQ\_OVERVIEW
  - https://linuxjm.osdn.jp/html/LDP_man-pages/man7/mq_overview.7.html
+- POSIX.4 Message Queues
+ - http://users.pja.edu.pl/~jms/qnx/help/watcom/clibref/mq_overview.html
