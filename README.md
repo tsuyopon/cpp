@@ -3,10 +3,13 @@
 
 # WANTTO
 - boost周りの基礎知識をもっと
-- namespaceを試して見る
-- friendについてまとめておく
+- namespaceを試して見る(IPC, MNT, PID, UTS, NET)
+- cgropusを試して見る
 - zookeeper関連のライブラリをいじってみる
-
+- libmysqlを使ってみる
+- libelfを使ってみる
+- C++テンプレートをもっともっと
+- memcachedをつかってみる
 
 # MEMO
 ```
