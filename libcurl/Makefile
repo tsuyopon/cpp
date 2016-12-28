@@ -1,14 +1,13 @@
+all: simple_get simple_get2 multi_get
+	
 simple_get:
-	g++ -lcurl -I/usr/include/curl simple_get.cc
+	g++ -o simple_get -lcurl -I/usr/include/curl simple_get.cc
 
 simple_get2:
-	g++ -lcurl -I/usr/include/curl simple_get2.cc
-
-simple_post:
-	g++ -lcurl -I/usr/include/curl simple_post.cc
+	g++ -o simple_get2 -lcurl -I/usr/include/curl simple_get2.cc
 
 multi_get:
-	g++ -lcurl -I/usr/include/curl multi_get.cc
+	g++ -o multi_get -lcurl -I/usr/include/curl multi_get.cc
 
-multi_post:
-	g++ -lcurl -I/usr/include/curl multi_post.cc
+clean: 
+	rm -f simple_get simple_get2 multi_get test.txt

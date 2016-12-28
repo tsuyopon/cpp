@@ -4,6 +4,16 @@
 
 using namespace std;
 
+/*
+ * オーバーロードできる演算子
+ * +	-	*	/	%	^
+ * !	=	<	>	+=	-=
+ * ^=	&=	|=	<<	>>	<<=
+ * <=	>=	&&	||	++	--
+ * ( )	[ ]	new	delete	&	|
+ * ~ 	*=	/=	%=	>>=	==
+ * !=	,	->	->* 
+ */
 class Integer {
 		int value;
 	public:
