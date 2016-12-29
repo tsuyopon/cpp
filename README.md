@@ -11,6 +11,8 @@
 - C++テンプレートをもっともっと
 - memcachedをつかってみる
 - UNIXドメインソケットを使ってみる
+- iniをパース
+ - https://github.com/benhoyt/inih
 
 # MEMO
 ```
