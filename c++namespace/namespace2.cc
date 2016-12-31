@@ -1,3 +1,4 @@
+// 名前空間のネスト
 #include<iostream>
 #include "namespace2.h"
 
