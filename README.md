@@ -5,14 +5,24 @@
 - boost周りの基礎知識をもっと
 - namespaceを試して見る(IPC, MNT, PID, UTS, NET)
 - cgropusを試して見る
-- zookeeper関連のライブラリをいじってみる
 - libmysqlを使ってみる
 - libelfを使ってみる
 - C++テンプレートをもっともっと
 - memcachedをつかってみる
-- UNIXドメインソケットを使ってみる
+- zeromqを使ってみる
+- inotifyやdnotifyとかを使ってみる
 - iniをパース
  - https://github.com/benhoyt/inih
+- RPCをもう少し使ってみる
+- protocol buffersを使ってみる
+ - https://developers.google.com/protocol-buffers/docs/proto?csw=1
+
+あとでもうちょっと確認
+- UNIXドメインソケットを使ってみる
+- zookeeper関連のライブラリをいじってみる
+- messagequeuいじる
+- FUSEをいじる
+- cmakeを確認する
 
 # MEMO
 ```
