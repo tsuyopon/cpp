@@ -16,8 +16,6 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    sleep(60);
-
     if (pthread_join(thread, NULL) != 0) {
         return EXIT_FAILURE;
     }
