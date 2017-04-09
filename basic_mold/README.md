@@ -1,5 +1,6 @@
 # 概要
 型について
+キャスト変換については../c++cast/を参考のこと
 
 # 詳細
 https://ja.wikipedia.org/wiki/%E6%95%B4%E6%95%B0%E5%9E%8B
