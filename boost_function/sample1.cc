@@ -1,48 +1,16 @@
-// boost::functionにおけるサンプル
+// 関数ポインタをboost::functionに格納するパターン
 #include <iostream>
-#include <functional>
 #include <boost/function.hpp>
-using namespace std;
 
-struct SomeObject
+int add(int a, int b)
 {
-	SomeObject( int i_n ) : n( i_n ) {}
-	int Do( int x ) { return x*n; }
-	const int n;
-};
-
-bool f( int x, int y )
-{
-	return x*x < y;
+    return a + b;
 }
 
 int main()
 {
-	// intとintを取ってboolを返す２引数関数を格納できる関数オブジェクト
-	// とりあえず普通の関数を入れてみる。
-	boost::function<bool (int, int)> cmp = &f;
-	if( cmp(4, 20) )
-	{
-		cout << 1 << endl;
-	}
+    boost::function<int(int, int)> f = add; // 関数ポインタをboost::functionに格納
 
-	// 途中で関数オブジェクトを突っ込んでみたりする
-	cmp = std::not2( std::less<int>() );
-	if( cmp(4, 20) )
-	{
-		cout << 2 << endl;
-	}
-
-	// intを取ってintを返す関数。
-	// std::binder1st< std::mem_fun1_t<int,SomeObject,int> >
-	// などというワケわからん型の変数で受け取らなくても保持できる
-	SomeObject t( 3 );
-	boost::function<int (int)> g =
-		std::bind1st( std::mem_fun(&SomeObject::Do), &t );
-	if( 45 == g(15) )
-	{
-		cout << 3 << endl;
-	}
-
-	return 0;
+    const int result = f(2, 3); // 関数呼び出し
+    std::cout << result << std::endl;
 }
