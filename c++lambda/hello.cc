@@ -39,8 +39,9 @@ int main(int argc, char *argv[]) {
 	// 5. 変数をキャプチャーする
 	// ラムダ式は、式が定義される関数のスコープの変数をキャプチャできます。 以下では同じスコープにあるxがキャプチャできています。
 	string x = "I am string";
-	[&] { cout << x << endl; } (); //参照    (xに値を代入してもコピーと違ってコンパイルエラーにはならない
 	[=] { cout << x << endl; } (); //コピー  (xに値を代入するとコンパイルエラーになります
+	[&] { cout << x << endl; x="I am replaced string";} (); //参照    (xに値を代入してもコピーと違ってコンパイルエラーにはならない
+	cout << x << endl;
 
 	// 6. ラムダ式を関数に渡す。 fは最初に定義されています。
 	f( []{ std::cout<<"Hello world passing to f function"<<std::endl;} );
