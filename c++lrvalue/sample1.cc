@@ -13,4 +13,7 @@ int main()
 	// rvalue reference
 	//X && rr1 = x;        // NG: xはlvalue referenceなのでrvalueには入れられない
 	X &&rr2 = X();        // OK: X()はrvalueなので問題ない rvalueはアンパサンドを２つ使う文法となっています。
+
+
+
 }
