@@ -6,50 +6,40 @@ class TEST
 private:
   int m_data_;
 public:
-  TEST(int data) :m_data_(data)
-  {
-  };
+  TEST(int data) :m_data_(data) {};
   ~TEST(){};
-  //データのセット
   void setData(int data)
   {
     m_data_ = data;
   }
 
-  int print()
-  {
+  int print() {
     return(m_data_);
   }
 
   //2項演算子のオーバーロード
-  int operator+(const TEST &obj)
-  {
-    std::cout << "operator+ start" << std::endl;
+  int operator+(const TEST &obj) {
+    cout << "operator+" << endl;
     return(m_data_ + obj.m_data_);
   }
-  int operator-(const TEST &obj)
-  {
-    std::cout << "operator- start" << std::endl;
+  int operator-(const TEST &obj) {
+    cout << "operator-" << endl;
     return(m_data_ - obj.m_data_);
   }
-  int operator*(const TEST &obj)
-  {
-    std::cout << "operator* start" << std::endl;
+  int operator*(const TEST &obj) {
+    cout << "operator*" << endl;
     return(m_data_ * obj.m_data_);
   }
-  int operator/(const TEST &obj)
-  {
-    std::cout << "operator/ start" << std::endl;
+  int operator/(const TEST &obj) {
+    cout << "operator/" << endl;
     return(m_data_ / obj.m_data_);
   }
-  int operator%(const TEST &obj)
-  {
-    std::cout << "operator% start" << std::endl;
+  int operator%(const TEST &obj) {
+    cout << "operator%" << endl;
     return(m_data_ % obj.m_data_);
   }
-  bool operator==(TEST &obj)
-  {
-    std::cout << "operator== start" << std::endl;
+  bool operator==(TEST &obj) {
+    cout << "operator==" << endl;
     return(this->m_data_ == obj.m_data_);
   }
 };
@@ -77,16 +67,10 @@ int main(int argc, char** argv)
   data = obj1 % obj2;
   std::cout << "ope% data = " << data << std::endl;
 
-  if (obj1 == obj2)
-  {
+  if (obj1 == obj2) {
     std::cout << "m_data_の値は一緒です" << std::endl;
-  }
-  else
-  {
+  } else {
     std::cout << "m_data_の値は等しくありません" << std::endl;
   }
-
-
   return(0);
 }
-

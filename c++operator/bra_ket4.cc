@@ -1,3 +1,4 @@
+// ()オペレータについて
 #include <iostream>
 using namespace std;
 

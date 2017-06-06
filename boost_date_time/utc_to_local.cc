@@ -1,4 +1,5 @@
 // UTCを表示するサンプル
+// ptimeで世界標準時刻を取得した後に日本時間に直したりするサンプル
 // 参考: http://kkayataka.hatenablog.com/entry/2013/05/04/184549
 #include <iostream>
 
@@ -9,6 +10,11 @@
 int main(const int argc, const char * const argv[]) {
   using namespace boost;
 
+  // local_timeだとその地域の現在時刻を取得する
+  posix_time::ptime localnow = posix_time::second_clock::local_time();
+  std::cout << localnow << std::endl;  // Japantime(UTC+9h
+
+  // 世界標準時刻を取得する
   posix_time::ptime now = posix_time::second_clock::universal_time();
 
   // utc to local 1
