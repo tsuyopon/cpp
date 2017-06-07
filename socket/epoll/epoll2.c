@@ -13,7 +13,6 @@
  * 例えば、コマンドラインからだと次のようなコマンドを発行します。
  * $ echo "This is a test" | nc -u localhost 1111
  *
- * [補足] epoll2client.cというクライアント接続用ファイルがありますが、これを使わずにncでもよい
  */
 #include<stdio.h>
 #include<string.h>
