@@ -1,4 +1,3 @@
-
 /*
  * socket接続(UDP)ドリブンによるepoll_waitの解除
  * UDPなのでlistenやacceptは存在しない
