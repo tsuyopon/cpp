@@ -83,6 +83,11 @@ Continuing.
 (gdb) set follow-fork-mode parent
 ```
 
+# TIPS
+gdbデバッガに毎回確認させるモードも存在するようです。
+```
+(gdb) set follow-fork-mode ask
+```
 
 # 参考URL
 - https://stackoverflow.com/questions/6199270/how-do-i-debug-the-child-process-after-fork-in-gdb
