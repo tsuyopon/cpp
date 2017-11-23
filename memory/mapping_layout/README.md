@@ -20,6 +20,7 @@ hello, local world: 0x00007fffccfd4000
 ```
 
 引数を入れると最初の行が入る。
+sharedmemoryやmallocはプログラムを再実行するとアドレスが変わってくる。今回は最初に実行したアドレスを元に解析していく。
 ```
 $ ./layout hoge
 hello, hoge: 0x00007fff2664a64c
@@ -270,8 +271,4 @@ Total                0xd73
 - [OS] 仮想メモリ空間のメモリマップを調べる
  - 非常に素晴らしいサイト。このサイトを元に調査してみた
  - http://th0x4c.github.io/blog/2012/10/10/os-virtual-memory-map/
-
-
-
-
 
