@@ -19,4 +19,6 @@ GDBを通したデバッギングについてまとめていきます
   - gdbのbではなく、プログラム的にその行に到達したらブレークポイントとして処理したい場合の方法について
 - [TemplateBreakpoint](TemplateBreakpoint)
   - テンプレートを使った場合にブレークポイントを指定する方法について
+- [TraceForkChildParent](TraceForkChildParent)
+  - fork()をした後にchildを追跡したり、parentを追跡する方法について
 
