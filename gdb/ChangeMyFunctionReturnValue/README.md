@@ -126,9 +126,63 @@ Authenticated ...program continuing...
 なのでstepi実行した後にset $rax=1と変更すると「return 1;」したのと同様の操作ができます。
 
 
+### returnを利用する
+
+run PASSすると「Authenticated〜」と表示されます
+```
+$ gdb -q ./a.out 
+Reading symbols from /home/tsuyoshi/cpp/gdb/ChangeMyFunctionReturnValue/a.out...done.
+(gdb) run PASS
+Starting program: /home/tsuyoshi/cpp/gdb/ChangeMyFunctionReturnValue/./a.out PASS
+Authenticated ...program continuing...
+[Inferior 1 (process 19919) exited with code 047]
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-196.el7.x86_64
+```
+
+run PASSしてauthenticate関数で即座に0を返してみることができます。この場合は「Authenticated〜」となります。
+```
+(gdb) b authenticate
+Breakpoint 1 at 0x400619: file test.c, line 12.
+(gdb) c
+The program is not being run.
+(gdb) run PASS
+Starting program: /home/tsuyoshi/cpp/gdb/ChangeMyFunctionReturnValue/./a.out PASS
+
+Breakpoint 1, authenticate (test=0x7fffffffe674 "PASS") at test.c:12
+12	  if(strcmp(test,"PASS") == 0 ) {
+(gdb) return 0
+Make authenticate return now? (y or n) y
+#0  0x000000000040068e in main (argc=2, argv=0x7fffffffe3e8) at test.c:29
+29	  retVal = authenticate(argv[1]);
+(gdb) c
+Continuing.
+Authenticated ...program continuing...
+[Inferior 1 (process 19945) exited with code 047]
+```
+
+続いて、run PASSしてauthenticate関数で即座に1を返してみることにします。この場合は「Wrong Input, exiting...」と書き換えることができました。
+```
+(gdb) run PASS
+Starting program: /home/tsuyoshi/cpp/gdb/ChangeMyFunctionReturnValue/./a.out PASS
+
+Breakpoint 1, authenticate (test=0x7fffffffe674 "PASS") at test.c:12
+12	  if(strcmp(test,"PASS") == 0 ) {
+(gdb) return 1
+Make authenticate return now? (y or n) y
+#0  0x000000000040068e in main (argc=2, argv=0x7fffffffe3e8) at test.c:29
+29	  retVal = authenticate(argv[1]);
+(gdb) c
+Continuing.
+Wrong Input, exiting...
+[Inferior 1 (process 19957) exited with code 01]
+```
+
+関数の戻り値はreturnを使うと簡単に制御できるようです。
+
+- 参考
+  - https://rat.cis.k.hosei.ac.jp/article/devel/debugongccgdb2.html
+
 # 参考URL
 - Modify-function-return-value Hack! — Part 1
  - http://opensourceforu.efytimes.com/2011/08/modify-function-return-value-hack-part-1/
-
-
 
