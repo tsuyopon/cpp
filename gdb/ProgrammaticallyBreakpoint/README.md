@@ -1,11 +1,18 @@
+# 概要
+gdbでブレークポイントを貼らずとも自動的に指定した箇所で停止させる方法について
 
+# 詳細
 ### test1.c
-
+次のコードを追加することによって停止させることができます。
 ```
 asm("int $3");
+or
+__asm__("int $3");
 ```
 
+gdbの実行例は以下
 ```
+$ gcc -g test1.c
 $ gdb -q ./a.out 
 Reading symbols from /home/tsuyoshi/cpp/gdb/ProgrammaticallyBreakpoint/a.out...done.
 (gdb) run
@@ -31,12 +38,13 @@ Continuing.
 ```
 
 ### test2.c
-
+C言語では次のsignalによっても停止させることができます。
 ```
 #include <signal.h>
 raise(SIGINT);
 ```
 
+gdbの実行例は以下
 ```
 $ gcc -g test2.c
 $ gdb -q ./a.out 
@@ -68,6 +76,7 @@ after
 ```
 
 ### test3.cc (C++)
+C++の場合には、次の箇所で停止させることができます。
 ```
 #include <csignal>
 
@@ -75,6 +84,7 @@ after
 std::raise(SIGINT);
 ```
 
+gdbの実行例は以下
 ```
 $ g++ -g test3.cc
 $ gdb -q ./a.out 
@@ -105,6 +115,5 @@ after
 [Inferior 1 (process 12632) exited normally]
 ```
 
-
-# 
+# 参考URL
 - https://stackoverflow.com/questions/4326414/set-breakpoint-in-c-or-c-code-programmatically-for-gdb-on-linux
