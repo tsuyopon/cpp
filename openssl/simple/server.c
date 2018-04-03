@@ -54,11 +54,6 @@ void init_openssl()
     OpenSSL_add_ssl_algorithms();   // SSL_library_init()と同じ
 }
 
-void cleanup_openssl()
-{
-    EVP_cleanup();
-}
-
 SSL_CTX *create_context()
 {
     const SSL_METHOD *method;
@@ -135,6 +130,6 @@ int main(int argc, char **argv)
 
     close(sock);
     SSL_CTX_free(ctx);
-    cleanup_openssl();
+    EVP_cleanup();
 }
 
