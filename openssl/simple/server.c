@@ -31,18 +31,18 @@ int create_socket(int port)
 
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
-	perror("Unable to create socket");
-	exit(EXIT_FAILURE);
+        perror("Unable to create socket");
+        exit(EXIT_FAILURE);
     }
 
     if (bind(s, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-	perror("Unable to bind");
-	exit(EXIT_FAILURE);
+        perror("Unable to bind");
+        exit(EXIT_FAILURE);
     }
 
     if (listen(s, 1) < 0) {
-	perror("Unable to listen");
-	exit(EXIT_FAILURE);
+        perror("Unable to listen");
+        exit(EXIT_FAILURE);
     }
 
     return s;
@@ -50,8 +50,8 @@ int create_socket(int port)
 
 void init_openssl()
 { 
-    SSL_load_error_strings();	
-    OpenSSL_add_ssl_algorithms();
+    SSL_load_error_strings();
+    OpenSSL_add_ssl_algorithms();   // SSL_library_init()と同じ
 }
 
 void cleanup_openssl()
@@ -69,9 +69,9 @@ SSL_CTX *create_context()
 
     ctx = SSL_CTX_new(method);
     if (!ctx) {
-	perror("Unable to create SSL context");
-	ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+        perror("Unable to create SSL context");
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
     }
 
     return ctx;
@@ -84,13 +84,13 @@ void configure_context(SSL_CTX *ctx)
     // サーバ証明書の登録
     if (SSL_CTX_use_certificate_file(ctx, SERVER_CERTIFICATE, SSL_FILETYPE_PEM) <= 0) {
         ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
 
     // サーバ秘密鍵の登録
     if (SSL_CTX_use_PrivateKey_file(ctx, SERVER_PRIVATE_KEY, SSL_FILETYPE_PEM) <= 0 ) {
         ERR_print_errors_fp(stderr);
-	exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -124,8 +124,7 @@ int main(int argc, char **argv)
 
         if (SSL_accept(ssl) <= 0) {   // SSL通信の開始
             ERR_print_errors_fp(stderr);
-        }
-        else {
+        } else {
             printf("SSL_write start\n");
             SSL_write(ssl, reply, strlen(reply));
         }
