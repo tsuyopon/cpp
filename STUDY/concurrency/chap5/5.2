@@ -1,0 +1,64 @@
+# 5.2.4  Operations on std::atomic<T*>: pointer arithmetic
+
+std::atomic<T*>について
+
+is_lock_freeメンバー関数と同様にして、std::atomic<T*>もまたstd::atomic<bool>と同様にして次のメンバー関数を持ちます。この場合にはboolというよりもT*型を受け取ったり、戻り値として戻します。
+```
+load(), store(), exchange(), compare_exchange_weak(), compare_exchange_strong()
+```
+
+std::atomic<T*>によって提供される新しい操作はポインタ算術演算です。
+基本的な操作はfetch_add(), fetch_sub()メンバー関数によって提供されています。これらはstoredされたデータに対してのatomicな加算や減算を提供します。
++=, -=, pre, postインクリメント(++), pre, postデクリメント(--)は便利なラッパーとして提供されている。これらの操作はビルトイン関数かのように振る舞います。
+もしxがstd::atomic<Foo*> のFooオブジェクト配列の最初のエントリならば、そのときx+=3は4番目のエントリに変更します。そして、４番目のエントリを表すプレインなFoo*を返却します。
+
+
+fetch_add()とfetch_sub()はそれらがオリジナルの値を返却するといった点がわずかに異なります。
+(x.fetch_add(3)はxを4番目の値にアップデートする。しかし、配列の最初の値に対するポインタを戻します。)
+この操作はexchange-and-addとして知られています。そして、exchange()、compare_exchange_weak()、compare_exchange_strong()のようにatomicなread-modify-write操作であります。
+
+
+他の操作と同様に、std::atomic<T*>オブジェクトの参照というよりもむしろプレインなT* の値を返却します。これによって、呼び出されるコードが以前の値がなんだったかに基づいてアクションすることができます。
+
+```
+class Foo{};
+Foo some_array[5];
+std::atomic<Foo*> p(some_array);
+Foo* x=p.fetch_add(2);
+assert(x==some_array);
+assert(p.load()==&some_array[2]);
+x=(p-=1);
+assert(x==&some_array[1]);
+assert(p.load()==&some_array[1]);
+```
+
+fetch_add() と fetch_sub()は read-modify-write な操作なので、それらはmemory-ordering タグを持つことができる。そして、release sequence に参加させることができる。
+オペレータ形式で順番に関して指定する手段はない。これらの形は常にmemory_order_seq_cstセマンティクスを持っている。
+
+
+# 5.2.5　Operations on standard atomic integral types
+
+通常の以下のオペレーションセットと同様にして
+```
+load(), store(), exchange(), compare_ exchange_weak(), compare_exchange_strong()
+```
+
+std::atomic<int>, std::atomic<unsigned long long> のようなatomicな整数型では次の包括的なセットが利用可能となっています。
+```
+fetch_add(), fetch_sub(), fetch_and(), fetch_or(), fetch_xor()
++=, -=, &=, |=, and ^=のような複合代入演算子
+++x, x++, --x, and x-- のようなpost-, pre-を含むインクリメントやデクリメント演算子
+```
+
+これで全て乗っているわけではないが、これだけで十分です。(分割や、掛け算、シフト操作などはここには登場していない)。
+なぜならば、atomicな整数型は典型的にカウンターやビットマスクなどで利用されることが多いからです。
+
+加算操作はループ中にcompare_exchange_weak()を使うことで簡単に実現できる。そのセマンティクスはstd::atomic<T*>であるfetch_add()やfetch_sub()に密接にマッチする。
+
+
+名前付き関数(fetch_add etc,,,)は原始的に操作を行い、そして古い値を返却します。一方で、複合代入演算子は新しい値を返します。
+post-, pre-のインクリメントとデクリメントは通常通りに機能します。つまり、++xは変数をインクリメントして新しい値を戻し、x++は変数をインクリメントして古い値を戻します。
+
+いままでは全ての基本的なatomicタイプを見てきました。
+特殊化よりもむしろstd::atomic<> primary class templateを次では見ていくことにしよう
+
