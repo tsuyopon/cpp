@@ -32,9 +32,20 @@ assert(x==&some_array[1]);
 assert(p.load()==&some_array[1]);
 ```
 
+
+関数は関数への引数としてmemory-orderingセマンティクスを許容しています。
+```
+p.fetch_add(3,std::memory_order_release);
+```
+
 fetch_add() と fetch_sub()は read-modify-write な操作なので、それらはmemory-ordering タグを持つことができる。そして、release sequence に参加させることができる。
+
 オペレータ形式で順番に関して指定する手段はない。これらの形は常にmemory_order_seq_cstセマンティクスを持っている。
 
+MEMO: よくわからなかった一文
+```
+except that the associated built-in type is different.
+```
 
 # 5.2.5　Operations on standard atomic integral types
 
@@ -60,5 +71,5 @@ fetch_add(), fetch_sub(), fetch_and(), fetch_or(), fetch_xor()
 post-, pre-のインクリメントとデクリメントは通常通りに機能します。つまり、++xは変数をインクリメントして新しい値を戻し、x++は変数をインクリメントして古い値を戻します。
 
 いままでは全ての基本的なatomicタイプを見てきました。
-特殊化よりもむしろstd::atomic<> primary class templateを次では見ていくことにしよう
+残るのは特殊化よりもむしろ基本的なstd::atomic<> primary class templateである。では次をみていきましょう。
 
