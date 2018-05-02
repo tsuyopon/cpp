@@ -97,3 +97,26 @@ memory_order_seq_cstを使わない場合の問題点については以下の資
 このスライド「そろそろvolatileについて一言いっておくか」が素晴らしすぎるのでそちらを参照のこと
 - http://www.slideboom.com/presentations/83479/%E3%81%9D%E3%82%8D%E3%81%9D%E3%82%8Dvolatile%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E4%B8%80%E8%A8%80%E3%81%84%E3%81%A3%E3%81%A6%E3%81%8A%E3%81%8F%E3%81%8B
 
+
+### CPUのアウトオブオーダーの問題
+- http://d.hatena.ne.jp/torazuka/20110306/fence
+
+
+CPUでは
+
+IntelのCPU命令セットの拡張命令においてストリーミングSIMD拡張命令というものがありますが、以下の３つのメモリバリアはここに含まれます。
+- FENCE（store fence）
+  - メモリへの書き込み順序を制御します。SFENCEの前に発行された書き込み命令が終わるまで、SFENCEより後の書き込み命令は開始されません。
+- LFENCE（load fence）
+  - メモリの読み込み順序を制御します。LFENCEの前に発行された読み込み命令が終わるまで、SFENCEより後の読み込み命令は開始されません。
+- MFENCE（m…?? fence）
+  - SFENCEとLFENCEの複合版です。MFENCEの間に発行された書き込み/読み込み命令が終わるまで、MFENCEより後の書き込み/読み込み命令は開始されません。
+
+
+
+### TODO
+次を考える
+- アウトオブオーダー
+- NUMA
+  - http://yamasa.hatenablog.jp/entry/20090816/1250446250
+
