@@ -42,3 +42,12 @@ memory_order_releaseとmemory_order_acquireの説明
 # まとめ
 - memory_order_releaseとmemory_order_acquireを使った処理の場合にはHappens Beforeが成り立たなくなる場合があることを理解しておく
 - memory_order_releaseとmemory_order_acquireを利用する場合には、memory_order_acq_relの場合とは異なりスレッド間で実行される順序付け(コア間でのデータの同期状態)を保証するには１つのスレッドで2つの変数のstore処理を行わなければならない。
+
+
+# 参考資料
+- キャッシュコヒーレンシ理解のために資料を漁ったら昔のスライドが出てきたので公開する
+  - http://msyksphinz.hatenablog.com/entry/2016/04/07/024623
+  - https://www.slideshare.net/masayukikimura520/4-60571864
+- キャッシュコヒーレンシ
+  - 連載もすごい多い。
+  - https://news.mynavi.jp/article/architecture-184/
