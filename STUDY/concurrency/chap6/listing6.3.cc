@@ -1,3 +1,4 @@
+// A simple single-threaded queue implementation
 #include <iostream>
 #include <memory>
 #include <condition_variable>
@@ -68,3 +69,18 @@ public:
         return data_queue.empty();
     }
 };
+
+
+int main(){
+    threadsafe_queue<int> tq; 
+    std::shared_ptr<int> pop;
+    tq.push(5);
+    tq.push(6);
+    tq.push(7);
+    pop = tq.try_pop();
+    std::cout << "pop value = " << *pop << std::endl;
+    pop = tq.wait_and_pop();
+    std::cout << "pop value = " << *pop << std::endl;
+    tq.empty();
+    return 0;
+}

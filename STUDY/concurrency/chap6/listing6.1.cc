@@ -7,7 +7,10 @@
 // pop()して空の場合にこの処理が実行される
 struct empty_stack: std::exception
 {
-    const char* what() const throw();
+    // 定義だけだとエラーになるので、returnを返すような実装が必要
+    const char* what() const throw() {
+         return "enter what message";
+    }
 };
 
 template<typename T> class threadsafe_stack
@@ -24,7 +27,7 @@ public:
        data=other.data;
     }
 
-    // C++11では"= delete"は純粋仮想関数(=0)と同様
+    // 暗黙的なコピーコンストラクタの生成を拒否する
     threadsafe_stack& operator=(const threadsafe_stack&) = delete;
 
     void push(T new_value)
@@ -59,3 +62,16 @@ public:
         return data.empty();
     }
 };
+
+
+int main(){
+	threadsafe_stack<int> si;
+	std::shared_ptr<int> pop;
+	si.push(5);
+	pop = si.pop();
+	std::cout << "pop value = " << *pop << std::endl;
+	si.empty();
+	pop = si.pop();
+	std::cout << "pop value = " << *pop << std::endl;
+	return 0;
+}
