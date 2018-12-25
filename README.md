@@ -17,6 +17,7 @@ aaa
 - RPCをもう少し使ってみる
 - protocol buffersを使ってみる
  - https://developers.google.com/protocol-buffers/docs/proto?csw=1
+- userfaultfdを使ってみる
 
 あとでもうちょっと確認
 - UNIXドメインソケットを使ってみる
