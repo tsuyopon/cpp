@@ -136,7 +136,7 @@ C++標準ライブラリはstd::hash<>テンプレートを提供しています
 ハッシュテーブルはbucketsが素数の際によく動きます。(XXX: なぜ素数だとよく機能するのか不明)
 
 それぞれのbucketsは1つのバケットにたいして複数concurentなreadや1つの修正を許容するためのboost::shared_mutexインスタンスで保護されています。
-bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼ばれます(8, 9, 10)。
+bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼ばれます(8, 9, 10)。  (XXX: 固定値だとなぜロックなしなのか不明)
 そして、それからbucket mutexは関数で適切にshared ownership(readonly)かunique(read/write) ownershipとしてロックされます。
 
 すべての３つの関数はバケット内にエントリがあるかどうかを決定するためにfind_entry_for()メンバー関数を最大限に利用します。  
@@ -144,22 +144,48 @@ bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼�
 
 すでにconcurrencyに関してはカバーしてきた、そして、すべては適切にmutexロックで保護してきましたが、例外安全についてはどうだろうか?
 value_for関数は何も修正しないので、問題ありません。
-もし、value_forが例外を投げていたとしても、データ構造には影響なかっただろう。
-remove_mapping関数はeraseコールを利用してlistを修正します。これはthrowしないことが保証されていますので、これも安全です。
-残るはadd_or_update_mapping関数だが、2つの分岐となるif.push_backは例外安全で、throwされた場合にオリジナルの状態のlistは残ります。よって２つの分岐は問題ありません。
+もし、value_forが例外を投げていたとしても、データ構造には影響なかったでしょう。  
+
+remove_mapping関数はeraseコールを利用してlistを修正します。これはthrowしないことが保証されていますので、これも安全です。  
+残るはadd_or_update_mapping関数ですが、2つの分岐となるif.push_backは例外安全で、throwされた場合にオリジナルの状態のlistは残ります。よって２つの分岐は問題ありません。  
+
 1つの問題としてはあなたが現行の値を置き換える場合のケースにおける割り当てです。
 もし割り当てがthrowしたら、オリジナルが変化していないことに頼ることになります。
-しかしながら、これは全体としてデータ構造には影響を与えず、ユーザーが与えたタイプの所有となる。(XXX: 訳が不明)
-それなので、ユーザーにこれを扱いをまかせてしまうことは安全です。
+しかしながら、これは全体としてデータ構造には影響を与えず、ユーザーが与えたタイプのpropertyとなります。 よって、ユーザーにこの扱いをまかせてしまうことが安全です。
 
-このセクションのはじめで、例えばstd::map<>の例の様にルックアップテーブルで持つと素敵な機能としては現在のstateのsnapshotを取得できるオプションについて述べた。
-
+このセクションのはじめで、例えばstd::map<>の例の様にルックアップテーブルで持つと素敵な機能としては現在のstateのsnapshotを取得できるオプションについて述べた。  
 これは、整合性を保ったコピーを保証するためにすべてのbucketsへのロックを必要とします。
 なぜならば、通常のルックアップテーブルに対する操作というもは1度に1 bucketだけを要求します。これは、すべてのbucketへロックを要求する唯一の操作になるでしょう。
 
-それゆえに、あなたが毎回同じ順番でロックするという条件かにおいては、deadlockの可能性はないでしょう。そのような実装は下記で説明します。
+それゆえに、あなたが毎回同じ順番でロックするという条件下においては、デッドロックの可能性はないでしょう。そのような実装は下記で説明します。
 
-[listing6.12のコード]
+```
+// Listing6.12: Obtaining contents of a threadsafe_lookup_table as a std::map<>
+
+std::map<Key,Value> threadsafe_lookup_table::get_map() const
+{
+    std::vector<std::unique_lock<boost::shared_mutex> > locks;
+
+    for(unsigned i=0;i<buckets.size();++i)
+    {
+        locks.push_back(
+            std::unique_lock<boost::shared_mutex>(buckets[i].mutex));
+    }
+
+    std::map<Key,Value> res;
+
+    for(unsigned i=0;i<buckets.size();++i)
+    {
+        for(bucket_iterator it=buckets[i].data.begin();
+            it!=buckets[i].data.end();
+            ++it)
+        {
+            res.insert(*it);
+        }
+    }
+    return res;
+}
+```
 
 
 listing6.11からのルックアップテーブルの実装は、全体としてそれぞれのbucketを分割してlockをかけたり、それぞれのbucketへreader concurrencyを利用するためのboost::shared_mutexを利用することによってルックアップテーブルのconcurrencyな機会を増加させます。
