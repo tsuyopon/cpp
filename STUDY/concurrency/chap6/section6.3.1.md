@@ -3,7 +3,7 @@
 スタックやキューはシンプルです。
 つまり、IFは極めて制限されていて、それらは特定の目的に対してしっかりとフォーカスされています。
 すべてのデータ構造がシンプルというわけではありません。ほとんどのデータ構造は様々な操作を可能にしています。原則として、これらはconcurrencyへの大きな機会を与えています。
-しかし、その機会は複数でのアクセスパターンが考慮に含まれるために、データを保護するタスクをより困難にします。 (英文構造確認)  
+しかし、その機会は複数でのアクセスパターンが考慮に含まれるために、データを保護するタスクをより困難にします。 
 振舞われる様々な操作の正確な性質というものはconcurrencyなアクセスのデータ構造を設計するときに重要となります。
 
 ## 6.3.1 Writing a thread-safe lookup table using locks (ロックを使ってスレッドセーフなロックアップテーブルを記述する)
@@ -27,13 +27,13 @@ concurrencyからみたstd::maps<>インタフェースが持つ最も大きな�
 
 std::map(や他の標準ライブラリの連想コンテナ)のインターフェースがイテレータによって大部分がベースとなっていることを考慮すると、それらのコンテナは別においておいて、地盤から設計することを選択する方が価値がありそうです。
 
-テーブルをルックアップする際にわずかな操作があります。
+テーブルをルックアップする際には次のような操作があります。
 - 新しいkey/valueを追加する
 - 与えられたkeyに対するvalueを変更する
 - key/valueを削除する
 - 必要あれば、与えられたkeyに対する値を取得する。
 
-コンテナには操作にはまだ役にたつものがあります。コンテナが空かどうかのチェックや、keyリストの完全なスナップショットの提供、key/valueペアの完全なスナップショットの提供などです。  
+コンテナには操作に役立つものがあります。コンテナが空かどうかのチェックや、keyリストの完全なスナップショットの提供、key/valueペアの完全なスナップショットの提供などです。  
 
 もし、あなたが参照は返さない、各メンバー関数の全体にmutex lockを配置したりするなどシンプルなスレッドセーフガイドラインに従うのであれば、これらはすべて安全です。
 
@@ -55,13 +55,43 @@ mapped_type get_value(key_type const& key, mapped_type default_value);
 他のオプションとしては、値を参照するスマートポインタを返却することです。  
 もしポインタの値がNULLであれば、戻すべき値が存在しないということを意味しています。  
 
-すでに述べたように、一度interfaceが決定したら、スレッド安全はデータ構造に基づいて保護するためにすべてのメンバー関数の周りに1つのmutexや単純なロックによって保証されていると思います。
+すでに述べたように、一度interfaceが決定したら、スレッド安全はデータ構造に基づいて保護するためにすべてのメンバー関数の周りに1つのmutexをしたり、単純なロックによって保証されていると思います。
 
 しかしながら、これはデータ構造の読み込みや修正のための関数の分割によって提供されるconcurrencyの可能性を無駄遣いしていることにもなりうります。
 
 １つのオプションはlisting3.13に記載されたboost::shared_mutexのように複数のreader threadsをサポートした、１つのwriter threadをサポートしているmutexを使うことです。
 
-これはconcurrencyなアクセスを改善し、1つのスレッドだけがデータ構造を修正することができる。
+これによってconcurrencyなアクセスを改善し、1つのスレッドだけがデータ構造を修正することができる。
+
+(追記)
+- Example for boost shared_mutex (multiple reads/one write)?
+  - https://stackoverflow.com/questions/989795/example-for-boost-shared-mutex-multiple-reads-one-write
+
+boost::shared_mutexの利用方法は次のような感じになる。
+```
+boost::shared_mutex _access;
+
+// readerの場合にはshared_lockを利用する。
+void reader()
+{
+  // get shared access
+  boost::shared_lock<boost::shared_mutex> lock(_access);
+
+  // now we have shared access
+}
+
+// upgrade_lock -> upgrade_to_unique_lockの順番で取得する必要がある。ここで取得するロックは「同時に一つしか取れない特別なread lock」を意味する。
+void writer()
+{
+  // get upgradable access
+  boost::upgrade_lock<boost::shared_mutex> lock(_access);
+
+  // get exclusive access
+  boost::upgrade_to_unique_lock<boost::shared_mutex> uniqueLock(lock);
+
+  // now we have exclusive access
+}
+```
 
 
 ### DESIGNING A MAP DATA STRUCTURE FOR FINE-GRAINED LOCKING  (細かいロックのためのmapデータ構造の設計)
@@ -74,12 +104,17 @@ section6.2.3で議論されたqueueと同様に、細かいロックを許可す
 - 配列
 - ハッシュテーブル
 
+(追記) 赤黒木アルゴリズムについては、次の資料がわかった気になれた。
+- Red-Black Tree by Java -- これで分かった赤黒木
+  - http://wwwa.pikara.ne.jp/okojisan/rb-tree/index.html
+- MAP
+  - https://www.slideshare.net/kikairoya/map-17091504
+
 バイナリツリーはconcurrencyのための拡張機会を十分には提供してくれません。
 すべてのlookupや修正はroot nodeから開始することによってアクセスしなければならない。root nodeもそれゆえにlockが必要となります。
 このlockはスレッドがnodeを下へと移動していく際に解放されるが、全データ構造に対するシングルロックよりも良くない。  
 
 配列はさらに悪くなります。なぜなら、与えられたデータが配列中のどこに格納されるのか前もってわからないからです。それゆえに、全配列に対してシングルロックが必要となってきます。  
-
 
 最後にハッシュテーブルです。
 bucket(入れ物)における固定値だと仮定されるので、keyはそのkeyに純粋に結びつけられています。(ちょっと英訳が..)
@@ -90,10 +125,7 @@ C++標準ライブラリはstd::hash<>テンプレートを提供しています
 
 そしてユーザーは簡単に他のkey typeへと特化させることができます。
 
-もし、標準の整列されていないコンテナ(unorderd containers)を利用したり、関数オブジェクトのtypeを受け取るのであれば、ユーザーはそれらのkey typeのために特化したstd::hash<>、ハッシュ関数の分割を提供するかどうかを選択することができます。
-
-If you follow the lead of the standard unordered containers and take the type of the function object to use for doing the hashing as a template parameter, the user can choose whether to specialize std::hash<> for their key type or provide a separate hash function.
-
+もし、標準の整列されていないコンテナ(unorderd containers)を利用したり、テンプレートパラメータとしてハッシュ化するために関数オブジェクトのtypeを受け取るのであれば、ユーザーはそれらのkey typeのために特化したstd::hash<> や ハッシュ関数の分割を提供するかどうかを選択することができます。 (XXX: 意味がよくわかっていない...)
 
 じゃあ、いくつかのコードを見てみましょう。
 スレッドセーフなlookup tableの実装はどうなっているのか? 1つの可能性としていかに記載されています。
@@ -101,11 +133,37 @@ If you follow the lead of the standard unordered containers and take the type of
 [listin6.11のコード]
 
 この実装ではbucketsをholdするためにstd::vector<std::unique_ptr<bucket_type>> を使っています。これはコンストラクタで指定されたbucket数を許容します。デフォルトではその数値は19で素数です。
-ハッシュテーブルはbucketsが素数の際によく動きます。
+ハッシュテーブルはbucketsが素数の際によく動きます。(XXX: なぜ素数だとよく機能するのか不明)
 
 それぞれのbucketsは1つのバケットにたいして複数concurentなreadや1つの修正を許容するためのboost::shared_mutexインスタンスで保護されています。
-なぜならば、bucketの数は固定値なので、get_bucket()関数(7)はロックなしで呼ばれます(8, 9, 10)。
-そして、それからbucket mutexは
+bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼ばれます(8, 9, 10)。
+そして、それからbucket mutexは関数で適切にshared ownership(readonly)かunique(read/write) ownershipとしてロックされます。
+
+すべての３つの関数はバケット内にエントリがあるかどうかを決定するためにfind_entry_for()メンバー関数を最大限に利用します。  
+それぞれのbucketはstd::listのkey/valueペアを含みます。エントリの追加や削除は簡単です。  
+
+すでにconcurrencyに関してはカバーしてきた、そして、すべては適切にmutexロックで保護してきましたが、例外安全についてはどうだろうか?
+value_for関数は何も修正しないので、問題ありません。
+もし、value_forが例外を投げていたとしても、データ構造には影響なかっただろう。
+remove_mapping関数はeraseコールを利用してlistを修正します。これはthrowしないことが保証されていますので、これも安全です。
+残るはadd_or_update_mapping関数だが、2つの分岐となるif.push_backは例外安全で、throwされた場合にオリジナルの状態のlistは残ります。よって２つの分岐は問題ありません。
+1つの問題としてはあなたが現行の値を置き換える場合のケースにおける割り当てです。
+もし割り当てがthrowしたら、オリジナルが変化していないことに頼ることになります。
+しかしながら、これは全体としてデータ構造には影響を与えず、ユーザーが与えたタイプの所有となる。(XXX: 訳が不明)
+それなので、ユーザーにこれを扱いをまかせてしまうことは安全です。
+
+このセクションのはじめで、例えばstd::map<>の例の様にルックアップテーブルで持つと素敵な機能としては現在のstateのsnapshotを取得できるオプションについて述べた。
+
+これは、整合性を保ったコピーを保証するためにすべてのbucketsへのロックを必要とします。
+なぜならば、通常のルックアップテーブルに対する操作というもは1度に1 bucketだけを要求します。これは、すべてのbucketへロックを要求する唯一の操作になるでしょう。
+
+それゆえに、あなたが毎回同じ順番でロックするという条件かにおいては、deadlockの可能性はないでしょう。そのような実装は下記で説明します。
+
+[listing6.12のコード]
 
 
+listing6.11からのルックアップテーブルの実装は、全体としてそれぞれのbucketを分割してlockをかけたり、それぞれのbucketへreader concurrencyを利用するためのboost::shared_mutexを利用することによってルックアップテーブルのconcurrencyな機会を増加させます。
+
+しかし、さらに細かいロックによってbucket上でのconcurrencyの潜在的可能性を増加させたらどうなるでしょうか?
+次のセクションでは、イテレータをサポートしたスレッドセーフなlistコンテナを使うことによって、それを実施してみせます。
 
