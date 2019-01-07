@@ -52,6 +52,7 @@ $ objdump -d a.out
   40054b:	c3                   	retq   
   40054c:	0f 1f 40 00          	nopl   0x0(%rax)
 ...
+```
 
 
 今度は、Procedure Linkage Tableをみてみる。先ほどのcallqで400410を指し示していましたのでその箇所をみるようにします。
