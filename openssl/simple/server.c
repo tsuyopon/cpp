@@ -9,6 +9,7 @@
 // 参考:
 //   https://wiki.openssl.org/index.php/Simple_TLS_Server
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
