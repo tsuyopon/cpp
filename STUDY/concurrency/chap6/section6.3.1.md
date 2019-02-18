@@ -130,34 +130,39 @@ C++標準ライブラリはstd::hash<>テンプレートを提供しています
 じゃあ、いくつかのコードを見てみましょう。
 スレッドセーフなlookup tableの実装はどうなっているのか? 1つの可能性としていかに記載されています。
 
-[listin6.11のコード]
+[listin6.11のコード|listing6.11.cc]
 
-この実装ではbucketsをholdするためにstd::vector<std::unique_ptr<bucket_type>> を使っています。これはコンストラクタで指定されたbucket数を許容します。デフォルトではその数値は19で素数です。
-ハッシュテーブルはbucketsが素数の際によく動きます。(XXX: なぜ素数だとよく機能するのか不明)
+この実装ではbucketsをholdするためにstd::vector<std::unique_ptr<bucket_type>> (6)を使っています。これはコンストラクタで指定されたbucket数を許容します。デフォルトではその数値は19で素数です。
+ハッシュテーブルはbucketsが素数の際によく動きます。
+**TODO**: なぜ素数だとよく機能するのかをちゃんと調査したいが未着手
 
-それぞれのbucketsは1つのバケットにたいして複数concurentなreadや1つの修正を許容するためのboost::shared_mutexインスタンスで保護されています。
-bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼ばれます(8, 9, 10)。  (XXX: 固定値だとなぜロックなしなのか不明)
-そして、それからbucket mutexは関数で適切にshared ownership(readonly)かunique(read/write) ownershipとしてロックされます。
+それぞれのbucketsは1つのバケットに対してconcurentなread処理やmodificationを許容するためにboost::shared_mutexインスタンス(1)で保護されています。
+bucketの数は固定値なので、get_bucket関数(7)はロックなしで呼ばれます(8, 9, 10)。
+**TODO**: 固定値だとなぜロックなしなのか不明
 
-すべての３つの関数はバケット内にエントリがあるかどうかを決定するためにfind_entry_for()メンバー関数を最大限に利用します。  
+そして、それからbucket mutexは各関数で適切にshared ownership(read-only) (3) かunique(read/write) ownership (4, 5)としてロックされます。
+
+すべての３つの関数はバケット内にエントリがあるかどうかを決定するためにfind_entry_for()メンバー関数(2) を最大限に利用します。  
 それぞれのbucketはstd::listのkey/valueペアを含みます。エントリの追加や削除は簡単です。  
 
 すでにconcurrencyに関してはカバーしてきた、そして、すべては適切にmutexロックで保護してきましたが、例外安全についてはどうだろうか?
 value_for関数は何も修正しないので、問題ありません。
-もし、value_forが例外を投げていたとしても、データ構造には影響なかったでしょう。  
+もし、value_forが例外を投げていたとしても、データ構造には影響ないでしょう。
 
 remove_mapping関数はeraseコールを利用してlistを修正します。これはthrowしないことが保証されていますので、これも安全です。  
-残るはadd_or_update_mapping関数ですが、2つの分岐となるif.push_backは例外安全で、throwされた場合にオリジナルの状態のlistは残ります。よって２つの分岐は問題ありません。  
+残るはadd_or_update_mapping関数ですが、2つの分岐のうちの片方でif.push_backがthrowを投げるかもしれませんが例外安全です、もしthrowされた場合にもオリジナルの状態のlistは残ります。よって、これらの場合にも問題ありません。  
 
 1つの問題としてはあなたが現行の値を置き換える場合のケースにおける割り当てです。
 もし割り当てがthrowしたら、オリジナルが変化していないことに頼ることになります。
 しかしながら、これは全体としてデータ構造には影響を与えず、ユーザーが与えたタイプのpropertyとなります。 よって、ユーザーにこの扱いをまかせてしまうことが安全です。
+**TODO**
 
-このセクションのはじめで、例えばstd::map<>の例の様にルックアップテーブルで持つと素敵な機能としては現在のstateのsnapshotを取得できるオプションについて述べた。  
-これは、整合性を保ったコピーを保証するためにすべてのbucketsへのロックを必要とします。
-なぜならば、通常のルックアップテーブルに対する操作というもは1度に1 bucketだけを要求します。これは、すべてのbucketへロックを要求する唯一の操作になるでしょう。
+このセクションのはじめで、例えばstd::map<>の例の様にルックアップテーブルで持つと良い素敵機能としては現在の状態のsnapshotを取得できるオプションについて述べた。  
+これは、整合性を保った状態のコピーを保証するために順番で全コンテナへのロックを必要とします。
 
-それゆえに、あなたが毎回同じ順番でロックするという条件下においては、デッドロックの可能性はないでしょう。そのような実装は下記で説明します。
+なぜならば、通常のルックアップテーブルに対する操作というもは1度に1つのbucketのみを要求しますが、この場合にはすべてのbucketへロックを要求する唯一の操作になるでしょう。
+
+それゆえに、あなたが毎回同じ順番でロックするという条件下においては、デッドロックの可能性はないでしょう。そのような実装は以下のListing6.12になります。
 
 ```
 // Listing6.12: Obtaining contents of a threadsafe_lookup_table as a std::map<>
@@ -166,6 +171,7 @@ std::map<Key,Value> threadsafe_lookup_table::get_map() const
 {
     std::vector<std::unique_lock<boost::shared_mutex> > locks;
 
+    // ここで一気にロックを取得していてその順番が決定している
     for(unsigned i=0;i<buckets.size();++i)
     {
         locks.push_back(
@@ -174,6 +180,7 @@ std::map<Key,Value> threadsafe_lookup_table::get_map() const
 
     std::map<Key,Value> res;
 
+    // データの内容を一気にコピーしている
     for(unsigned i=0;i<buckets.size();++i)
     {
         for(bucket_iterator it=buckets[i].data.begin();
@@ -183,12 +190,13 @@ std::map<Key,Value> threadsafe_lookup_table::get_map() const
             res.insert(*it);
         }
     }
+
+    // デストラクタでロックが開放される
     return res;
 }
 ```
 
-
-listing6.11からのルックアップテーブルの実装は、全体としてそれぞれのbucketを分割してlockをかけたり、それぞれのbucketへreader concurrencyを利用するためのboost::shared_mutexを利用することによってルックアップテーブルのconcurrencyな機会を増加させます。
+listing6.11からのルックアップテーブルの実装は、それぞれのbucketを分割してlockかけたり、それぞれのbucketへreader concurrencyを利用するためのboost::shared_mutexを使用することによってルックアップテーブルのconcurrencyな機会を増加させます。
 
 しかし、さらに細かいロックによってbucket上でのconcurrencyの潜在的可能性を増加させたらどうなるでしょうか?
 次のセクションでは、イテレータをサポートしたスレッドセーフなlistコンテナを使うことによって、それを実施してみせます。
