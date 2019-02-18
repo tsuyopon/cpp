@@ -19,12 +19,13 @@ opensslコマンドについては「Commands」リンクを参照のこと、op
 
 # SSL_CTX構造体生成
 
-- SSL_CTX_new() 
-  - SSLの構造体を生成する
+### SSLの構造体を生成する
 ```
 ctx = SSL_CTX_new(SSLv23_client_method());
 ```
-- SSL_CTX_newの引数には次のような関数を指定できます。 
+
+### SSL_CTX_newの引数に指定するプロトコルバージョンを表す関数について
+SSL_CTX_newの引数には次のような関数を指定できます。 
 ```
 const SSL_METHOD *SSLv3_client_method(void);
 const SSL_METHOD *SSLv3_server_method(void);
@@ -39,6 +40,18 @@ const SSL_METHOD *SSLv23_server_method(void);
 const SSL_METHOD *SSLv23_method(void);
 ```
 
+### セッション
+```
+SSL_SESSION *SSL_get_session(const SSL *ssl);
+int SSL_set_session(SSL *ssl, SSL_SESSION *session);
+void SSL_SESSION_free(SSL_SESSION *session);
+```
+
+### コネクション
+```
+SSL *SSL_new(SSL_CTX *ctx);
+void SSL_free(SSL *ssl);
+```
 
 # データインタフェース
 ```
@@ -70,7 +83,39 @@ SSL_CTX_use_RSAPrivateKey_file(SSL_CTX *ctx, const char *file, int type);
 int SSL_CTX_load_verify_locations(SSL_CTX *ctx, const char *CAfile, const char *CApath);
 ```
 
-# セッション情報
+### 相手の証明書を取得する
+```
+X509* SSL_get_peer_certificate(const SSL *s);
+STACK_OF(X509)* SSL_get_peer_cert_chain(const SSL *s);
+```
+
+### 証明書を見やすい形式で加工する
+```
+int X509_print_fp(FILE *bp, X509 *x);
+```
+
+subject, issuerを見る場合は、
+```
+X509_NAME* X509_get_subject_name(X509 *a);
+X509_NAME* X509_get_issuer_name(X509 *a);
+```
+
+### 通信相手の証明書検証結果を確認する
+```
+long SSL_get_verify_result(const SSL *ssl);
+```
+
+
+# クライアントからの情報取得、及び設定
+
+### バージョン取得
+```
+int SSL_client_version(const SSL *s);
+const char *SSL_get_version(const SSL *ssl);
+int SSL_is_dtls(const SSL *ssl);
+int SSL_version(const SSL *s);
+```
+TLS1.3ではSSL_client_version()はその時の値を返さないので注意。
 
 ### ALPN
 - クライアントから送付されてきたALPNを取得する
@@ -98,3 +143,6 @@ int SSL_session_reused(SSL *ssl);
 ```
 
 
+# 参考URL
+- OpenSSLライブラリを使ってプログラミング(1)
+  - https://lemniscus.hatenablog.com/entry/20090730/1248970407
