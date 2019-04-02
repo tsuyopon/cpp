@@ -24,10 +24,10 @@ private:
         typedef std::list<bucket_value> bucket_data;
         typedef typename bucket_data::iterator bucket_iterator;
         bucket_data data;
-        mutable boost::shared_mutex mutex; // bucketへの操作を制御するmutex
+        mutable boost::shared_mutex mutex;                           // 1   bucketへの操作を制御するmutex
 
     // 指定されたkeyがbucket_value中に存在するかをチェックする
-    bucket_iterator find_entry_for(Key const& key) const
+    bucket_iterator find_entry_for(Key const& key) const             // 2
     {
         return std::find_if(data.begin(),data.end(),
                             [&](bucket_value const& item)
@@ -37,7 +37,7 @@ private:
     public:
     Value value_for(Key const& key,Value const& default_value) const
     {
-        boost::shared_lock<boost::shared_mutex> lock(mutex);
+        boost::shared_lock<boost::shared_mutex> lock(mutex);        // 3
         bucket_iterator const found_entry = find_entry_for(key);
         return (found_entry==data.end())?
             default_value:found_entry->second;
@@ -46,7 +46,7 @@ private:
     // keyがなければ追加、あれば更新する関数
     void add_or_update_mapping(Key const& key,Value const& value)
     {
-        ::unique_lock<boost::shared_mutex> lock(mutex);
+        ::unique_lock<boost::shared_mutex> lock(mutex);           // 4
         bucket_iterator const found_entry = find_entry_for(key);
         if(found_entry==data.end()) {
             // keyが見つからなかった場合
@@ -60,7 +60,7 @@ private:
     // keyがあれば削除する関数
     void remove_mapping(Key const& key)
     {
-        std::unique_lock<boost::shared_mutex> lock(mutex);
+        std::unique_lock<boost::shared_mutex> lock(mutex);      // 5
         bucket_iterator const found_entry = find_entry_for(key);
         if(found_entry!=data.end())
         {
@@ -72,10 +72,10 @@ private:
 
     /* ここからはもうbucket_typeクラスではないことに注意 */
 
-    std::vector<std::unique_ptr<bucket_type> > buckets;
+    std::vector<std::unique_ptr<bucket_type> > buckets;         // 6
     Hash hasher;
 
-    bucket_type& get_bucket(Key const& key) const
+    bucket_type& get_bucket(Key const& key) const               // 7
     {
         std::size_t const bucket_index=hasher(key)%buckets.size();
         return *buckets[bucket_index];
@@ -93,7 +93,7 @@ public:
     {
         for(unsigned i=0;i<num_buckets;++i)
         {
-            buckets[i].reset(new bucket_type);
+            buckets[i].reset(new bucket_type);                 // std::unique_ptr::reset リソースの所有権を放棄して、新たなリソースの所有権を設定
         }
     }
 
@@ -102,20 +102,25 @@ public:
     threadsafe_lookup_table& operator=(
         threadsafe_lookup_table const& other)=delete;
 
+    // 以下の３関数はget_bucketからオブジェクトを取得して、private上の関数を呼び出す
+
+    // 指定したkeyに値があれば取得する
     Value value_for(Key const& key,
                     Value const& default_value=Value()) const
     {
-        return get_bucket(key).value_for(key,default_value);
+        return get_bucket(key).value_for(key,default_value);       // 8
     }
 
+    // keyがあればupdate(更新)、keyがなければadd(新規追加)
     void add_or_update_mapping(Key const& key,Value const& value)
     {
-        get_bucket(key).add_or_update_mapping(key,value);
+        get_bucket(key).add_or_update_mapping(key,value);          // 9
     }
 
+    // keyがあればremove(削除)
     void remove_mapping(Key const& key)
     {
-        get_bucket(key).remove_mapping(key);
+        get_bucket(key).remove_mapping(key);                       // 10
     }
 };
 
