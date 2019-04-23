@@ -12,7 +12,7 @@ execute:
 
 # 「「ldconfig -n .」でlibhello.so.0が生成されます
 dynamiclib:
-	gcc -Wall -g -c libhello.c
+	gcc -fPIC -Wall -g -c libhello.c
 	gcc -g -shared -Wl,-soname,libhello.so.0 -o libhello.so.0.0 libhello.o -lc
 	/sbin/ldconfig -n .
 	ln -sf libhello.so.0 libhello.so
