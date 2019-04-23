@@ -1,12 +1,12 @@
 # 概要
-1つのプログラムsampleから2つの異なるバージョンのso中の関数を呼び出してそこからsoバージョンが異なるそれぞれのhello()を呼び出すプログラムを作成した。　
+1つのプログラムsampleから2つの異なる共有ライブラリ中の関数を呼び出す。そのsoからはそれぞれ別バージョンのsoのhello()を呼び出すプログラムを作成した。
 ```
-sample ---------- liblibrary.so.1.0
+sample ---------- liblibrary1.so.1.0
             |         |
             |         |----------------- libhello.so.1.0   // 内部にhello()が定義
             |
             |
-            ----- liblibrary.so.2.0
+            ----- liblibrary2.so.1.0
                       |
                       |----------------- libhello.so.2.0   // 内部にhello()が定義
 ```
@@ -40,5 +40,9 @@ liblibrary1 destructor
 liblibrary1 destructor
 liblibrary1 destructor
 ```
+
+# まとめ
+- 異なるバージョンのshared objectに依存(DT_NEEDED)が存在し、呼び出す関数名称が同じ場合先に読み込んだsoバージョン側が呼ばれる。
+- コンストラクタ、デストラクタはライブラリを呼び出した回数だけ呼ばれる。コンストラクタとデストラクタも呼び出す関数名称が同じなので上記の条件と同一であることがわかる。
 
 
