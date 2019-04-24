@@ -10,6 +10,10 @@ all: clean dynamiclib
 execute: 
 	LD_LIBRARY_PATH="." ./sample
 
+# LD_DEBUGにlibsを指定すると非常に有用なライブラリのリンク情報を確認することができます。
+execute_debug: 
+	LD_DEBUG=libs LD_LIBRARY_PATH="." ./sample
+
 # 「「ldconfig -n .」でlibhello.so.0やlibhello.so.1が生成されます
 dynamiclib:
 	gcc -fPIC -Wall -g -c libhello1.c
