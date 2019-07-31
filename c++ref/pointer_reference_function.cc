@@ -1,6 +1,8 @@
 // 関数を実装する際に戻り値としてポインタを返すべきか、参照を返すべきか悩んだ場合にはこのプログラムを参照すること
 // 基本的にはポインタを返して、参照で受け取っても動作自体には問題ないが、その場合には無駄なコピーコンストラクタが呼ばれることに注意すること
 
+// 参考: https://teramonagi.hatenablog.com/entry/20120623/1340429460
+
 #include <iostream>
 using namespace std;
 class Hoge
@@ -26,7 +28,7 @@ int main()
 	cout << endl << "### 参照返し" << endl;
 	cout << "値で受け取り" << endl;
 	Hoge   x_ref = get_ref();
-	cout << "参照で受け取り" << endl;
+	cout << "参照で受け取り" << endl;          // 参照で返されたものは参照で受け取ることで、コピーコンストラクタを呼ばないことができる。
 	const Hoge & y_ref = get_ref();
 
 	return 0;
