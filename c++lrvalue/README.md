@@ -13,12 +13,6 @@ C++98のreferenceは、C++0xにおいては、lvalue referenceと呼ばれるも
 lvalueはアンパサンド1つ(&)で宣言し、rvalueはアンパサンド２つ(&&)で宣言する。  
 lvalueはrvalueに変換できるが、その逆、rvalueをlvalueに変換することは出来ない(sample2.ccで確認すること)。
 
-- lvalue
-  - 寿命管理することができるオブジェクトを指す。
-- rvalue
-  - rvalueとは生まれた次の瞬間には死ななくてはならないオブジェクトのことなのです。X()など..
-  - rvalue referenceとして受け取ったオブジェクト(例: A&& rr2 = A(); )はrvalueではなくて、lvalueということです。
-
 std::moveの場合にはT::operator(T&& b)が呼ばれる仕組みになっているのでこの辺の違いをしっかりと理解しておく必要があります。
 
 # 詳細
