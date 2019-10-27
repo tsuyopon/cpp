@@ -21,14 +21,13 @@ public:
 #endif // ISMUTABLE
         int value2_;
         CLASS(){ value_ = 0; }                   // mutableでなかろうが、mutableであろうが、コンストラクタの中で値を変更するのはコンパイルエラーにならず問題無い
-        void init() const { value_ = 0; }        // コンストラクタ以外のメンバ関数内でmutableでない変数を初期化するとコンパイルエラーとなる
+        void init() const { value_ = 0; }        // constメンバ関数内でmutableでないメンバ変数を初期化しようとするとコンパイルエラーとなる
 };
 
 
-// 前提としては、CLASSがconst宣言されている場合であることに注意してください。
 int main()
 {
-        const CLASS c;                          // constでクラス定義がされている場合、(重要)
-        c.value_ = 10;                          // publicメンバ変数でもmutable定義されていれば書き換え可能
-//        c.value2_ = 20;                       // この場合にはmutable定義されていないので、必ずコンパイルエラーとなる。
+        const CLASS c;                           // constでクラス定義がされている場合、
+        c.value_ = 10;                           // publicメンバ変数でもmutable定義されていれば書き換え可能だが、
+//        c.value2_ = 20;                        // この場合にはvalue2_はmutable定義されていないので、必ずコンパイルエラーとなる。
 }
