@@ -67,7 +67,7 @@ Breakpoint 1, thread_main (args=0x0) at sample.c:9
 ```
 
 info threadでスレッドが全て起動したことが確認できたら、次のset scheduler-locking onをセットして全スレッドを停止することができます。
-その後、nextを実行しても"Switching to Thread"という他のスレッドへの移動表記は見当たらなくなりました。
+その後、nextを実行しても"Switching to Thread"という他のスレッドへの移動表記は見当たらなくなりました。その後、info threadを実行しても稼働スレッドが変化していないことが確認できます。
 ```
 (gdb) set scheduler-locking on
 (gdb) n
@@ -114,4 +114,5 @@ this is loop 3/100
 ```
 (gdb) set scheduler-locking on
 ```
+
 
