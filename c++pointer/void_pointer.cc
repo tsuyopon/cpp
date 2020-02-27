@@ -7,17 +7,6 @@ static int array_[3][5] = {
 		{ 3, 6, 9, 12, 15, },
 };
 
-//// voidに値を設定する関数  (※insertVoidAddressとの説明の違いを理解すること)
-//void insertVoidValue(void* ret){
-//	printf("In insertVoidValue. ret=%p\n", ret);
-//
-//	// ret(void*)の値である*ret(void)に対して値を設定する。void型はなんでも入れられる型である。設定されるのはアドレスではなく実体である
-//	*ret = reinterpret_cast<void*>(array_);
-//
-//	printf("In insertVoidValue. ret=%p\n", ret);
-//
-//}
-
 // voidのアドレスに値を設定する関数
 //    引数のvoid**はvoid*のアドレスを受け取ることを意味しているので、関数の型に応じて設定する
 void insertVoidAddress(void** ret){
@@ -31,6 +20,16 @@ void insertVoidAddress(void** ret){
 
 }
 
+/// insertVoidAddressは次の関数のようにも記述できる。
+//void insertVoidAddress2(void* ret){
+//
+//	printf("In insertVoidAddress. ret=%p\n", ret);
+//
+//	ret = reinterpret_cast<void*>(&array_);
+//
+//	printf("In insertVoidAddress. ret=%p\n", ret);
+//
+//}
 
 int main(){
 
