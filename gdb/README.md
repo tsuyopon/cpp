@@ -21,4 +21,14 @@ GDBを通したデバッギングについてまとめていきます
   - テンプレートを使った場合にブレークポイントを指定する方法について
 - [TraceForkChildParent](TraceForkChildParent)
   - fork()をした後にchildを追跡したり、parentを追跡する方法について
+- [CatchException](CatchException)
+  - C++で例外を補足する方法について
+- [StopAllThreadsExceptCurrentThread](StopAllThreadsExceptCurrentThread)
+  - マルチスレッドプログラムにおいて、nextやcontinue時に勝手にスレッド間の稼働状態を変更しないようにする方法について(つまり、gdbデバッグ時は他のスレッドは完全に停止することになる)
+- [IgnoreSigPipe](IgnoreSigPipe)
+  - SIGPIPEをgdbが受け取ってもハングしないようにする方法について
+- [JumpProgram](JumpProgram)
+  - 特定の分岐をJMPする方法について
+- [BatchMacro](BatchMacro)
+  - gdbにバッチファイルを指定する方法について
 
