@@ -30,5 +30,24 @@ $ ldd sample
 	not a dynamic executable
 ```
 
+# 注意点
+コンパイル時にlcが見つからないといったエラーが表示されたら
+```
+$ make
+rm -f *.o *.a sample
+gcc -Wall -g -c -o libhello-static.o libhello.c
+ar rcs libhello-static.a libhello-static.o
+gcc -Wall -g -c sample.c -o sample.o
+gcc -static -g -o sample sample.o -L. -lhello-static
+/usr/bin/ld: cannot find -lc
+collect2: error: ld returned 1 exit status
+make: *** [all] Error 1
+```
+
+以下のパッケージをインストールしてください。
+```
+$ yum install glibc-static
+```
+
 # 参考
 - https://linuxjf.osdn.jp/JFdocs/Program-Library-HOWTO/more-examples.html
