@@ -4,6 +4,9 @@
 #
 # Copyright 2002-2006 Aaron Isotton <aaron@isotton.com>
 # Licensed under the GNU GPL.
+#
+all:
+	gdb ./example1 -x test.gdbinit
 
 example1: external.so hello.so hello2.so hello3.so 
 	$(CXX) $(CXXFLAGS) -g -o example1 main.cpp -ldl
