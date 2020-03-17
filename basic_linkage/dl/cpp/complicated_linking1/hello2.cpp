@@ -2,8 +2,10 @@
 #include <string>
 #include <vector>
 #include <dlfcn.h>
+#include "external.h"
 
 extern "C" void hello2() {
+    external();
     std::cout << "hello2" << '\n';
         std::vector<std::string> data;
         std::vector<std::string>::iterator itr;
