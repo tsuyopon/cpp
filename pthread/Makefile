@@ -1,4 +1,4 @@
-all: hellothread hellomutex hellodeadlock
+all: hellothread hellomutex hellodeadlock threadlocal
 
 LIB = -lpthread
 hellothread: hellothread.cc
@@ -8,6 +8,9 @@ hellomutex: hellomutex.cc
 	g++ $^ -o $@.out $(LIB)
 
 hellodeadlock: hellodeadlock.cc
+	g++ $^ -o $@.out $(LIB)
+
+threadlocal: threadlocal.cc
 	g++ $^ -o $@.out $(LIB)
 
 clean:
