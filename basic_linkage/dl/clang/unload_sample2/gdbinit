@@ -1,0 +1,55 @@
+# カレントィレクトリから.gitinitを読み込む
+
+# コマンド履歴を保存する
+set history save on
+set history size 10000
+set history filename ~/.gdb_history
+
+# listコマンドで表示する行数
+set listsize 25
+
+# 配列の要素を全て表示する
+set print elements 0
+
+# 構造体のメンバを1行ずつ表示できる
+set print pretty on
+
+# quitコマンドで終了するときに確認しない
+define hook-quit
+    set confirm off
+end
+
+#  See https://stackoverflow.com/questions/28815621/how-to-disable-type-return-to-continue-or-q-return-to-quit-in-gdb
+set pagination off
+
+# Alias
+alias -a ib = info b
+alias -a ia = info args
+alias -a il = info locals
+alias -a bd = clear
+
+# for future pending. see: https://stackoverflow.com/questions/100444/how-to-set-breakpoints-on-future-shared-libraries-with-a-command-flag 
+set breakpoint pending on
+
+##########################################
+# TRACE ld.so
+##########################################
+dprintf _start,             "_start: EntryPoint main function start\n"
+dprintf __libc_start_main,  "__libc_start_main: libc start main\n"
+
+##########################################
+# TRACE ld.so
+##########################################
+dprintf _dl_start,          "_dl_start: EntryPoint main function start\n"
+dprintf _dl_start_final,    "_dl_start_final: EntryPoint main function start\n"
+dprintf _dl_start_user,     "_dl_start_user: Call User main Program at this entrypoint\n"
+dprintf _dl_sysdep_start,   "_dl_sysdep_start\n"
+dprintf _dl_runtime_resolve,"_dl_runtime_resolve\n"
+dprintf dl_main,            "dl_main\n"
+dprintf main,               "main: This is user main program entrypoint\n"
+
+##########################################
+# load lib
+##########################################
+dprintf _dl_map_object_from_fd,   "_dl_map_object_from_fd: %s\n", realname
+dprintf dl-load.c:955, "dl-load.c: %s\n", name
