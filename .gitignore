@@ -1,3 +1,8 @@
 *.swp
 *~
 a.out*
+*.o
+*.a
+*.so
+*.so.0*
+*.gcda
