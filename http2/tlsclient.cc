@@ -51,6 +51,7 @@ static int protos_len = 3;
 char* to_framedata3byte(char *p, int &n);
 int get_error();
 void close_socket(SOCKET socket, SSL_CTX *_ctx, SSL *_ssl);
+static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len);
 
 int main(int argc, char **argv)
 {
@@ -59,6 +60,7 @@ int main(int argc, char **argv)
     // 接続先ホスト名.
     //------------------------------------------------------------
     std::string host = "www.yahoo.co.jp";
+    //std::string host = "www.google.com";
 
     //------------------------------------------------------------
     // SSLの準備.
@@ -73,7 +75,8 @@ int main(int argc, char **argv)
     SSL_load_error_strings();
 
     // グローバルコンテキスト初期化.
-    const SSL_METHOD *meth = TLSv1_method();
+    const SSL_METHOD *meth = TLSv1_2_method();
+    //const SSL_METHOD *meth = TLSv1_method();
     //const SSL_METHOD *meth = SSLv23_method();
     _ctx = SSL_CTX_new(meth);
 
@@ -145,6 +148,25 @@ int main(int argc, char **argv)
         close_socket(_socket, _ctx, _ssl);
         return 0;
     }
+
+    unsigned char buf_raw_r[SSL3_RANDOM_SIZE];
+    unsigned char buf_client_random[SSL3_RANDOM_SIZE*2+10];
+    unsigned char buf_raw_m[SSL_MAX_MASTER_KEY_LENGTH];
+    unsigned char buf_master_key[SSL_MAX_MASTER_KEY_LENGTH*2+10];
+    ssize_t res;
+
+    FILE *outputfile;         // 出力ストリーム
+    outputfile = fopen("/Users/tsuyoshi/Desktop/tls_key.log", "a");
+
+    size_t ssl_client_r = SSL_get_client_random(_ssl, buf_raw_r, SSL3_RANDOM_SIZE);
+    res = to_hex(buf_client_random, sizeof(buf_client_random), buf_raw_r, ssl_client_r);
+    res = fprintf(outputfile, "CLIENT_RANDOM %s ", buf_client_random);
+
+    size_t ssl_client_m = SSL_SESSION_get_master_key(SSL_get_session(_ssl), buf_raw_m, SSL_MAX_MASTER_KEY_LENGTH);
+    res = to_hex(buf_master_key, sizeof(buf_master_key), buf_raw_m, ssl_client_m);
+    res = fprintf(outputfile, "%s\n", buf_master_key);
+
+    fclose(outputfile);          // ファイルをクローズ(閉じる)
 
     //------------------------------------------------------------
     // これからHTTP2通信を開始する合図.
@@ -553,7 +575,7 @@ int main(int argc, char **argv)
     }
 
     to_framedata3byte(p, payload_length);
-    printf("Received FramePayloadSize: %d", payload_length);
+    printf("Received FramePayloadSize: %d\n", payload_length);
 
     // 次にpayloadを受信する。
     while (payload_length > 0){
@@ -637,10 +659,26 @@ int get_error(){
 }
 
 char* to_framedata3byte(char *p, int &n){
-    u_char buf[4] = { 0 };
-    memcpy(&(buf[1]), p, 3);
-    memcpy(&n, buf, 4);
-    n = ntohl(n);
-    p += 3;
+    u_char buf[4] = {0};      // bufを4byte初期化
+    memcpy(&(buf[1]), p, 3);  // bufの2byte目から4byteめまでをコピー
+    memcpy(&n, buf, 4);       // buf領域を全てコピー
+    n = ntohl(n);             // ネットワークバイトオーダーを変換
+    p += 3;                   // フレーム3byte分の取得が完了したので、3byte分ずらす
     return p;
 }
+
+static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len) {
+//printf("%d\n", dst_len);
+//printf("%d\n", src_len);
+	ssize_t wr = 0;
+	for (size_t i = 0; i < src_len; i++) {
+		int w = snprintf((char *) dst + wr, dst_len - (size_t) wr, "%02x", src[i]);
+		if (w <= 0)
+			return -1;
+		wr += (ssize_t) w;
+	}
+//printf("%s\n", dst);
+	return wr;
+}
+
+
