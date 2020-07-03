@@ -53,14 +53,63 @@ int get_error();
 void close_socket(SOCKET socket, SSL_CTX *_ctx, SSL *_ssl);
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len);
 
+/*
+ *  HTTP/2 フレーム仕様: https://tools.ietf.org/html/rfc7540#section-4
+ *  length(24) + type(8) + Flags(8) + R(1) + StreamID(31)
+ *  (lengthにはフレームペイロード自体の9byteは含まれない)
+ */
+// FIXME: StreamIDは31なのにintで定義してる
+unsigned char* createFramePayload (int length, char type, char flags, int streamid){
+    unsigned char *frame;
+    frame = static_cast<unsigned char*>(std::malloc(BINARY_FRAME_LENGTH));   // BINARY_FRAME_LENGTH = 9 byte
+
+	//printf("length: %d\n", length);
+	//printf("length: %d\n", ((length)&0xFF));
+	// int(4byte)なので、1byte先から3byte分取得する)
+	frame[0] = ((length>>16)&0xFF);
+	frame[1] = ((length>>8)&0xFF);
+	frame[2] = ((length)&0xFF);
+
+	// MEMO: なぜこれはうまくいかないのか?
+	//memcpy(frame+2, (char*)((length>>24)&0xFF), 1);  // extract 4th byte
+
+	frame[3] = type;
+	frame[4] = flags;
+
+	// intを各種バイトずつ敷き詰める。memcpyだと先頭ビットに1が配布されてうまくいかない
+	frame[5] = ((streamid>>24)&0xFF);
+	frame[6] = ((streamid>>16)&0xFF);
+	frame[7] = ((streamid>>8)&0xFF);
+	frame[8] = ((streamid)&0xFF);
+
+	return frame;
+}
+
+// create frame data
+int createHpack(const std::string header, const std::string value, unsigned char* &dst){
+    unsigned char *hpack;
+    hpack = static_cast<unsigned char*>(std::malloc( 1 + 1 + header.length() + 1 + value.length()));
+    hpack[0] = 0;
+    hpack[1] = header.length();
+    memcpy(hpack+2, header.c_str(), header.length());
+    hpack[2+header.length()] = value.length();
+    memcpy(hpack+2+header.length()+1, value.c_str(), value.length());
+
+
+//    printf("%02X %02X %02X %02X %02X %02X %02X %02X %02X\n", hpack[0], hpack[1],hpack[2],hpack[3],hpack[4],hpack[5],hpack[6],hpack[7],hpack[8]);
+    dst = hpack;
+//    printf("%02X %02X %02X %02X %02X %02X %02X %02X %02X\n", dst[0], dst[1],dst[2],dst[3],dst[4],dst[5],dst[6],dst[7],dst[8]);
+    return 1 + 1 + header.length() + 1 + value.length();
+}
+
 int main(int argc, char **argv)
 {
 
     //------------------------------------------------------------
     // 接続先ホスト名.
     //------------------------------------------------------------
-    std::string host = "www.yahoo.co.jp";
-    //std::string host = "www.google.com";
+    //std::string host = "www.yahoo.co.jp";
+    std::string host = "www.google.com";
 
     //------------------------------------------------------------
     // SSLの準備.
@@ -75,9 +124,7 @@ int main(int argc, char **argv)
     SSL_load_error_strings();
 
     // グローバルコンテキスト初期化.
-    const SSL_METHOD *meth = TLSv1_2_method();
-    //const SSL_METHOD *meth = TLSv1_method();
-    //const SSL_METHOD *meth = SSLv23_method();
+    const SSL_METHOD *meth = TLSv1_2_method();   // TLS_method()にしたらmaster_secretが取得できなくなった。。。
     _ctx = SSL_CTX_new(meth);
 
     int error = 0;
@@ -153,9 +200,9 @@ int main(int argc, char **argv)
     // wiresharkにTLSを解読させるための出力を行う。
     //------------------------------------------------------------
     unsigned char buf_raw_r[SSL3_RANDOM_SIZE];
-    unsigned char buf_client_random[SSL3_RANDOM_SIZE*2+10];
+    unsigned char buf_client_random[SSL3_RANDOM_SIZE*2+10];        // +1でいいかも
     unsigned char buf_raw_m[SSL_MAX_MASTER_KEY_LENGTH];
-    unsigned char buf_master_key[SSL_MAX_MASTER_KEY_LENGTH*2+10];
+    unsigned char buf_master_key[SSL_MAX_MASTER_KEY_LENGTH*2+10];  // +1でいいかも
     ssize_t res;
 
     FILE *outputfile;         // 出力ストリーム
@@ -422,25 +469,52 @@ int main(int argc, char **argv)
 
     // バイト数を変更したら配列数を変更してください、また、SSL_wirteにわたすバイト数も変更してください。
     // フレームの先頭3byteはフレームに含まれるバイト数です。全体で74ならば、そこからヘッダフレーム9byteを引いた64(0x00, 0x00, 0x41)を指定します。
-    const unsigned char headersframe[74] = {
-        0x00, 0x00, 0x41, 0x01, 0x05, 0x00, 0x00, 0x00, 0x01,   // ヘッダフレーム(**バイト数を変更したら上位３ビットを変更してください**)
-        0x00,                                                   // 圧縮情報
-        0x07, 0x3a, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64,         // 7 :method
-        0x03, 0x47, 0x45, 0x54,                                 // 3 GET
-        0x00,                                                   // 圧縮情報
-        0x05, 0x3a, 0x70, 0x61, 0x74, 0x68,                     // 5 :path
-        0x01, 0x2f,                                             // 1 /
-        0x00,                                                   // 圧縮情報
-        0x07, 0x3a, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x65,         // 7 :scheme
-        0x05, 0x68, 0x74, 0x74, 0x70, 0x73,                     // 5 https
-        0x00,                                                   // 圧縮情報
-        0x0a, 0x3a, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x74, 0x79,           // 10 :authority
-        0x0f, 0x77, 0x77, 0x77, 0x2e, 0x79, 0x61, 0x68, 0x6f, 0x6f, 0x2e, 0x63, 0x6f, 0x2e, 0x6a, 0x70 };  // 15.www.yahoo.co.jp
+//    const unsigned char headersframe[74] = {
+//        0x00, 0x00, 0x41, 0x01, 0x05, 0x00, 0x00, 0x00, 0x01,   // ヘッダフレーム(**バイト数を変更したら上位３ビットを変更してください**)
+//        0x00,                                                   // 圧縮情報
+//        0x07, 0x3a, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64,         // 7 :method
+//        0x03, 0x47, 0x45, 0x54,                                 // 3 GET
+//        0x00,                                                   // 圧縮情報
+//        0x05, 0x3a, 0x70, 0x61, 0x74, 0x68,                     // 5 :path
+//        0x01, 0x2f,                                             // 1 /
+//        0x00,                                                   // 圧縮情報
+//        0x07, 0x3a, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x65,         // 7 :scheme
+//        0x05, 0x68, 0x74, 0x74, 0x70, 0x73,                     // 5 https
+//        0x00,                                                   // 圧縮情報
+//        0x0a, 0x3a, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x74, 0x79,           // 10 :authority
+//        0x0f, 0x77, 0x77, 0x77, 0x2e, 0x79, 0x61, 0x68, 0x6f, 0x6f, 0x2e, 0x63, 0x6f, 0x2e, 0x6a, 0x70 };  // 15.www.yahoo.co.jp
+
+    int ret_value, ret_value2, ret_value3, ret_value4, total;
+    unsigned char* query1;
+    unsigned char* query2;
+    unsigned char* query3;
+    unsigned char* query4;
+    ret_value  = createHpack(std::string(":method"),    std::string("GET"), query1);
+    ret_value2 = createHpack(std::string(":path"),      std::string("/"), query2);
+    ret_value3 = createHpack(std::string(":scheme"),    std::string("https"), query3);
+    ret_value4 = createHpack(std::string(":authority"), std::string("www.google.com"), query4);
+    total = ret_value + ret_value2 + ret_value3 + ret_value4;
+
+    unsigned char* framepayload;
+    framepayload = createFramePayload(total, 0x01, 0x05, 1);
+
+	unsigned char* headersframe;
+	headersframe = static_cast<unsigned char*>(std::malloc(sizeof(unsigned char)*(total+BINARY_FRAME_LENGTH)));
+	int offset;
+	memcpy(headersframe, framepayload, BINARY_FRAME_LENGTH);
+	offset = BINARY_FRAME_LENGTH;
+	memcpy(headersframe+offset, query1, ret_value);
+	offset += ret_value;
+	memcpy(headersframe+offset, query2, ret_value2);
+	offset += ret_value2;
+	memcpy(headersframe+offset, query3, ret_value3);
+	memcpy(headersframe+BINARY_FRAME_LENGTH+ret_value+ret_value2+ret_value3, query4, ret_value4);
 
     printf("=== Start write HEADERS frame\n");
     while (1){
 
-        r = SSL_write(_ssl, headersframe, 74);
+        r = SSL_write(_ssl, headersframe, total+BINARY_FRAME_LENGTH);
+//        r = SSL_write(_ssl, headersframe, 74);
 
         ret = SSL_get_error(_ssl, r);
         switch (ret){
@@ -690,11 +764,13 @@ char* to_framedata3byte(char *p, int &n){
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len) {
 	ssize_t wr = 0;
 	for (size_t i = 0; i < src_len; i++) {
+		printf("%02X", src[i]);
 		int w = snprintf((char *) dst + wr, dst_len - (size_t) wr, "%02x", src[i]);
 		if (w <= 0)
 			return -1;
 		wr += (ssize_t) w;
 	}
+	printf("\n");
 	return wr;
 }
 
