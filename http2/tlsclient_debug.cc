@@ -6,7 +6,7 @@
 // コンパイル: $ g++ -lssl -lcrypto -lstdc++ tlsclient.cc  
 //
 //*****************************************************
-// OpenSSL1.0.2以上を使用.
+// OpenSSL1.1.0以上を使用.
 //*****************************************************
 
 #include <stdio.h>
@@ -53,6 +53,9 @@ int get_error();
 void close_socket(SOCKET socket, SSL_CTX *_ctx, SSL *_ssl);
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len);
 
+void to_frametype(unsigned char *p, unsigned char *type);
+void to_frameflags(unsigned char *p, unsigned char *flags);
+
 /*
  *  HTTP/2 フレーム仕様: https://tools.ietf.org/html/rfc7540#section-4
  *  length(24) + type(8) + Flags(8) + R(1) + StreamID(31)
@@ -63,15 +66,22 @@ unsigned char* createFramePayload (int length, char type, char flags, int stream
     unsigned char *frame;
     frame = static_cast<unsigned char*>(std::malloc(BINARY_FRAME_LENGTH));   // BINARY_FRAME_LENGTH = 9 byte
 
-	//printf("length: %d\n", length);
-	//printf("length: %d\n", ((length)&0xFF));
+	// Relate: Values greater than 2^14 (16,384) MUST NOT be sent unless the receiver has set a larger value for SETTINGS_MAX_FRAME_SIZE. (sec4.1)
+
+	// 最初の3byte(24bit)はLength
 	// int(4byte)なので、1byte先から3byte分取得する)
 	frame[0] = ((length>>16)&0xFF);
 	frame[1] = ((length>>8)&0xFF);
 	frame[2] = ((length)&0xFF);
 
+	// フレームタイプ
 	frame[3] = type;
+
+	// Flags
 	frame[4] = flags;
+
+	// TODO: Reservedは省略した作りになっている。
+	// R: A reserved 1-bit field. The semantics of this bit are undefined, and the bit MUST remain unset (0x0) when sending and MUST be ignored when receiving. (sec4.1)
 
 	// intを各種バイトずつ敷き詰める。memcpyで4byteコピーを指定すると先頭ビットに1が配置されてしまうようでうまくいかない
 	frame[5] = ((streamid>>24)&0xFF);
@@ -84,7 +94,7 @@ unsigned char* createFramePayload (int length, char type, char flags, int stream
 
 // HPACKの簡単なデータを作成する。
 // ここで対応しているのは、以下のパターンのみ。
-// しかし、headerまたはvalueが127文字を超過した際のパケットの整数表現に対応できていない
+// しかし、headerまたはvalueが127文字を超過した際のパケットの整数表現に対応できていないという非常に簡易なもの
 // https://tools.ietf.org/html/rfc7541#section-6.2.2
 int createHpack(const std::string header, const std::string value, unsigned char* &dst){
     unsigned char *hpack;
@@ -102,30 +112,99 @@ int createHpack(const std::string header, const std::string value, unsigned char
 }
 
 
-//// フレームペイロード(9byte)を読み込む関数
-//int readFramePayload(){
-//        while (1){
-//
-//            r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
-//            printf("BINARY_FRAME: %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
-//            ret = SSL_get_error(_ssl, r); 
-//            switch (ret){
-//                case SSL_ERROR_NONE:
-//                    b = true;
-//                    break;
-//                case SSL_ERROR_WANT_READ:
-//                    continue;
-//                default:
-//                    if (r == -1){
-//                        printf("Error Occured: HEADER_FRAME SSL_read");
-//                        error = get_error();
-//                        close_socket(_socket, _ctx, _ssl);
-//                        return 0;
-//                    }   
-//            }   
-//            if (b) break;
-//        }   
-//}
+// フレームペイロード(9byte)を読み込む関数
+int readFramePayload(SSL* ssl, unsigned char* p, int& payload_length, unsigned char* type, unsigned char* flags, int& streamid){  // memo: unsigned intに変更した方がいいかも
+
+	int r = 0;
+	int ret = 0;
+	bool b = false;
+    while (1){
+
+        r = SSL_read(ssl, p, BINARY_FRAME_LENGTH);
+        //printf("BINARY_FRAME: %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
+        ret = SSL_get_error(ssl, r); 
+        switch (ret){
+            case SSL_ERROR_NONE:
+                b = true;
+                break;
+            case SSL_ERROR_WANT_READ:
+                continue;
+            default:
+                if (r == -1){
+                    printf("Error Occured: HEADER_FRAME SSL_read");
+                    return ret;  // TODO: 後で綺麗にする
+                }
+        }
+        if (b) break;
+    }
+
+	to_framedata3byte(p, payload_length);
+	to_frametype(p, type);
+	to_frameflags(p, flags);
+	streamid = 1;               // FIXME: とりあえずあて
+
+	return ret;
+}
+
+
+// フレームに含まれるコンテンツを読む
+int readFrameContents(SSL* ssl, int &payload_length, int print){
+
+	int r = 0;
+	int ret = 0;
+	unsigned char buf[BUF_SIZE] = { 0 };
+	unsigned char* p = buf;
+
+    while (payload_length > 0){
+
+        memset(buf, 0x00, BUF_SIZE);
+        p = buf;
+
+        r = SSL_read(ssl, p, READ_BUF_SIZE);
+        ret = SSL_get_error(ssl, r);
+        switch (ret){
+            case SSL_ERROR_NONE:
+                break;
+            case SSL_ERROR_WANT_READ:
+                continue;
+            default:
+                if (r == -1){
+                    printf("Error Occured: payload contents SSL_read");
+                    return ret;
+                }
+        }
+
+        payload_length -= r;
+
+        if(print) printf("%s", p);
+    }
+    return ret;
+}
+
+int writeFrame(SSL* ssl, unsigned char* data, int &data_length){
+	int r = 0;
+	int ret = 0;
+	bool b = false;
+    while (1){
+
+        r = SSL_write(ssl, data, data_length);
+        ret = SSL_get_error(ssl, r);
+        switch (ret){
+            case SSL_ERROR_NONE:
+                b = true;
+                break;
+            case SSL_ERROR_WANT_WRITE:
+                continue;
+            default:
+                if (r == -1){
+                    printf("Error Occured: Preface SSL_write");
+                    return ret;
+                }
+        }
+        if (b) break;
+    }
+	return ret;
+}
 
 int main(int argc, char **argv)
 {
@@ -133,8 +212,8 @@ int main(int argc, char **argv)
     //------------------------------------------------------------
     // 接続先ホスト名.
     //------------------------------------------------------------
-    std::string host = "www.yahoo.co.jp";
-    //std::string host = "www.google.com";
+    //std::string host = "www.yahoo.co.jp";
+    std::string host = "www.google.com";
 
     //------------------------------------------------------------
     // SSLの準備.
@@ -191,6 +270,7 @@ int main(int argc, char **argv)
     // protosには文字列ではなくバイナリで、「0x02, 'h','2'」と指定する。
     // 最初の0x02は「h2」の長さを表している.
     //------------------------------------------------------------
+    // HTTP/2 over TLS uses the "h2" protocol identifier.  The "h2c" protocol identifier MUST NOT be sent by a client or selected by a server(sec3.3)
     SSL_set_alpn_protos(_ssl, protos, protos_len);
 
     // SSL接続.
@@ -203,6 +283,7 @@ int main(int argc, char **argv)
     }
 
     // 採用されたALPNを確認する.
+    // implementations that support HTTP/2 over TLS MUST use protocol negotiation in TLS. (sec3.4)
     const unsigned char  *ret_alpn;
     unsigned int  alpn_len;
     SSL_get0_alpn_selected(_ssl, &ret_alpn, &alpn_len);
@@ -222,7 +303,7 @@ int main(int argc, char **argv)
     }
 
     //------------------------------------------------------------
-    // wiresharkにTLSを解読させるための出力を行う。
+    // wiresharkにHTTP/2としてTLSを解読させるためにrandomとmaster_secertを出力する。デバッグをしやすくするため。
     //------------------------------------------------------------
     unsigned char buf_raw_r[SSL3_RANDOM_SIZE];
     unsigned char buf_client_random[SSL3_RANDOM_SIZE*2+10];        // +1でいいかも
@@ -249,6 +330,9 @@ int main(int argc, char **argv)
     // 24オクテットのバイナリを送信します
     // PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n
     //------------------------------------------------------------
+    // Once TLS negotiation is complete, both the client and the server MUST send a connection preface (sec3.3)
+    //
+    //  The client sends the client connection preface immediately upon receipt of a 101 (Switching Protocols) response (indicating a successful upgrade) or as the first application data octets of a TLS connection. (sec3.5)
     int r = 0;
 
     // MEMO: 以下の2つはもともとcharで定義していたが、unsignedにしないと %02Xで %0x2bではなく、0xffffffa0のように表示されてしまうため。参考: https://oshiete.goo.ne.jp/qa/864334.html
@@ -260,6 +344,11 @@ int main(int argc, char **argv)
     int ret = 0;
 
     printf("=== Start write HTTP/2 Preface string\n");
+//	if( writeFrame(_ssl, reinterpret_cast<unsigned char*>(CLIENT_CONNECTION_PREFACE), strlen(CLIENT_CONNECTION_PREFACE)) < 0 ){
+//		error = get_error();
+//		close_socket(_socket, _ctx, _ssl);
+//		return 0;
+//	}
     while (1){
 
         r = SSL_write(_ssl, CLIENT_CONNECTION_PREFACE, (int)strlen(CLIENT_CONNECTION_PREFACE));
@@ -354,6 +443,7 @@ int main(int argc, char **argv)
     // SETTINGS_MAX_FRAME_SIZE (0x5)    初期値は 2^24-1 (16777215)
     // SETTINGS_MAX_HEADER_LIST_SIZE (0x6)   初期値は無制限
     //------------------------------------------------------------
+    // To avoid unnecessary latency, clients are permitted to send additional frames to the server immediately after sending the client connection preface, without waiting to receive the server connection preface. (sec3.5)
     const unsigned char settingframe[BINARY_FRAME_LENGTH] = { 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     printf("=== Start write SETTINGS frame\n");
@@ -382,61 +472,32 @@ int main(int argc, char **argv)
     //------------------------------------------------------------
     // Settingフレームの受信.
     //------------------------------------------------------------
+    // The server connection preface consists of a potentially empty SETTINGS frame (Section 6.5) that MUST be the first frame the server sends in the HTTP/2 connection. (sec3.5)
     memset(buf, 0x00, BUF_SIZE);
     p = buf;
 
     printf("=== Start recv SETTINGS frame\n");
     sleep(1);
 
-    while (1){
+	unsigned char type;
+	unsigned char flags;
+	int streamid;
 
-        r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
-        printf("%d\n", r);
-        printf("READ_BUFF_SIZE %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
-        ret = SSL_get_error(_ssl, r);
-        switch (ret){
-            case SSL_ERROR_NONE:
-                b = true;
-                break;
-            case SSL_ERROR_WANT_READ:
-                continue;
-            default:
-                if (r == -1){
-                    printf("Error Occured: SETTINGS Frame SSL_read");
-                    error = get_error();
-                    close_socket(_socket, _ctx, _ssl);
-                    return 0;
-                }
-        }
-
-        p = to_framedata3byte(p, payload_length);
-        printf("Payload_length: %d\n", payload_length);
-        
-        if (b) break;
-    }
+	if(readFramePayload(_ssl, p, payload_length, &type, &flags, streamid) < 0){
+		error = get_error();
+		close_socket(_socket, _ctx, _ssl);
+		return 0;
+	}
+	printf("Payload_length: %d\n", payload_length);
 
    // SETTINGSでデータが存在しなければ以下に入らないはず
-    while (payload_length > 0){
-        printf("===== consume payload_length ====");
-
-        r = SSL_read(_ssl, p, payload_length);
-        ret = SSL_get_error(_ssl, r);
-        switch (ret){
-            case SSL_ERROR_NONE:
-                b = true;
-                break;
-            case SSL_ERROR_WANT_READ:
-                continue;
-            default:
-                if (r == -1){
-                    printf("Error Occured: recv payload contents SSL_read");
-                    error = get_error();
-                    close_socket(_socket, _ctx, _ssl);
-                    return 0;
-                }
-        }
-        payload_length -= r;
+	if( readFrameContents(_ssl, payload_length, 0) < 0 ){
+		error = get_error();
+		close_socket(_socket, _ctx, _ssl);
+		return 0;
     }
+
+	// TODO: Upon receiving the SETTINGS frame, the client is expected to honor any parameters established. (sec3.5)
 
     //------------------------------------------------------------
     // ACKの送信.
@@ -589,30 +650,18 @@ int main(int argc, char **argv)
         memset(buf, 0x00, BINARY_FRAME_LENGTH);
         p = buf;
 
-        while (1){
-
-            r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
-            printf("BINARY_FRAME: %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
-            ret = SSL_get_error(_ssl, r);
-            switch (ret){
-                case SSL_ERROR_NONE:
-                    b = true;
-                    break;
-                case SSL_ERROR_WANT_READ:
-                    continue;
-                default:
-                    if (r == -1){
-                        printf("Error Occured: HEADER_FRAME SSL_read");
-                        error = get_error();
-                        close_socket(_socket, _ctx, _ssl);
-                        return 0;
-                    }
-            }
-            if (b) break;
-        }
+		if(readFramePayload(_ssl, p, payload_length, &type, &flags, streamid) < 0){
+			error = get_error();
+			close_socket(_socket, _ctx, _ssl);
+			return 0;
+		}
+		printf("Payload_length: %d\n", payload_length);
+		printf("AAAAAAAAA:type: %02x\n", type);
+		printf("AAAAAAAAA:flags: %02x\n", flags);
 
         if (r == 0) continue;
 
+		// TODO: streamidが0のチェックしたい
         // ACKが返ってくる場合があるのでACKなら無視して次を読む。
         if (memcmp(buf, settingframeAck, BINARY_FRAME_LENGTH) == 0){
             printf("===== Received Ack Ignored\n");
@@ -629,27 +678,11 @@ int main(int argc, char **argv)
             memcpy(&frame_type, p, 1);
             if (frame_type != 1){
 
-                while (payload_length > 0){
-                    printf("===== Start recv payload contents\n");
-
-                    r = SSL_read(_ssl, p, payload_length);
-                    ret = SSL_get_error(_ssl, r);
-                    switch (ret){
-                        case SSL_ERROR_NONE:
-                            b = true;
-                            break;
-                        case SSL_ERROR_WANT_READ:
-                            continue;
-                        default:
-                            if (r == -1){
-                                printf("Error Occured: recv payload contents SSL_read");
-                                error = get_error();
-                                close_socket(_socket, _ctx, _ssl);
-                                return 0;
-                            }
-                    }
-                    payload_length -= r;
-                }
+				if( readFrameContents(_ssl, payload_length, 1) < 0 ){
+					error = get_error();
+					close_socket(_socket, _ctx, _ssl);
+					return 0;
+				}
                 continue;
             }
             break;
@@ -660,27 +693,10 @@ int main(int argc, char **argv)
     // HEADERSフレームのpayloadの受信.
     //------------------------------------------------------------
     printf("=== Start read HEADERS frame payload\n");
-    while (payload_length > 0){
-
-        memset(buf, 0x00, BUF_SIZE);
-        p = buf;
-
-        r = SSL_read(_ssl, p, payload_length);
-        ret = SSL_get_error(_ssl, r);
-        switch (ret){
-            case SSL_ERROR_NONE:
-                break;
-            case SSL_ERROR_WANT_READ:
-                continue;
-            default:
-                if (r == -1){
-                    printf("Error Occured: recv payload SSL_read");
-                    error = get_error();
-                    close_socket(_socket, _ctx, _ssl);
-                    return 0;
-                }
-        }
-        payload_length -= r;
+	if( readFrameContents(_ssl, payload_length, 0) < 0 ){
+		error = get_error();
+		close_socket(_socket, _ctx, _ssl);
+		return 0;
     }
 
     //------------------------------------------------------------
@@ -689,57 +705,21 @@ int main(int argc, char **argv)
 
     // まずはヘッダフレームを受信してpayloadのlengthを取得する。
     printf("=== Start read DATA frame\n");
-    while (1){
-
-        memset(buf, 0x00, BUF_SIZE);
-        p = buf;
-
-        r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
-        ret = SSL_get_error(_ssl, r);
-        switch (ret){
-            case SSL_ERROR_NONE:
-                break;
-            case SSL_ERROR_WANT_READ:
-                continue;
-            default:
-                if (r == -1){
-                    printf("Error Occured: Header Framme payload_length SSL_read");
-                    error = get_error();
-                    close_socket(_socket, _ctx, _ssl);
-                    return 0;
-                }
-        }
-        if (b) break;
-    }
-
-    to_framedata3byte(p, payload_length);
-    printf("Received FramePayloadSize: %d\n", payload_length);
+	memset(buf, 0x00, BUF_SIZE);
+	p = buf;
+	if(readFramePayload(_ssl, p, payload_length, &type, &flags, streamid) < 0){
+		error = get_error();
+		close_socket(_socket, _ctx, _ssl);
+		return 0;
+	}
+	printf("Received FramePayloadSize: %d\n", payload_length);
 
     // 次にpayloadを受信する。
-    while (payload_length > 0){
-
-        memset(buf, 0x00, BUF_SIZE);
-        p = buf;
-
-        r = SSL_read(_ssl, p, READ_BUF_SIZE);
-        ret = SSL_get_error(_ssl, r);
-        switch (ret){
-            case SSL_ERROR_NONE:
-                break;
-            case SSL_ERROR_WANT_READ:
-                continue;
-            default:
-                if (r == -1){
-                    printf("Error Occured: payload contents SSL_read");
-                    error = get_error();
-                    close_socket(_socket, _ctx, _ssl);
-                    return 0;
-                }
-        }
-
-        payload_length -= r;
-
-        printf("%s", p);
+	int debug = 1;
+	if( readFrameContents(_ssl, payload_length, debug) < 0 ){
+		error = get_error();
+		close_socket(_socket, _ctx, _ssl);
+		return 0;
     }
 
     //------------------------------------------------------------
@@ -805,6 +785,16 @@ unsigned char* to_framedata3byte(unsigned char *p, int &n){
     return p;
 }
 
+void to_frametype(unsigned char *p, unsigned char *type){
+	*type = p[0];
+    p++;
+}
+
+void to_frameflags(unsigned char *p, unsigned char *flags){   // to_frametypeと共通
+	*flags = p[0];
+    p++;
+}
+
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len) {
 	ssize_t wr = 0;
 	for (size_t i = 0; i < src_len; i++) {
@@ -817,5 +807,3 @@ static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, si
 //	printf("\n");
 	return wr;
 }
-
-
