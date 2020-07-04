@@ -48,7 +48,7 @@ static int protos_len = 3;
 #define CLIENT_CONNECTION_PREFACE "PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n"
 
 // 3バイトのネットワークオーダーを4バイト整数へ変換する関数.
-char* to_framedata3byte(char *p, int &n);
+unsigned char* to_framedata3byte(unsigned char *p, int &n);
 int get_error();
 void close_socket(SOCKET socket, SSL_CTX *_ctx, SSL *_ssl);
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len);
@@ -70,13 +70,10 @@ unsigned char* createFramePayload (int length, char type, char flags, int stream
 	frame[1] = ((length>>8)&0xFF);
 	frame[2] = ((length)&0xFF);
 
-	// MEMO: なぜこれはうまくいかないのか?
-	//memcpy(frame+2, (char*)((length>>24)&0xFF), 1);  // extract 4th byte
-
 	frame[3] = type;
 	frame[4] = flags;
 
-	// intを各種バイトずつ敷き詰める。memcpyだと先頭ビットに1が配布されてうまくいかない
+	// intを各種バイトずつ敷き詰める。memcpyで4byteコピーを指定すると先頭ビットに1が配置されてしまうようでうまくいかない
 	frame[5] = ((streamid>>24)&0xFF);
 	frame[6] = ((streamid>>16)&0xFF);
 	frame[7] = ((streamid>>8)&0xFF);
@@ -85,7 +82,10 @@ unsigned char* createFramePayload (int length, char type, char flags, int stream
 	return frame;
 }
 
-// create frame data
+// HPACKの簡単なデータを作成する。
+// ここで対応しているのは、以下のパターンのみ。
+// しかし、headerまたはvalueが127文字を超過した際のパケットの整数表現に対応できていない
+// https://tools.ietf.org/html/rfc7541#section-6.2.2
 int createHpack(const std::string header, const std::string value, unsigned char* &dst){
     unsigned char *hpack;
     hpack = static_cast<unsigned char*>(std::malloc( 1 + 1 + header.length() + 1 + value.length()));
@@ -95,12 +95,37 @@ int createHpack(const std::string header, const std::string value, unsigned char
     hpack[2+header.length()] = value.length();
     memcpy(hpack+2+header.length()+1, value.c_str(), value.length());
 
-
 //    printf("%02X %02X %02X %02X %02X %02X %02X %02X %02X\n", hpack[0], hpack[1],hpack[2],hpack[3],hpack[4],hpack[5],hpack[6],hpack[7],hpack[8]);
     dst = hpack;
 //    printf("%02X %02X %02X %02X %02X %02X %02X %02X %02X\n", dst[0], dst[1],dst[2],dst[3],dst[4],dst[5],dst[6],dst[7],dst[8]);
     return 1 + 1 + header.length() + 1 + value.length();
 }
+
+
+//// フレームペイロード(9byte)を読み込む関数
+//int readFramePayload(){
+//        while (1){
+//
+//            r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
+//            printf("BINARY_FRAME: %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
+//            ret = SSL_get_error(_ssl, r); 
+//            switch (ret){
+//                case SSL_ERROR_NONE:
+//                    b = true;
+//                    break;
+//                case SSL_ERROR_WANT_READ:
+//                    continue;
+//                default:
+//                    if (r == -1){
+//                        printf("Error Occured: HEADER_FRAME SSL_read");
+//                        error = get_error();
+//                        close_socket(_socket, _ctx, _ssl);
+//                        return 0;
+//                    }   
+//            }   
+//            if (b) break;
+//        }   
+//}
 
 int main(int argc, char **argv)
 {
@@ -108,8 +133,8 @@ int main(int argc, char **argv)
     //------------------------------------------------------------
     // 接続先ホスト名.
     //------------------------------------------------------------
-    //std::string host = "www.yahoo.co.jp";
-    std::string host = "www.google.com";
+    std::string host = "www.yahoo.co.jp";
+    //std::string host = "www.google.com";
 
     //------------------------------------------------------------
     // SSLの準備.
@@ -225,13 +250,14 @@ int main(int argc, char **argv)
     // PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n
     //------------------------------------------------------------
     int r = 0;
-    char buf[BUF_SIZE] = { 0 };
-    char* p = buf;
+
+    // MEMO: 以下の2つはもともとcharで定義していたが、unsignedにしないと %02Xで %0x2bではなく、0xffffffa0のように表示されてしまうため。参考: https://oshiete.goo.ne.jp/qa/864334.html
+    unsigned char buf[BUF_SIZE] = { 0 };
+    unsigned char* p = buf;
     bool b = false;
     int payload_length = 0;
     int frame_type = 0;
     int ret = 0;
-    int remaining_size = 0;
 
     printf("=== Start write HTTP/2 Preface string\n");
     while (1){
@@ -362,10 +388,9 @@ int main(int argc, char **argv)
     printf("=== Start recv SETTINGS frame\n");
     sleep(1);
 
-    int init = 1;
     while (1){
 
-        r = SSL_read(_ssl, p, READ_BUF_SIZE);
+        r = SSL_read(_ssl, p, BINARY_FRAME_LENGTH);
         printf("%d\n", r);
         printf("READ_BUFF_SIZE %02x %02x %02x %02x %02x %02x %02x %02x %02x\n", p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
         ret = SSL_get_error(_ssl, r);
@@ -384,15 +409,33 @@ int main(int argc, char **argv)
                 }
         }
 
-        if(init == 1){
-            p = to_framedata3byte(p, payload_length);
-            printf("Payload_length: %d\n", payload_length);
-            remaining_size = payload_length;
-            init = 0;
-        }
-        remaining_size -= r;
+        p = to_framedata3byte(p, payload_length);
+        printf("Payload_length: %d\n", payload_length);
         
-        if (remaining_size && b) break;
+        if (b) break;
+    }
+
+   // SETTINGSでデータが存在しなければ以下に入らないはず
+    while (payload_length > 0){
+        printf("===== consume payload_length ====");
+
+        r = SSL_read(_ssl, p, payload_length);
+        ret = SSL_get_error(_ssl, r);
+        switch (ret){
+            case SSL_ERROR_NONE:
+                b = true;
+                break;
+            case SSL_ERROR_WANT_READ:
+                continue;
+            default:
+                if (r == -1){
+                    printf("Error Occured: recv payload contents SSL_read");
+                    error = get_error();
+                    close_socket(_socket, _ctx, _ssl);
+                    return 0;
+                }
+        }
+        payload_length -= r;
     }
 
     //------------------------------------------------------------
@@ -492,11 +535,12 @@ int main(int argc, char **argv)
     ret_value  = createHpack(std::string(":method"),    std::string("GET"), query1);
     ret_value2 = createHpack(std::string(":path"),      std::string("/"), query2);
     ret_value3 = createHpack(std::string(":scheme"),    std::string("https"), query3);
-    ret_value4 = createHpack(std::string(":authority"), std::string("www.google.com"), query4);
+    ret_value4 = createHpack(std::string(":authority"), host, query4);
+    //ret_value4 = createHpack(std::string(":authority"), std::string("www.google.com"), query4);
     total = ret_value + ret_value2 + ret_value3 + ret_value4;
 
     unsigned char* framepayload;
-    framepayload = createFramePayload(total, 0x01, 0x05, 1);
+    framepayload = createFramePayload(total, 0x01, 0x05, 1);  // 第２引数: フレームタイプはHEADER「0x01」、第３引数: END_STREAM(0x1)とEND_HEADERS(0x4)を有効にします、第４引数はstramID
 
 	unsigned char* headersframe;
 	headersframe = static_cast<unsigned char*>(std::malloc(sizeof(unsigned char)*(total+BINARY_FRAME_LENGTH)));
@@ -508,13 +552,13 @@ int main(int argc, char **argv)
 	memcpy(headersframe+offset, query2, ret_value2);
 	offset += ret_value2;
 	memcpy(headersframe+offset, query3, ret_value3);
-	memcpy(headersframe+BINARY_FRAME_LENGTH+ret_value+ret_value2+ret_value3, query4, ret_value4);
+	offset += ret_value3;
+	memcpy(headersframe+offset, query4, ret_value4);
 
     printf("=== Start write HEADERS frame\n");
     while (1){
 
         r = SSL_write(_ssl, headersframe, total+BINARY_FRAME_LENGTH);
-//        r = SSL_write(_ssl, headersframe, 74);
 
         ret = SSL_get_error(_ssl, r);
         switch (ret){
@@ -698,7 +742,6 @@ int main(int argc, char **argv)
         printf("%s", p);
     }
 
-
     //------------------------------------------------------------
     // GOAWAYの送信.
     //
@@ -752,7 +795,8 @@ int get_error(){
     return errno;
 }
 
-char* to_framedata3byte(char *p, int &n){
+unsigned char* to_framedata3byte(unsigned char *p, int &n){
+	printf("to_framedata3byte: %02x %02x %02x\n", p[0], p[1], p[2]);
     u_char buf[4] = {0};      // bufを4byte初期化
     memcpy(&(buf[1]), p, 3);  // bufの2byte目から4byteめまでをコピー
     memcpy(&n, buf, 4);       // buf領域を全てコピー
@@ -764,13 +808,13 @@ char* to_framedata3byte(char *p, int &n){
 static ssize_t to_hex(unsigned char *dst, size_t dst_len, unsigned char *src, size_t src_len) {
 	ssize_t wr = 0;
 	for (size_t i = 0; i < src_len; i++) {
-		printf("%02X", src[i]);
+//		printf("%02X", src[i]);
 		int w = snprintf((char *) dst + wr, dst_len - (size_t) wr, "%02x", src[i]);
 		if (w <= 0)
 			return -1;
 		wr += (ssize_t) w;
 	}
-	printf("\n");
+//	printf("\n");
 	return wr;
 }
 
