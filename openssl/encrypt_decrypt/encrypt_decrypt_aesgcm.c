@@ -1,14 +1,16 @@
-// AES GCM Encrypt and Decrypt Sample Program
-//
-// sample from openssl project
-//   https://github.com/openssl/openssl/blob/master/demos/evp/aesgcm.c
-//   https://raw.githubusercontent.com/openssl/openssl/master/demos/evp/aesgcm.c
-//
-// [compile]
-// gcc sample1.c -I/opt/openssl-1.1.1c/include/ -L/opt/openssl-1.1.1c/lib/ -lssl -lcrypto
-//
-// See Stackoverflow for reference
-// https://stackoverflow.com/questions/12153009/openssl-c-example-of-aes-gcm-using-evp-interfaces
+/*
+ * AES_GCMの暗号化・複合化を行うサンプルソースコード
+ *
+ * [compile]
+ * $ gcc encrypt_decrypt_aesgcm.c -I/opt/openssl-1.1.1c/include/ -L/opt/openssl-1.1.1c/lib/ -lssl -lcrypt
+ *
+ * [sample code]
+ *   https://github.com/openssl/openssl/blob/master/demos/evp/aesgcm.c
+ *   https://raw.githubusercontent.com/openssl/openssl/master/demos/evp/aesgcm.c
+ *
+ * [reference url]
+ *    https://stackoverflow.com/questions/12153009/openssl-c-example-of-aes-gcm-using-evp-interfaces
+ */
 
 
 //
