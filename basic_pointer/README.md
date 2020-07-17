@@ -2,6 +2,8 @@
 ポインタ関連について
 ただし、ここではC Basedなポインタのみについて
 
+必要あればcpp/c++pointerも確認すること
+
 # 詳細
 
 - pointer_of_pointer_NG.c, pointer_of_pointer_OK.c
