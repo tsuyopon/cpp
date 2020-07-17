@@ -27,6 +27,12 @@ void passByPointer(std::string *teststr){
  *  See: https://stackoverflow.com/questions/3976935/best-way-to-return-an-stdstring-that-local-to-a-function
  */
 
+std::string returnByRawValue()
+{
+    return "returnByRawValue";
+
+}
+
 // この場合の戻り値はローカルスコープでout of scopeにはならず、mystringのコピーが返されるようになるらしい。
 std::string returnByValue()
 {
@@ -71,6 +77,10 @@ int main(){
 	std::cout << "In main: " << teststr3 << std::endl;
 	passByPointer(&teststr3);
 	std::cout << "In main: " << teststr3 << std::endl << std::endl;
+
+	// returnByRawValueの確認
+	std::cout << "===================== returnByRawValue =====================" << std::endl;
+	std::cout << "In main: " << returnByRawValue() << std::endl << std::endl;
 
 	// returnByValueの確認
 	std::cout << "===================== returnByValue =====================" << std::endl;
