@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
 void sender(struct addrinfo *res_local, struct addrinfo *res_remote, unsigned int usecs) {
 
     int sock;
-    unsigned char buf[BUF_LEN] = {"0"};
-    unsigned char buf2[BUF_LEN] = {"0"};
+    unsigned char buf[BUF_LEN] = {"hoge"};
+    unsigned char buf2[BUF_LEN] = {"fuga"};
 
     sock = socket(res_remote->ai_family, res_remote->ai_socktype, res_remote->ai_protocol);
     

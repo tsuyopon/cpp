@@ -87,8 +87,8 @@ void receiver(struct addrinfo *res_local) {
     
     msg.msg_name = (void *) res_local->ai_addr;
     msg.msg_namelen = res_local->ai_addrlen;
-    iov[0] .iov_base = (void *) buf;
-    iov[0] .iov_len = sizeof (buf);
+    iov[0].iov_base = (void *) buf;
+    iov[0].iov_len = sizeof (buf);
 
     msg.msg_iov = iov;
     msg.msg_iovlen = 1;
@@ -96,6 +96,7 @@ void receiver(struct addrinfo *res_local) {
     while (1) {
         errno = 0;
         int r = recvmsg(sock, &msg, 0);
+        printf("Recieved from %d bytes.\n", r);
 
         if (r <= 0) {
             if (errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
@@ -109,6 +110,10 @@ void receiver(struct addrinfo *res_local) {
             //Old style
             char *s = inet_ntoa(((struct sockaddr_in *) msg.msg_name)->sin_addr);
             printf("RCV FROM IP address: %s\n", s);
+            unsigned char outputbuf[BUF_LEN] = {0};
+            snprintf(outputbuf, msg.msg_iov->iov_len,"%s", msg.msg_iov->iov_base);
+            printf("%s\n", outputbuf);
+       
             
             //Modern style (show names: flag=0, show disgits: flag=NI_NUMERICHOST | NI_NUMERICSERV)
             char hbuf[NI_MAXHOST], sbuf[NI_MAXSERV];
