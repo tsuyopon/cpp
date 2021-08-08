@@ -15,3 +15,4 @@ client:
 
 clean:
 	rm -f a.out server clientBIO clientSSL
+	rm -rf *.dSYM
