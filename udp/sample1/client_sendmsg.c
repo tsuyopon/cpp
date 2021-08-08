@@ -87,7 +87,7 @@ void sender(struct addrinfo *res_local, struct addrinfo *res_remote, unsigned in
     iov[1].iov_base = (void*) buf2;
     iov[1].iov_len = sizeof(buf2);
 
-    // ここを {}で初期化しないと「sendmsg: Invalid argument」のエラ〜メッセージが表示される。
+    // ここを {}で初期化しないと「sendmsg: Invalid argument」のエラ〜メッセージが表示されるので注意
     // see: https://stackoverflow.com/questions/9370479/sendmsg-invalid-arguments
     struct msghdr msg = {};
 

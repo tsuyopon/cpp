@@ -111,7 +111,7 @@ void receiver(struct addrinfo *res_local) {
             char *s = inet_ntoa(((struct sockaddr_in *) msg.msg_name)->sin_addr);
             printf("RCV FROM IP address: %s\n", s);
             unsigned char outputbuf[BUF_LEN] = {0};
-            snprintf(outputbuf, msg.msg_iov->iov_len,"%s", msg.msg_iov->iov_base);
+            snprintf((char*)outputbuf, msg.msg_iov->iov_len,"%s", msg.msg_iov->iov_base );
             printf("%s\n", outputbuf);
        
             
