@@ -81,6 +81,7 @@ void sender(struct addrinfo *res_local, struct addrinfo *res_remote, unsigned in
 
     sock = socket(res_remote->ai_family, res_remote->ai_socktype, res_remote->ai_protocol);
     
+    // UDPパケット的には50byteのバッファが2つ(合計100byte)を送付したようにみえる
     struct iovec iov[2];
     iov[0].iov_base = (void*) buf;
     iov[0].iov_len = sizeof(buf);
