@@ -54,6 +54,10 @@ int  main(void)  {
   timeout.tv_nsec = 0;
 
   // 一気にUDPパケットを受信してからrecvmmsgを実行すると一括で受け取ることができます。(最大はVLENで指定した10パケット まで)
+  /*
+   * また、recvmmsgがすぐに抜けてきて欲しいときに timeoutに0 (tvsec=0, tvnsec=0) をセットすると、1つrecvしただけで返ってきてしまうのも注意。
+   * すぐに抜けて来て欲しいけど、そのときに取れるmessageは全て取りたい、という時には、flagに MSG_DONTWAIT をセットして、timeoutはNULLにして呼び出すと期待している動作になります。
+   */
   retval = recvmmsg(sockfd, msgs, VLEN, 0, &timeout);
   if (retval == -1) {
     perror("recvmmsg()");
