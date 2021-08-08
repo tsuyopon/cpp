@@ -1,3 +1,4 @@
 all:
-	gcc -o server server.c
+	gcc -o server_recvfrom server_recvfrom.c
+	gcc -o server_recvmsg server_recvmsg.c
 	gcc -o client client.c
