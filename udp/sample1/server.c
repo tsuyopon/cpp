@@ -37,17 +37,20 @@ int main(int argc, char** argv)
  
     // 受信 パケットが到着するまでブロック
     // from_addr には、送信元アドレスが格納される
-    if(recvfrom(sd, buf, sizeof(buf), 0,
-                (struct sockaddr *)&from_addr, &sin_size) < 0) {
-        perror("recvfrom");
-        return -1;
+    int i = 0;
+    while(1){
+        if(recvfrom(sd, buf, sizeof(buf), 0,
+                    (struct sockaddr *)&from_addr, &sin_size) < 0) {
+            perror("recvfrom");
+            return -1;
+        }
+         // 受信データの出力
+         printf("%d: %s\n", i++, buf);
+//        sleep(1);
     }
  
     // ソケットのクローズ
     close(sd);
- 
-    // 受信データの出力
-    printf("%s\n", buf);
  
     return 0;
 }

@@ -22,10 +22,12 @@ int main(int argc, char** argv)
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
  
     // パケットをUDPで送信
-    if(sendto(sd, "I am send process", 17, 0,
-              (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-        perror("sendto");
-        return -1;
+    for(int i=0; i < 3; i++){
+        if(sendto(sd, "I am send process", 17, 0,
+                  (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+            perror("sendto");
+            return -1;
+        }
     }
  
     close(sd);
