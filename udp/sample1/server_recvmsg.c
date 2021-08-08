@@ -74,6 +74,7 @@ int main(int argc, char** argv) {
 void receiver(struct addrinfo *res_local) {
     int sock;
     unsigned char buf[BUF_LEN] = {0};
+    unsigned char buf2[BUF_LEN] = {0};
 
     sock = socket(res_local->ai_family, res_local->ai_socktype, res_local->ai_protocol);
 
@@ -83,20 +84,26 @@ void receiver(struct addrinfo *res_local) {
     }
 
     struct msghdr msg;
-    struct iovec iov[1];
+    struct iovec iov[2];
     
     msg.msg_name = (void *) res_local->ai_addr;
     msg.msg_namelen = res_local->ai_addrlen;
     iov[0].iov_base = (void *) buf;
     iov[0].iov_len = sizeof (buf);
+    iov[1].iov_base = (void *) buf2;
+    iov[1].iov_len = sizeof (buf2);
 
     msg.msg_iov = iov;
-    msg.msg_iovlen = 1;
+    msg.msg_iovlen = 2;
 
     while (1) {
         errno = 0;
         int r = recvmsg(sock, &msg, 0);
         printf("Recieved from %d bytes.\n", r);
+        
+        // 内部でのポインタ操作用 
+        struct msghdr copymsg;
+        copymsg = msg;
 
         if (r <= 0) {
             if (errno == EAGAIN || errno == EWOULDBLOCK || errno == EINTR) {
@@ -108,16 +115,21 @@ void receiver(struct addrinfo *res_local) {
 
         {
             //Old style
-            char *s = inet_ntoa(((struct sockaddr_in *) msg.msg_name)->sin_addr);
+            char *s = inet_ntoa(((struct sockaddr_in *) copymsg.msg_name)->sin_addr);
             printf("RCV FROM IP address: %s\n", s);
+
+            // TODO: 本当は出力はmsg_iovlenを見て行うのが良い。
             unsigned char outputbuf[BUF_LEN] = {0};
-            snprintf((char*)outputbuf, msg.msg_iov->iov_len,"%s", msg.msg_iov->iov_base );
+            snprintf((char*)outputbuf, copymsg.msg_iov->iov_len,"%s", copymsg.msg_iov->iov_base );
             printf("%s\n", outputbuf);
-       
-            
+
+            copymsg.msg_iov++;
+            snprintf((char*)outputbuf, copymsg.msg_iov->iov_len,"%s", copymsg.msg_iov->iov_base );
+            printf("%s\n", outputbuf);
+
             //Modern style (show names: flag=0, show disgits: flag=NI_NUMERICHOST | NI_NUMERICSERV)
             char hbuf[NI_MAXHOST], sbuf[NI_MAXSERV];
-            if (getnameinfo(((struct sockaddr *) msg.msg_name), msg.msg_namelen, hbuf, sizeof(hbuf), sbuf,
+            if (getnameinfo(((struct sockaddr *) copymsg.msg_name), copymsg.msg_namelen, hbuf, sizeof(hbuf), sbuf,
                    sizeof(sbuf), 
                     NI_NUMERICHOST | NI_NUMERICSERV
                     //0
