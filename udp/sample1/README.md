@@ -15,6 +15,7 @@ sendto(sockfd, buf, len, flags, dest_addr, addrlen);
 ```
 
 - sendmsgは補助データ (制御情報とも呼ばれる) も送付することができる。
+  - 1つのパケットを複数のデータに分けることも可能
   - https://linuxjm.osdn.jp/html/LDP_man-pages/man3/cmsg.3.html
 
 # read, readfrom, readmsgの違い
